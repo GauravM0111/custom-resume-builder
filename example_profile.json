@@ -1,0 +1,113 @@
+{
+    "profile": {
+      "personal_information": {
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "headline": "Software Engineer at TechCorp",
+        "location": "San Francisco, California, United States",
+        "industry": "Information Technology and Services",
+        "contact_info": {
+          "email": "jane.doe@example.com",
+          "phone": "(555) 123-4567",
+          "linkedin_url": "https://www.linkedin.com/in/janedoe"
+        }
+      },
+      "summary": "Experienced Software Engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly. Confident communicator, strategic thinker, and innovative creator to develop software that is customized to meet a company’s organizational needs.",
+      "experience": [
+        {
+          "company_name": "TechCorp",
+          "location": "San Francisco, CA",
+          "roles": [
+            {
+              "job_title": "Senior Software Engineer",
+              "start_date": "January 2022",
+              "end_date": "Present",
+              "description": "Lead the development and maintenance of advanced web applications. Mentor junior developers and oversee code quality. Collaborate with product managers to define project scope and deliverables."
+            },
+            {
+              "job_title": "Software Engineer",
+              "start_date": "January 2020",
+              "end_date": "December 2021",
+              "description": "Developed and maintained web applications using JavaScript, React, and Node.js. Collaborated with cross-functional teams to define, design, and ship new features."
+            }
+          ]
+        },
+        {
+          "job_title": "Junior Software Developer",
+          "company_name": "Web Solutions Inc.",
+          "location": "San Francisco, CA",
+          "start_date": "June 2017",
+          "end_date": "December 2019",
+          "description": "Assisted in the development and maintenance of web applications. Conducted code reviews and provided constructive feedback to peers."
+        },
+        {
+          "job_title": "Intern Software Developer",
+          "company_name": "Innovative Tech",
+          "location": "San Francisco, CA",
+          "start_date": "June 2016",
+          "end_date": "August 2016",
+          "description": "Assisted in developing and testing software applications. Participated in code reviews and contributed to team meetings."
+        },
+        {
+          "job_title": "Research Assistant",
+          "company_name": "UC Berkeley",
+          "location": "Berkeley, CA",
+          "start_date": "September 2015",
+          "end_date": "May 2017",
+          "description": "Conducted research on machine learning algorithms. Assisted in writing and publishing research papers."
+        }
+      ],
+      "education": [
+        {
+          "school_name": "University of California, Berkeley",
+          "degree": "Bachelor of Science in Computer Science",
+          "field_of_study": "Computer Science",
+          "start_date": "September 2013",
+          "end_date": "May 2017"
+        }
+      ],
+      "skills": [
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Python",
+        "SQL",
+        "Agile Methodologies"
+      ],
+      "certifications": [
+        {
+          "name": "Certified Scrum Master (CSM)",
+          "issuing_organization": "Scrum Alliance",
+          "issue_date": "March 2018",
+          "expiration_date": "March 2021"
+        }
+      ],
+      "volunteer_experience": [
+        {
+          "role": "Volunteer Developer",
+          "organization": "Code for America",
+          "location": "San Francisco, CA",
+          "start_date": "June 2018",
+          "end_date": "Present",
+          "description": "Contributed to open-source projects aimed at improving government services through technology."
+        },
+        {
+          "role": "Mentor",
+          "organization": "Girls Who Code",
+          "location": "San Francisco, CA",
+          "start_date": "September 2019",
+          "end_date": "Present",
+          "description": "Mentored high school girls in coding and software development. Provided guidance on projects and career advice."
+        },
+        {
+          "role": "Community Organizer",
+          "organization": "Tech for Good",
+          "location": "San Francisco, CA",
+          "start_date": "March 2017",
+          "end_date": "June 2018",
+          "description": "Organized events and workshops to promote the use of technology for social good. Coordinated with local organizations and volunteers."
+        }
+      ]
+    }
+  }
+  
