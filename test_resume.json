@@ -1,0 +1,111 @@
+{
+    "basics": {
+      "name": "Jane Doe",
+      "label": "Aerospace Embedded Software Engineer",
+      "email": "jane.doe@example.com",
+      "phone": "(555) 123-4567",
+      "url": "https://www.linkedin.com/in/janedoe",
+      "summary": "Experienced Software Engineer specializing in developing advanced web applications and embedded software systems. Proven ability in leading development teams, mentoring engineers, and integrating complex hardware/software systems. Seeking to leverage my expertise in software engineering at Archer to contribute to the advancement of sustainable air mobility through innovative aerospace solutions.",
+      "location": {
+        "city": "San Francisco",
+        "region": "California",
+        "countryCode": "US"
+      },
+      "profiles": [
+        {
+          "network": "LinkedIn",
+          "username": "janedoe",
+          "url": "https://www.linkedin.com/in/janedoe"
+        }
+      ]
+    },
+    "work": [
+      {
+        "name": "TechCorp",
+        "location": "San Francisco, CA",
+        "position": "Senior Software Engineer",
+        "startDate": "2022-01",
+        "summary": "Lead the development of advanced web applications, mentored junior developers, ensuring high code quality and collaborating with product managers on project scopes.",
+        "highlights": [
+          "Lead development and maintenance of critical web applications",
+          "Mentored junior software developers, enhancing team skills and productivity",
+          "Efficiently collaborated with cross-functional teams to deliver new features"
+        ]
+      },
+      {
+        "name": "Web Solutions Inc.",
+        "location": "San Francisco, CA",
+        "position": "Junior Software Developer",
+        "startDate": "2017-06",
+        "endDate": "2019-12",
+        "summary": "Assisted in development and maintenance of web applications, conducted code reviews and provided peer feedback.",
+        "highlights": [
+          "Supported development of web applications, improving functionality and user experience",
+          "Performed code reviews, contributing to the team’s overall code quality"
+        ]
+      },
+      {
+        "name": "Innovative Tech",
+        "location": "San Francisco, CA",
+        "position": "Intern Software Developer",
+        "startDate": "2016-06",
+        "endDate": "2016-08",
+        "summary": "Assisted in developing and testing software applications, participated in code reviews and team meetings.",
+        "highlights": [
+          "Participated in developing and testing new software applications",
+          "Engaged in code reviews, gaining valuable feedback and learning experiences"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "University of California, Berkeley",
+        "area": "Computer Science",
+        "studyType": "Bachelor of Science",
+        "startDate": "2013-09",
+        "endDate": "2017-05",
+        "courses": [
+          "Introduction to Computer Programming",
+          "Advanced Software Development"
+        ]
+      }
+    ],
+    "skills": [
+      {
+        "name": "Programming Languages",
+        "level": "Advanced",
+        "keywords": ["C", "Python", "JavaScript", "React", "Node.js"]
+      },
+      {
+      "name": "Software Development",
+      "level": "Advanced",
+      "keywords": ["Embedded Systems", "Web Applications", "System Integration"]
+      },
+      {
+        "name": "Tools & Technologies",
+        "level": "Proficient",
+        "keywords": ["Oscilloscopes", "Bus Analyzers"]
+      }
+    ],
+    "volunteer": [
+      {
+        "organization": "Code for America",
+        "position": "Volunteer Developer",
+        "startDate": "2018-06",
+        "summary": "Contributed to open-source projects for improving government services through technology."
+      },
+      {
+        "organization": "Girls Who Code",
+        "position": "Mentor",
+        "startDate": "2019-09",
+        "summary": "Mentored high school girls in coding and software development, offering project guidance and career advice."
+      }
+    ],
+    "certificates": [
+      {
+        "name": "Certified Scrum Master (CSM)",
+        "issuer": "Scrum Alliance",
+        "date": "2018-03"
+      }
+    ]
+  }
