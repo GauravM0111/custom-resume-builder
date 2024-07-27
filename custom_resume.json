@@ -1,0 +1,111 @@
+{
+    "basics": {
+        "name": "Ishitha Rajan, MSN, APRN, AGPCNP-BC",
+        "label": "Software Engineer",
+        "email": "ishithar@gmail.com",
+        "phone": "508-314-6727",
+        "summary": "Versatile and driven software engineer with a comprehensive educational background and practical experience in software development and healthcare technology. Proficient in creating user-centered solutions and committed to enhancing system performance and reliability.",
+        "location": {
+            "countryCode": "US",
+            "address": "United States"
+        },
+        "profiles": [
+            {
+                "network": "LinkedIn",
+                "username": "ishitha-rajan",
+                "url": "https://www.linkedin.com/in/ishitha-rajan/"
+            }
+        ]
+    },
+    "work": [
+        {
+            "name": "Bay Area Hyperbarics",
+            "position": "Nurse Practitioner",
+            "startDate": "2024-02-28",
+            "endDate": "",
+            "summary": "Utilized advanced technologies to administer healthcare, integrating software solutions for improved patient tracking and care management.",
+            "highlights": []
+        },
+        {
+            "name": "MarinHealth",
+            "position": "Nurse Practitioner Clinicals",
+            "startDate": "2023-01-31",
+            "endDate": "2023-08-31",
+            "summary": "Conducted comprehensive health assessments and collaborated with healthcare teams while incorporating software systems to enhance patient care delivery.",
+            "highlights": []
+        },
+        {
+            "name": "UConn Research",
+            "position": "Research Assistant",
+            "startDate": "2018-08-31",
+            "endDate": "2020-01-31",
+            "summary": "Worked on studies integrating data analysis and visualization to improve health outcomes, utilizing algorithmic approaches.",
+            "highlights": []
+        }
+    ],
+    "education": [
+        {
+            "institution": "Vanderbilt University School of Nursing",
+            "area": "Adult Gerontology Primary Care",
+            "studyType": "Nurse Practitioner",
+            "startDate": "2021-03-31",
+            "endDate": "2023-05-31"
+        },
+        {
+            "institution": "University of Connecticut",
+            "area": "Allied Health Sciences",
+            "studyType": "Bachelor\u2019s Degree",
+            "startDate": "2016-12-31",
+            "endDate": "2020-12-31"
+        }
+    ],
+    "skills": [
+        {
+            "name": "Software Development",
+            "level": "Intermediate",
+            "keywords": [
+                "C++",
+                "Data Structures",
+                "Algorithms"
+            ]
+        },
+        {
+            "name": "Healthcare Technologies",
+            "level": "Advanced",
+            "keywords": [
+                "Patient Management Systems",
+                "Electronic Health Records"
+            ]
+        },
+        {
+            "name": "Data Analysis",
+            "level": "Intermediate",
+            "keywords": [
+                "Data Visualization",
+                "Performance Analysis"
+            ]
+        },
+        {
+            "name": "Collaboration",
+            "level": "Expert",
+            "keywords": [
+                "Team Leadership",
+                "Cross-Functional Communication"
+            ]
+        }
+    ],
+    "certificates": [
+        {
+            "name": "Adult-Gerontology Primary Care Nurse Practitioner (A-GNP)",
+            "issuer": "American Nurses Credentialing Center",
+            "startDate": "2023-10-31",
+            "endDate": "2024-02-28"
+        },
+        {
+            "name": "Registered Nurse (RN)",
+            "issuer": "California Board of Registered Nursing",
+            "startDate": "2022-09-30",
+            "endDate": "2026-02-28"
+        }
+    ]
+}

@@ -1,113 +1,377 @@
 {
-    "profile": {
-      "personal_information": {
-        "first_name": "Jane",
-        "last_name": "Doe",
-        "headline": "Software Engineer at TechCorp",
-        "location": "San Francisco, California, United States",
-        "industry": "Information Technology and Services",
-        "contact_info": {
-          "email": "jane.doe@example.com",
-          "phone": "(555) 123-4567",
-          "linkedin_url": "https://www.linkedin.com/in/janedoe"
-        }
-      },
-      "summary": "Experienced Software Engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly. Confident communicator, strategic thinker, and innovative creator to develop software that is customized to meet a company’s organizational needs.",
-      "experience": [
-        {
-          "company_name": "TechCorp",
-          "location": "San Francisco, CA",
-          "roles": [
-            {
-              "job_title": "Senior Software Engineer",
-              "start_date": "January 2022",
-              "end_date": "Present",
-              "description": "Lead the development and maintenance of advanced web applications. Mentor junior developers and oversee code quality. Collaborate with product managers to define project scope and deliverables."
-            },
-            {
-              "job_title": "Software Engineer",
-              "start_date": "January 2020",
-              "end_date": "December 2021",
-              "description": "Developed and maintained web applications using JavaScript, React, and Node.js. Collaborated with cross-functional teams to define, design, and ship new features."
-            }
-          ]
-        },
-        {
-          "job_title": "Junior Software Developer",
-          "company_name": "Web Solutions Inc.",
-          "location": "San Francisco, CA",
-          "start_date": "June 2017",
-          "end_date": "December 2019",
-          "description": "Assisted in the development and maintenance of web applications. Conducted code reviews and provided constructive feedback to peers."
-        },
-        {
-          "job_title": "Intern Software Developer",
-          "company_name": "Innovative Tech",
-          "location": "San Francisco, CA",
-          "start_date": "June 2016",
-          "end_date": "August 2016",
-          "description": "Assisted in developing and testing software applications. Participated in code reviews and contributed to team meetings."
-        },
-        {
-          "job_title": "Research Assistant",
-          "company_name": "UC Berkeley",
-          "location": "Berkeley, CA",
-          "start_date": "September 2015",
-          "end_date": "May 2017",
-          "description": "Conducted research on machine learning algorithms. Assisted in writing and publishing research papers."
-        }
-      ],
-      "education": [
-        {
-          "school_name": "University of California, Berkeley",
-          "degree": "Bachelor of Science in Computer Science",
-          "field_of_study": "Computer Science",
-          "start_date": "September 2013",
-          "end_date": "May 2017"
-        }
-      ],
-      "skills": [
-        "JavaScript",
-        "React",
-        "Node.js",
-        "Python",
-        "SQL",
-        "Agile Methodologies"
-      ],
-      "certifications": [
-        {
-          "name": "Certified Scrum Master (CSM)",
-          "issuing_organization": "Scrum Alliance",
-          "issue_date": "March 2018",
-          "expiration_date": "March 2021"
-        }
-      ],
-      "volunteer_experience": [
-        {
-          "role": "Volunteer Developer",
-          "organization": "Code for America",
-          "location": "San Francisco, CA",
-          "start_date": "June 2018",
-          "end_date": "Present",
-          "description": "Contributed to open-source projects aimed at improving government services through technology."
-        },
-        {
-          "role": "Mentor",
-          "organization": "Girls Who Code",
-          "location": "San Francisco, CA",
-          "start_date": "September 2019",
-          "end_date": "Present",
-          "description": "Mentored high school girls in coding and software development. Provided guidance on projects and career advice."
-        },
-        {
-          "role": "Community Organizer",
-          "organization": "Tech for Good",
-          "location": "San Francisco, CA",
-          "start_date": "March 2017",
-          "end_date": "June 2018",
-          "description": "Organized events and workshops to promote the use of technology for social good. Coordinated with local organizations and volunteers."
-        }
-      ]
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Ishitha Rajan, MSN, APRN, AGPCNP-BC",
+    "label": "Adult Gerontology Primary Care Nurse Practitioner",
+    "image": "",
+    "email": "ishithar@gmail.com",
+    "phone": "508-314-6727",
+    "url": "",
+    "summary": "Recent graduate from Vanderbilt University's Nurse Practitioner program specializing in Adult Gerontology Primary Care. Bachelor degree from University of Connecticut in Allied Health Sciences and minor in Psychology.",
+    "location": {
+      "countryCode": "US",
+      "address": "United States"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "ishitha-rajan",
+        "url": "https://www.linkedin.com/in/ishitha-rajan/"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Bay Area Hyperbarics",
+      "position": "Nurse Practitioner",
+      "startDate": "2024-02-28",
+      "endDate": "",
+      "highlights": [],
+      "url": "https://www.linkedin.com/company/bay-area-hyperbarics/",
+      "location": "Los Gatos, California, United States"
+    },
+    {
+      "name": "MarinHealth",
+      "position": "Nurse Practitioner Clinicals",
+      "startDate": "2023-01-31",
+      "endDate": "2023-08-31",
+      "highlights": [],
+      "summary": "560+ hours completed\n● Conducted comprehensive health histories, complete and focused physical examinations, and\ndiagnostic test interpretation.\n● Diagnosed and managed acute and chronic illnesses, recommended appropriate medications and\ntreatments plans in collaboration with the healthcare team.\n● Provided patient education on disease prevention, medication administration, and self-care\nmanagement.",
+      "url": "https://www.linkedin.com/company/marinhealth/",
+      "location": "San Rafael, California, United States"
+    },
+    {
+      "name": "Vanderbilt University School of Nursing",
+      "position": "Nursing Student",
+      "startDate": "2021-08-31",
+      "endDate": "2023-08-31",
+      "highlights": [],
+      "url": "https://www.linkedin.com/school/vanderbilt-university-school-of-nursing/"
+    },
+    {
+      "name": "Vanderbilt University Medical Center",
+      "position": "Nursing Clinicals",
+      "startDate": "2021-08-31",
+      "endDate": "2022-08-31",
+      "highlights": [],
+      "summary": "700+ hours completed in: Adult Medical-Surgical, Maternal and Newborn/ Obstetrics\nPediatric and Adolescent Unit, Psychiatric Unit, Orthopedic-Trauma Step Down, Adult Cardiac Step Down.\n● Performed head-to-toe comprehensive patient assessments, assisted with patient’s activities of daily living, and monitored patients’ vital signs, pain score, and intake and output every 4 hours, while providing holistic patient centered care and communication skills.\n● Performed nursing procedures such as administering patients’ medications, inserting intravenous catheters, foley catheters, enemas and suppositories and nasogastric tubes.\n● Observed medical procedures such as chest tube insertions, epidurals, endoscopies, colonoscopies, cesarean sections, cardiac catheterizations, and rounded with other medical professionals.",
+      "url": "https://www.linkedin.com/company/vanderbilt-university-medical-center/",
+      "location": "Nashville, Tennessee, United States"
+    },
+    {
+      "name": "Labcorp",
+      "position": "COVID-19 Laboratory Technologist",
+      "startDate": "2021-01-31",
+      "endDate": "2021-07-31",
+      "highlights": [],
+      "url": "https://www.linkedin.com/company/labcorp/",
+      "location": "Burlington, North Carolina, United States"
+    },
+    {
+      "name": "University of Connecticut",
+      "position": "Event Services Office Assistant",
+      "startDate": "2019-04-30",
+      "endDate": "2020-04-30",
+      "highlights": [],
+      "url": "https://www.linkedin.com/school/university-of-connecticut/",
+      "location": "Storrs, Connecticut, United States"
+    },
+    {
+      "name": "University of Connecticut",
+      "position": "Undergraduate Student",
+      "startDate": "2016-12-31",
+      "endDate": "2020-12-31",
+      "highlights": [],
+      "url": "https://www.linkedin.com/school/university-of-connecticut/",
+      "location": "Storrs, Connecticut, United States"
+    },
+    {
+      "name": "UConn Research",
+      "position": "Research Assistant",
+      "startDate": "2018-08-31",
+      "endDate": "2020-01-31",
+      "highlights": [],
+      "summary": "Physiology & Neurobiology and Psychology Research Lab Assistant",
+      "url": "https://www.linkedin.com/company/uconnresearch/",
+      "location": "Storrs, Connecticut, United States"
+    },
+    {
+      "name": "BEAUMONT NURSING AND REHABILITATION ",
+      "position": "Certified Nursing Assistant",
+      "startDate": "2017-06-30",
+      "endDate": "2018-02-28",
+      "highlights": [],
+      "url": "https://www.linkedin.com/company/beaumont-nursing-and-rehabilitation-lp/",
+      "location": "Northborough MA"
+    },
+    {
+      "name": "Forever 21",
+      "position": "Sales Associate",
+      "startDate": "2016-02-28",
+      "endDate": "2016-06-30",
+      "highlights": [],
+      "summary": "Interacted extensively with customers to provide broad range of product and store\ninformation.\n● Efficiently carried out all cashier responsibilities including exchanges and returns.\n● Organized merchandise displays in accordance with specific company standards.\n● Trained and supervised incoming employees. Handled and resolved concerns.",
+      "url": "https://www.linkedin.com/company/forever-21/"
+    },
+    {
+      "name": "Hollister Co.",
+      "position": "Brand Representative",
+      "startDate": "2015-10-31",
+      "endDate": "2016-01-31",
+      "highlights": [],
+      "summary": "Interacted extensively with customers to provide broad range of product and store\ninformation.\n● Efficiently carried out all cashier responsibilities including exchanges and returns.\n● Organized merchandise displays in accordance with specific company standards.\n● Trained and supervised incoming employees. Handled and resolved concerns.",
+      "url": "https://www.linkedin.com/company/hollister-co./"
     }
+  ],
+  "volunteer": [
+    {
+      "organization": "Vanderbilt University Medical Center",
+      "position": "Doula",
+      "startDate": "2022-01-31",
+      "endDate": "2022-08-31",
+      "summary": "Provided physical and emotional comfort measures to laboring patients by assisting patients with pain management techniques including positioning, therapeutic touch, and environment stimuli changes for a more comfortable birthing process.",
+      "highlights": [],
+      "url": ""
+    },
+    {
+      "organization": "Vanderbilt University School of Nursing",
+      "position": "Vaccination Administrator and First Aid Kit Distributor",
+      "startDate": "2021-09-30",
+      "endDate": "2022-08-31",
+      "summary": "● Administered COVID-19 and Hepatitis vaccinations to vulnerable populations including the homeless, individuals with disabilities, and refugee populations throughout sites in Nashville while educating them on the effects and importance of the vaccine.\n● Created and distributed first aid kits for underserved populations throughout the Nashville community.",
+      "highlights": [],
+      "url": ""
+    },
+    {
+      "organization": "American Red Cross",
+      "position": "Blood Drive Volunteer",
+      "startDate": "2016-12-31",
+      "endDate": "2022-12-31",
+      "summary": "Assisted donors who had just given blood and monitored them for any signs of weakness,\ndizziness, or fainting",
+      "highlights": [],
+      "url": ""
+    },
+    {
+      "organization": "7 Cups",
+      "position": "7 Cups of Tea Listener",
+      "startDate": "2020-12-31",
+      "endDate": "2020-12-31",
+      "summary": "Trained in active listening to provide support to people experiencing emotional distress via anonymous and confidential chat.",
+      "highlights": [],
+      "url": ""
+    },
+    {
+      "organization": "University of Connecticut",
+      "position": "Connects Mentor",
+      "startDate": "2018-01-31",
+      "endDate": "2018-05-31",
+      "summary": "Mentored students on academic probation by helping create personalized study plans to improve\ntime management skills, grades, and productivity.",
+      "highlights": [],
+      "url": ""
+    },
+    {
+      "organization": "University of Connecticut",
+      "position": "Cornucopia Event Volunteer",
+      "startDate": "2016-12-31",
+      "endDate": "2016-12-31",
+      "summary": "Created and presented a public service poster about infectious diseases to educate to the public",
+      "highlights": [],
+      "url": ""
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Connecticut",
+      "area": "Allied Health Sciences",
+      "studyType": "Bachelor’s Degree",
+      "startDate": "2016-12-31",
+      "endDate": "2020-12-31",
+      "score": "",
+      "courses": []
+    },
+    {
+      "institution": "Vanderbilt University School of Nursing",
+      "area": "Adult Gerontology Primary Care",
+      "studyType": "Nurse Practitioner",
+      "startDate": "2021-03-31",
+      "endDate": "2023-05-31",
+      "score": "",
+      "courses": []
+    },
+    {
+      "institution": "Universidad de Salamanca",
+      "area": "",
+      "studyType": "",
+      "startDate": "2018-06-30",
+      "endDate": "2018-07-31",
+      "score": "",
+      "courses": []
+    },
+    {
+      "institution": "Shrewsbury High School",
+      "area": "",
+      "studyType": "High School",
+      "startDate": "2012-12-31",
+      "endDate": "2016-12-31",
+      "score": "",
+      "courses": []
+    }
+  ],
+  "awards": [
+    {
+      "title": "National Recognition in Le Grand Concours National French Exam",
+      "date": "2016-05-31",
+      "awarder": null,
+      "summary": ""
+    },
+    {
+      "title": "Dean's List",
+      "date": "",
+      "awarder": null,
+      "summary": ""
+    }
+  ],
+  "certificates": [
+    {
+      "name": "Certified Nurse Aide",
+      "issuer": null,
+      "startDate": "2017-06-30"
+    },
+    {
+      "name": "Adult-Gerontology Primary Care Nurse Practitioner (A-GNP)",
+      "issuer": "American Nurses Credentialing Center",
+      "endDate": "2024-02-28",
+      "startDate": "2023-10-31"
+    },
+    {
+      "name": "Registered Nurse (RN)",
+      "issuer": "California Board of Registered Nursing",
+      "endDate": "2026-02-28",
+      "startDate": "2022-09-30"
+    },
+    {
+      "name": "Basic Life Support for Healthcare Providers (BLS)",
+      "issuer": "American Heart Association"
+    }
+  ],
+  "publications": [],
+  "skills": [
+    {
+      "name": "Cardiopulmonary Resuscitation (CPR)",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Adult CPR",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Pediatric CPR",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "First Aid",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Social Media",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Automated External Defibrillator (AED)",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Microsoft PowerPoint",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Teamwork",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Microsoft Word",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Leadership",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Basic Life Support (BLS)",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Research",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Microsoft Excel",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Customer Service",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Event Management",
+      "level": "",
+      "keywords": []
+    },
+    {
+      "name": "Microsoft Office",
+      "level": "",
+      "keywords": []
+    }
+  ],
+  "languages": [
+    {
+      "fluency": "Native Speaker",
+      "language": "English"
+    },
+    {
+      "fluency": "Limited Working",
+      "language": "French"
+    },
+    {
+      "fluency": "Native Speaker",
+      "language": "Hindi"
+    },
+    {
+      "fluency": "Elementary",
+      "language": "Spanish"
+    },
+    {
+      "fluency": "Native Speaker",
+      "language": "Urdu"
+    }
+  ],
+  "interests": [],
+  "references": [],
+  "projects": [
+    {
+      "name": "Community Health Project",
+      "startDate": "2021-08-31",
+      "summary": "● Performed an evidence-based quality needs assessment for villagers in San Eduardo, Ecuador to create a comprehensive Spanish website on reproductive health for children, adolescents, and parents, based on the expressed needs of the community. The website includes educational blogs, age specific videos, infographics, local resources, and a certificate of completion. https://vusnecuador.wixsite.com/puberty\n   \n● Disseminated website to educate the community of San Eduardo via zoom presentation held in Spanish.\n● Evaluated the quality improvement project via a pretest before the zoom presentation and post-test after to assess the knowledge improvement and used these findings to create and present a poster to the local community.",
+      "url": null,
+      "endDate": "2022-08-31"
+    }
+  ],
+  "meta": {
+    "version": "v1.0.0",
+    "canonical": "https://github.com/jsonresume/resume-schema/blob/v1.0.0/schema.json"
   }
-  
+}
