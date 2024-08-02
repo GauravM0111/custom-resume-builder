@@ -1,377 +1,474 @@
 {
-  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
-  "basics": {
-    "name": "Ishitha Rajan, MSN, APRN, AGPCNP-BC",
-    "label": "Adult Gerontology Primary Care Nurse Practitioner",
-    "image": "",
-    "email": "ishithar@gmail.com",
-    "phone": "508-314-6727",
-    "url": "",
-    "summary": "Recent graduate from Vanderbilt University's Nurse Practitioner program specializing in Adult Gerontology Primary Care. Bachelor degree from University of Connecticut in Allied Health Sciences and minor in Psychology.",
-    "location": {
-      "countryCode": "US",
-      "address": "United States"
-    },
-    "profiles": [
-      {
-        "network": "LinkedIn",
-        "username": "ishitha-rajan",
-        "url": "https://www.linkedin.com/in/ishitha-rajan/"
-      }
-    ]
-  },
-  "work": [
+  "public_identifier": "gaurav-manglani",
+  "profile_pic_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/person/gaurav-manglani/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240802%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240802T184413Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b4cd2b340cae0765272f02957f3856ed7088ae9bd596a4eb243935a72c054d2d",
+  "background_cover_image_url": null,
+  "first_name": "Gaurav",
+  "last_name": "Manglani",
+  "full_name": "Gaurav Manglani",
+  "follower_count": 312,
+  "occupation": "Backend Developer @ Cisco",
+  "headline": "Backend Developer @ Cisco",
+  "summary": null,
+  "country": "US",
+  "country_full_name": "United States",
+  "city": "San Francisco",
+  "state": "California",
+  "experiences": [
     {
-      "name": "Bay Area Hyperbarics",
-      "position": "Nurse Practitioner",
-      "startDate": "2024-02-28",
-      "endDate": "",
-      "highlights": [],
-      "url": "https://www.linkedin.com/company/bay-area-hyperbarics/",
-      "location": "Los Gatos, California, United States"
-    },
-    {
-      "name": "MarinHealth",
-      "position": "Nurse Practitioner Clinicals",
-      "startDate": "2023-01-31",
-      "endDate": "2023-08-31",
-      "highlights": [],
-      "summary": "560+ hours completed\n● Conducted comprehensive health histories, complete and focused physical examinations, and\ndiagnostic test interpretation.\n● Diagnosed and managed acute and chronic illnesses, recommended appropriate medications and\ntreatments plans in collaboration with the healthcare team.\n● Provided patient education on disease prevention, medication administration, and self-care\nmanagement.",
-      "url": "https://www.linkedin.com/company/marinhealth/",
-      "location": "San Rafael, California, United States"
+      "starts_at": {
+        "day": 1,
+        "month": 11,
+        "year": 2023
+      },
+      "ends_at": null,
+      "company": "Cisco",
+      "company_linkedin_profile_url": "https://www.linkedin.com/company/cisco",
+      "company_facebook_profile_url": null,
+      "title": "Software Engineer ll",
+      "description": "- Designed and architected multiple high-availability, customer-facing services, enhancing user experience and scalability.\n- Led implementation efforts, employing agile methodologies to deliver robust and efficient code solutions.\n- Collaborated cross-functionally with product managers and UX/UI designers to ensure seamless integration of features.\n- Deployed services using CI/CD pipelines, ensuring reliable and rapid releases.\n- Resolved complex technical issues, optimizing performance and maintaining service uptime",
+      "location": "San Francisco, California, United States",
+      "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/cisco/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240802%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240802T184413Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=69a1a59e119ad25c0b4ef2b4a7e65d54f66e8ca21f1d346c7a4724666b8d2bb9"
     },
     {
-      "name": "Vanderbilt University School of Nursing",
-      "position": "Nursing Student",
-      "startDate": "2021-08-31",
-      "endDate": "2023-08-31",
-      "highlights": [],
-      "url": "https://www.linkedin.com/school/vanderbilt-university-school-of-nursing/"
+      "starts_at": {
+        "day": 1,
+        "month": 7,
+        "year": 2022
+      },
+      "ends_at": {
+        "day": 30,
+        "month": 11,
+        "year": 2023
+      },
+      "company": "Cisco",
+      "company_linkedin_profile_url": "https://www.linkedin.com/company/cisco",
+      "company_facebook_profile_url": null,
+      "title": "Software Engineer",
+      "description": null,
+      "location": "San Francisco, California, United States",
+      "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/cisco/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240802%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240802T184413Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=69a1a59e119ad25c0b4ef2b4a7e65d54f66e8ca21f1d346c7a4724666b8d2bb9"
     },
     {
-      "name": "Vanderbilt University Medical Center",
-      "position": "Nursing Clinicals",
-      "startDate": "2021-08-31",
-      "endDate": "2022-08-31",
-      "highlights": [],
-      "summary": "700+ hours completed in: Adult Medical-Surgical, Maternal and Newborn/ Obstetrics\nPediatric and Adolescent Unit, Psychiatric Unit, Orthopedic-Trauma Step Down, Adult Cardiac Step Down.\n● Performed head-to-toe comprehensive patient assessments, assisted with patient’s activities of daily living, and monitored patients’ vital signs, pain score, and intake and output every 4 hours, while providing holistic patient centered care and communication skills.\n● Performed nursing procedures such as administering patients’ medications, inserting intravenous catheters, foley catheters, enemas and suppositories and nasogastric tubes.\n● Observed medical procedures such as chest tube insertions, epidurals, endoscopies, colonoscopies, cesarean sections, cardiac catheterizations, and rounded with other medical professionals.",
-      "url": "https://www.linkedin.com/company/vanderbilt-university-medical-center/",
-      "location": "Nashville, Tennessee, United States"
+      "starts_at": {
+        "day": 1,
+        "month": 5,
+        "year": 2021
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 8,
+        "year": 2021
+      },
+      "company": "Conductor",
+      "company_linkedin_profile_url": "https://www.linkedin.com/company/conductor-inc-",
+      "company_facebook_profile_url": null,
+      "title": "Software Engineer Intern",
+      "description": "- Independently developed an ML-driven solution to replace Conductor's current SERP(Search Engine Result Page) parser, which produces useful insights into client rankings on search engine result pages, like Google, under the Kernel-Panic team's guidance.\n- Extensively used Java, Spark, and Springboot to extract data from different repositories, performed feature extraction, and trained a Random Forest Model using Spark's ML libraries.\n- Due to the success of the project, it will be used as a starting point to refine and expand upon and will be integrated into their primary architecture.",
+      "location": "New York, United States",
+      "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/conductor-inc-/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240802%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240802T184413Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=353cd5f80bbcb4fde73343e339aea3caddb89ebc11bcba571a82e8f2e3f03ef6"
     },
     {
-      "name": "Labcorp",
-      "position": "COVID-19 Laboratory Technologist",
-      "startDate": "2021-01-31",
-      "endDate": "2021-07-31",
-      "highlights": [],
-      "url": "https://www.linkedin.com/company/labcorp/",
-      "location": "Burlington, North Carolina, United States"
-    },
-    {
-      "name": "University of Connecticut",
-      "position": "Event Services Office Assistant",
-      "startDate": "2019-04-30",
-      "endDate": "2020-04-30",
-      "highlights": [],
-      "url": "https://www.linkedin.com/school/university-of-connecticut/",
-      "location": "Storrs, Connecticut, United States"
-    },
-    {
-      "name": "University of Connecticut",
-      "position": "Undergraduate Student",
-      "startDate": "2016-12-31",
-      "endDate": "2020-12-31",
-      "highlights": [],
-      "url": "https://www.linkedin.com/school/university-of-connecticut/",
-      "location": "Storrs, Connecticut, United States"
-    },
-    {
-      "name": "UConn Research",
-      "position": "Research Assistant",
-      "startDate": "2018-08-31",
-      "endDate": "2020-01-31",
-      "highlights": [],
-      "summary": "Physiology & Neurobiology and Psychology Research Lab Assistant",
-      "url": "https://www.linkedin.com/company/uconnresearch/",
-      "location": "Storrs, Connecticut, United States"
-    },
-    {
-      "name": "BEAUMONT NURSING AND REHABILITATION ",
-      "position": "Certified Nursing Assistant",
-      "startDate": "2017-06-30",
-      "endDate": "2018-02-28",
-      "highlights": [],
-      "url": "https://www.linkedin.com/company/beaumont-nursing-and-rehabilitation-lp/",
-      "location": "Northborough MA"
-    },
-    {
-      "name": "Forever 21",
-      "position": "Sales Associate",
-      "startDate": "2016-02-28",
-      "endDate": "2016-06-30",
-      "highlights": [],
-      "summary": "Interacted extensively with customers to provide broad range of product and store\ninformation.\n● Efficiently carried out all cashier responsibilities including exchanges and returns.\n● Organized merchandise displays in accordance with specific company standards.\n● Trained and supervised incoming employees. Handled and resolved concerns.",
-      "url": "https://www.linkedin.com/company/forever-21/"
-    },
-    {
-      "name": "Hollister Co.",
-      "position": "Brand Representative",
-      "startDate": "2015-10-31",
-      "endDate": "2016-01-31",
-      "highlights": [],
-      "summary": "Interacted extensively with customers to provide broad range of product and store\ninformation.\n● Efficiently carried out all cashier responsibilities including exchanges and returns.\n● Organized merchandise displays in accordance with specific company standards.\n● Trained and supervised incoming employees. Handled and resolved concerns.",
-      "url": "https://www.linkedin.com/company/hollister-co./"
-    }
-  ],
-  "volunteer": [
-    {
-      "organization": "Vanderbilt University Medical Center",
-      "position": "Doula",
-      "startDate": "2022-01-31",
-      "endDate": "2022-08-31",
-      "summary": "Provided physical and emotional comfort measures to laboring patients by assisting patients with pain management techniques including positioning, therapeutic touch, and environment stimuli changes for a more comfortable birthing process.",
-      "highlights": [],
-      "url": ""
-    },
-    {
-      "organization": "Vanderbilt University School of Nursing",
-      "position": "Vaccination Administrator and First Aid Kit Distributor",
-      "startDate": "2021-09-30",
-      "endDate": "2022-08-31",
-      "summary": "● Administered COVID-19 and Hepatitis vaccinations to vulnerable populations including the homeless, individuals with disabilities, and refugee populations throughout sites in Nashville while educating them on the effects and importance of the vaccine.\n● Created and distributed first aid kits for underserved populations throughout the Nashville community.",
-      "highlights": [],
-      "url": ""
-    },
-    {
-      "organization": "American Red Cross",
-      "position": "Blood Drive Volunteer",
-      "startDate": "2016-12-31",
-      "endDate": "2022-12-31",
-      "summary": "Assisted donors who had just given blood and monitored them for any signs of weakness,\ndizziness, or fainting",
-      "highlights": [],
-      "url": ""
-    },
-    {
-      "organization": "7 Cups",
-      "position": "7 Cups of Tea Listener",
-      "startDate": "2020-12-31",
-      "endDate": "2020-12-31",
-      "summary": "Trained in active listening to provide support to people experiencing emotional distress via anonymous and confidential chat.",
-      "highlights": [],
-      "url": ""
-    },
-    {
-      "organization": "University of Connecticut",
-      "position": "Connects Mentor",
-      "startDate": "2018-01-31",
-      "endDate": "2018-05-31",
-      "summary": "Mentored students on academic probation by helping create personalized study plans to improve\ntime management skills, grades, and productivity.",
-      "highlights": [],
-      "url": ""
-    },
-    {
-      "organization": "University of Connecticut",
-      "position": "Cornucopia Event Volunteer",
-      "startDate": "2016-12-31",
-      "endDate": "2016-12-31",
-      "summary": "Created and presented a public service poster about infectious diseases to educate to the public",
-      "highlights": [],
-      "url": ""
+      "starts_at": {
+        "day": 1,
+        "month": 10,
+        "year": 2019
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 5,
+        "year": 2020
+      },
+      "company": "Collaborative Robotics Lab, Purdue University",
+      "company_linkedin_profile_url": null,
+      "company_facebook_profile_url": null,
+      "title": "Undergraduate Research Assistant",
+      "description": "\u2022 Selected based on an application process to work in the Collaborative Robotics lab on the Programming by Demonstration (PBD) project, to help a robotic arm learn actions and movements the way humans do, by demonstrating them to it.\n\u2022 Utilized Python-oriented Robotic Operating System (ROS) to help build the algorithm that implemented elements of Reinforcement Learning and Q-Learning. Also implemented Computer Vision to utilize for recognition of objects and actions.\n\u2022 Participated in a month-long workshop to learn all elements of the project necessary. Then, assisted in implementing reinforcement learning, Q-learning, and deep Q-learning using python.",
+      "location": "West Lafayette, Indiana, United States",
+      "logo_url": null
     }
   ],
   "education": [
     {
-      "institution": "University of Connecticut",
-      "area": "Allied Health Sciences",
-      "studyType": "Bachelor’s Degree",
-      "startDate": "2016-12-31",
-      "endDate": "2020-12-31",
-      "score": "",
-      "courses": []
+      "starts_at": {
+        "day": 1,
+        "month": 1,
+        "year": 2018
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 12,
+        "year": 2022
+      },
+      "field_of_study": "Computer Science",
+      "degree_name": "Bachelor of Science - BS",
+      "school": "Purdue University",
+      "school_linkedin_profile_url": "https://www.linkedin.com/company/3846/",
+      "school_facebook_profile_url": null,
+      "description": "Skills: Computer Science \u00b7 Back-End Web Development \u00b7 Programming \u00b7 Technical Architecture",
+      "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/purdue-university/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240802%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240802T184413Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=264cccc6048d4eb7a538adc0cc3d366928d1afca88a8de82e8621d559c0eaa19",
+      "grade": null,
+      "activities_and_societies": null
     },
     {
-      "institution": "Vanderbilt University School of Nursing",
-      "area": "Adult Gerontology Primary Care",
-      "studyType": "Nurse Practitioner",
-      "startDate": "2021-03-31",
-      "endDate": "2023-05-31",
-      "score": "",
-      "courses": []
+      "starts_at": {
+        "day": 1,
+        "month": 1,
+        "year": 2016
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 12,
+        "year": 2018
+      },
+      "field_of_study": "Science",
+      "degree_name": "High School Diploma",
+      "school": "Vikhe Patil Memorial School",
+      "school_linkedin_profile_url": "https://www.linkedin.com/company/8292513/",
+      "school_facebook_profile_url": null,
+      "description": "Skills: Programming",
+      "logo_url": null,
+      "grade": null,
+      "activities_and_societies": null
     },
     {
-      "institution": "Universidad de Salamanca",
-      "area": "",
-      "studyType": "",
-      "startDate": "2018-06-30",
-      "endDate": "2018-07-31",
-      "score": "",
-      "courses": []
-    },
-    {
-      "institution": "Shrewsbury High School",
-      "area": "",
-      "studyType": "High School",
-      "startDate": "2012-12-31",
-      "endDate": "2016-12-31",
-      "score": "",
-      "courses": []
-    }
-  ],
-  "awards": [
-    {
-      "title": "National Recognition in Le Grand Concours National French Exam",
-      "date": "2016-05-31",
-      "awarder": null,
-      "summary": ""
-    },
-    {
-      "title": "Dean's List",
-      "date": "",
-      "awarder": null,
-      "summary": ""
-    }
-  ],
-  "certificates": [
-    {
-      "name": "Certified Nurse Aide",
-      "issuer": null,
-      "startDate": "2017-06-30"
-    },
-    {
-      "name": "Adult-Gerontology Primary Care Nurse Practitioner (A-GNP)",
-      "issuer": "American Nurses Credentialing Center",
-      "endDate": "2024-02-28",
-      "startDate": "2023-10-31"
-    },
-    {
-      "name": "Registered Nurse (RN)",
-      "issuer": "California Board of Registered Nursing",
-      "endDate": "2026-02-28",
-      "startDate": "2022-09-30"
-    },
-    {
-      "name": "Basic Life Support for Healthcare Providers (BLS)",
-      "issuer": "American Heart Association"
-    }
-  ],
-  "publications": [],
-  "skills": [
-    {
-      "name": "Cardiopulmonary Resuscitation (CPR)",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Adult CPR",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Pediatric CPR",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "First Aid",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Social Media",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Automated External Defibrillator (AED)",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Microsoft PowerPoint",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Teamwork",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Microsoft Word",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Leadership",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Basic Life Support (BLS)",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Research",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Microsoft Excel",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Customer Service",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Event Management",
-      "level": "",
-      "keywords": []
-    },
-    {
-      "name": "Microsoft Office",
-      "level": "",
-      "keywords": []
+      "starts_at": {
+        "day": 1,
+        "month": 1,
+        "year": 2011
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 12,
+        "year": 2016
+      },
+      "field_of_study": "Science",
+      "degree_name": "High School Diploma",
+      "school": "Vidya Valley School",
+      "school_linkedin_profile_url": null,
+      "school_facebook_profile_url": null,
+      "description": "Skills: Programming",
+      "logo_url": null,
+      "grade": null,
+      "activities_and_societies": null
     }
   ],
   "languages": [
+    "English",
+    "Hindi"
+  ],
+  "accomplishment_organisations": [
     {
-      "fluency": "Native Speaker",
-      "language": "English"
+      "starts_at": {
+        "day": 1,
+        "month": 9,
+        "year": 2018
+      },
+      "ends_at": {
+        "day": 30,
+        "month": 9,
+        "year": 2019
+      },
+      "org_name": "American India Foundation",
+      "title": "Member",
+      "description": "Create a community for Indian students on campus.\nOrganize various Indian events on campus such as Diwali, Holi, etc."
     },
     {
-      "fluency": "Limited Working",
-      "language": "French"
-    },
-    {
-      "fluency": "Native Speaker",
-      "language": "Hindi"
-    },
-    {
-      "fluency": "Elementary",
-      "language": "Spanish"
-    },
-    {
-      "fluency": "Native Speaker",
-      "language": "Urdu"
+      "starts_at": {
+        "day": 1,
+        "month": 9,
+        "year": 2018
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 12,
+        "year": 2018
+      },
+      "org_name": "RoboMasters",
+      "title": "Member",
+      "description": "RoboMasters takes part in the RoboMasters competition in Shenzen, China\nMember of the software/autonomous team"
     }
   ],
+  "accomplishment_publications": [],
+  "accomplishment_honors_awards": [],
+  "accomplishment_patents": [],
+  "accomplishment_courses": [],
+  "accomplishment_projects": [
+    {
+      "starts_at": {
+        "day": 1,
+        "month": 2,
+        "year": 2021
+      },
+      "ends_at": {
+        "day": 30,
+        "month": 4,
+        "year": 2021
+      },
+      "title": "USC Compiler",
+      "description": "\u2022 USC (University Simplified C) is a simplified version of C, created for this class for the purpose of building a compiler for it.\n\u2022 Built a working Lexical Analyzer, Parser, Semantic Analyzer, Optimizer and Code translator to machine code using C++ and the LLVM API.",
+      "url": null
+    },
+    {
+      "starts_at": {
+        "day": 1,
+        "month": 8,
+        "year": 2020
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 12,
+        "year": 2020
+      },
+      "title": "Omilia",
+      "description": "As a member of a 5-man team, developed a full stack social media web app, which combined features of Facebook, Twitter, and Reddit.\nWeb app was built using React.js and Node.js frameworks. Also used Firebase, Redux and MaterialUI.",
+      "url": null
+    },
+    {
+      "starts_at": {
+        "day": 1,
+        "month": 10,
+        "year": 2020
+      },
+      "ends_at": {
+        "day": 30,
+        "month": 11,
+        "year": 2020
+      },
+      "title": "MyShell",
+      "description": "Created a UNIX bash shell replica, using C, C++, with its own Grammar and Parsing Functionality implemented via a custom-made lexical analyzer and yacc parser.\nImplemented I/O redirection, pipes, built-in functions, signal handling, subshells, variable expansion and wildcarding.",
+      "url": null
+    },
+    {
+      "starts_at": {
+        "day": 1,
+        "month": 10,
+        "year": 2018
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 10,
+        "year": 2018
+      },
+      "title": "TuneUp - Hackathon @ Purdue",
+      "description": "Took part in the Hello World Hackathon in Purdue University and was part of a team of 5 people that designed an app that played songs from your Spotify playlist by judging the current mood based on the weather and time of day, using Spotify, Accuweather and Google APIs.",
+      "url": null
+    },
+    {
+      "starts_at": {
+        "day": 1,
+        "month": 1,
+        "year": 2015
+      },
+      "ends_at": {
+        "day": 28,
+        "month": 2,
+        "year": 2015
+      },
+      "title": "Athletics Timing System",
+      "description": "Part of a team that created a system to time athletes, using Raspberry PI and python, in the inter-house sports day.",
+      "url": null
+    }
+  ],
+  "accomplishment_test_scores": [],
+  "volunteer_work": [
+    {
+      "starts_at": {
+        "day": 1,
+        "month": 8,
+        "year": 2019
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 8,
+        "year": 2019
+      },
+      "title": "Team Leader International",
+      "cause": "Education",
+      "company": null,
+      "company_linkedin_profile_url": null,
+      "description": "Was selected as a team leader international (TLi) for Purdue University\u2019s orientation program for incoming freshmen called Boiler Gold Rush International and Boiler Gold Rush (BGRi/BGR). It involved a week-long rigorous training on intercultural sensitivity and logistics and planning campus activities for the incoming international and domestic freshmen. Shadowed the freshmen and led them around various campus activities. Had to foster an environment of support and friendship to ease their arrival into a new environment.",
+      "logo_url": null
+    },
+    {
+      "starts_at": {
+        "day": 1,
+        "month": 6,
+        "year": 2017
+      },
+      "ends_at": {
+        "day": 31,
+        "month": 7,
+        "year": 2017
+      },
+      "title": "Teaching Volunteer",
+      "cause": "Children",
+      "company": null,
+      "company_linkedin_profile_url": null,
+      "description": "60 hours of teaching English to underprivileged kids in a more expressive way by teaching them how to act, songs, dance, and in the end, a play",
+      "logo_url": null
+    }
+  ],
+  "certifications": [],
+  "connections": 309,
+  "people_also_viewed": [
+    {
+      "link": "https://www.linkedin.com/in/jake-steven-0a0286205",
+      "name": "Jake Steven",
+      "summary": "Student at Ivy Tech Community College",
+      "location": "Atlanta Metropolitan Area"
+    },
+    {
+      "link": "https://www.linkedin.com/in/andrew-crowell-9379561a5",
+      "name": "Andrew Crowell",
+      "summary": "Student at Purdue University Krannert School of Management",
+      "location": "West Lafayette, IN"
+    },
+    {
+      "link": "https://www.linkedin.com/in/terribell-teeter-9801492b",
+      "name": "Terribell Teeter",
+      "summary": "Teacher at CMCSS",
+      "location": "Adams, TN"
+    },
+    {
+      "link": "https://www.linkedin.com/in/michael-beshear-43a1241b7",
+      "name": "Michael Beshear",
+      "summary": "Student at Purdue University",
+      "location": "Longmont, CO"
+    },
+    {
+      "link": "https://www.linkedin.com/in/rhea-patil-821100156",
+      "name": "Rhea Patil",
+      "summary": "Music Business Student at New York University",
+      "location": "New York, NY"
+    },
+    {
+      "link": "https://www.linkedin.com/in/maxime-kotur-48b173209",
+      "name": "Maxime Kotur",
+      "summary": "Computer Science Student at Purdue University",
+      "location": "West Lafayette, IN"
+    },
+    {
+      "link": "https://www.linkedin.com/in/terrykaufmanimacs",
+      "name": "Terry Kaufman",
+      "summary": "President of the Institute for Mathematics and Computer Science",
+      "location": "Fort Lauderdale, FL"
+    },
+    {
+      "link": "https://www.linkedin.com/in/michelle-jenkins-412413218",
+      "name": "Michelle Jenkins",
+      "summary": "--",
+      "location": "Monticello, IN"
+    },
+    {
+      "link": "https://www.linkedin.com/in/boris-lu-a477881b8",
+      "name": "Boris Lu",
+      "summary": "Senior studying mathematics and statistics at Purdue University",
+      "location": "St Charles, MO"
+    },
+    {
+      "link": "https://www.linkedin.com/in/yizhen-yuan-9012021b3",
+      "name": "Yizhen Yuan",
+      "summary": "M.S. in Purdue (CS Major)B.S. in Purdue (CS honor, Math, Stats Major)",
+      "location": "West Lafayette, IN"
+    },
+    {
+      "link": "https://www.linkedin.com/in/ronnymarasigan",
+      "name": "Ronny Marasigan",
+      "summary": "Financial Operations at TripActions",
+      "location": "San Francisco Bay Area"
+    },
+    {
+      "link": "https://www.linkedin.com/in/david-peterson-7256621bb",
+      "name": "David Peterson",
+      "summary": "Data Analytics Manager at 3M",
+      "location": "Lake Elmo, MN"
+    },
+    {
+      "link": "https://www.linkedin.com/in/keerthy-sudharsan-3b65351b5",
+      "name": "Keerthy Sudharsan",
+      "summary": "Senior computer science student at University of Wisconsin-Madison",
+      "location": "Carol Stream, IL"
+    },
+    {
+      "link": "https://www.linkedin.com/in/juliet-aygun",
+      "name": "Juliet Aygun",
+      "summary": "Math Honors at Purdue University",
+      "location": "Greater Chicago Area"
+    },
+    {
+      "link": "https://www.linkedin.com/in/julia-schneider-765041193",
+      "name": "Julia Schneider",
+      "summary": "Application Developer Intern at Vail Systems",
+      "location": "Lafayette, Indiana Metropolitan Area"
+    },
+    {
+      "link": "https://www.linkedin.com/in/talal-aldubayan",
+      "name": "Talal Al-Dubayan",
+      "summary": "Cybersecurity Undergraduate Student",
+      "location": "West Lafayette, IN"
+    },
+    {
+      "link": "https://www.linkedin.com/in/nisha-jacob-0628b7201",
+      "name": "Nisha Jacob",
+      "summary": "Student at Purdue University",
+      "location": "Yorktown, IN"
+    },
+    {
+      "link": "https://www.linkedin.com/in/bailey-chambers-536b63130",
+      "name": "Bailey Chambers",
+      "summary": "Account Coordinator at bluehouse - Chevron\u2019s Creative Agency at Chevron",
+      "location": "San Francisco Bay Area"
+    },
+    {
+      "link": "https://www.linkedin.com/in/xiaojian-wang-454092199",
+      "name": "Xiaojian Wang",
+      "summary": "MS in Statistics@Purdue",
+      "location": "Lafayette, Indiana Metropolitan Area"
+    },
+    {
+      "link": "https://www.linkedin.com/in/hiten-rathod-a8816214b",
+      "name": "Hiten Rathod",
+      "summary": "Software at Bloomberg LP",
+      "location": "New York City Metropolitan Area"
+    }
+  ],
+  "recommendations": [],
+  "activities": [],
+  "similarly_named_profiles": [
+    {
+      "name": "gaurav manglani",
+      "link": "https://ml.linkedin.com/in/gaurav-manglani-815537184",
+      "summary": "Gaurav",
+      "location": "Bamako"
+    },
+    {
+      "name": "gaurav manglani",
+      "link": "https://in.linkedin.com/in/gaurav-manglani-792b8522",
+      "summary": "Owner, guru nanak shirts",
+      "location": "North Delhi"
+    },
+    {
+      "name": "Gaurav Manglani",
+      "link": "https://in.linkedin.com/in/gauravmanglani",
+      "summary": "Student at KC College",
+      "location": "Kalyan"
+    },
+    {
+      "name": "CA Gaurav Manglani",
+      "link": "https://in.linkedin.com/in/ca-gaurav-manglani-202345137",
+      "summary": "Senior Associate 2 at Audit and Assurance team of PricewaterhouseCoopers - Service Delivery Center (PwC SDC)",
+      "location": "Bengaluru"
+    }
+  ],
+  "articles": [],
+  "groups": [],
+  "skills": [],
+  "inferred_salary": null,
+  "gender": null,
+  "birth_date": null,
+  "industry": null,
+  "extra": null,
   "interests": [],
-  "references": [],
-  "projects": [
-    {
-      "name": "Community Health Project",
-      "startDate": "2021-08-31",
-      "summary": "● Performed an evidence-based quality needs assessment for villagers in San Eduardo, Ecuador to create a comprehensive Spanish website on reproductive health for children, adolescents, and parents, based on the expressed needs of the community. The website includes educational blogs, age specific videos, infographics, local resources, and a certificate of completion. https://vusnecuador.wixsite.com/puberty\n   \n● Disseminated website to educate the community of San Eduardo via zoom presentation held in Spanish.\n● Evaluated the quality improvement project via a pretest before the zoom presentation and post-test after to assess the knowledge improvement and used these findings to create and present a poster to the local community.",
-      "url": null,
-      "endDate": "2022-08-31"
-    }
-  ],
-  "meta": {
-    "version": "v1.0.0",
-    "canonical": "https://github.com/jsonresume/resume-schema/blob/v1.0.0/schema.json"
-  }
+  "personal_emails": [],
+  "personal_numbers": []
 }

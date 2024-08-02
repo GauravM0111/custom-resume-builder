@@ -1,5 +1,20 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+" $id": "http://example.com/example.json",
+  "additionalProperties": true,
+  "definitions": {
+    "iso8601": {
+      "type": "string",
+      "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
+      "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+    }
+  },
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "link to the version of the schema that can validate the resume",
+      "format": "uri"
+    },
     "basics": {
       "type": "object",
       "additionalProperties": true,
@@ -112,14 +127,10 @@
             "format": "uri"
           },
           "startDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "endDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "summary": {
             "type": "string",
@@ -158,14 +169,10 @@
             "format": "uri"
           },
           "startDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "endDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "summary": {
             "type": "string",
@@ -208,14 +215,10 @@
             "description": "e.g. Bachelor"
           },
           "startDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "endDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "score": {
             "type": "string",
@@ -246,9 +249,7 @@
             "description": "e.g. One of the 100 greatest minds of the century"
           },
           "date": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "awarder": {
             "type": "string",
@@ -274,9 +275,7 @@
             "description": "e.g. Certified Kubernetes Administrator"
           },
           "date": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "url": {
             "type": "string",
@@ -307,9 +306,7 @@
             "description": "e.g. IEEE, Computer Magazine"
           },
           "releaseDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "url": {
             "type": "string",
@@ -446,14 +443,10 @@
             }
           },
           "startDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "endDate": {
-            "type": "string",
-            "description": "Similar to the standard date type, but each section after the year is optional. e.g. 2014-06-29 or 2023-04",
-            "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+            "$ref": "#/definitions/iso8601"
           },
           "url": {
             "type": "string",
@@ -479,6 +472,28 @@
           }
         }
       }
+    },
+    "meta": {
+      "type": "object",
+      "description": "The schema version and any other tooling configuration lives here",
+      "additionalProperties": true,
+      "properties": {
+        "canonical": {
+          "type": "string",
+          "description": "URL (as per RFC 3986) to latest version of this document",
+          "format": "uri"
+        },
+        "version": {
+          "type": "string",
+          "description": "A version field which follows semver - e.g. v1.0.0"
+        },
+        "lastModified": {
+          "type": "string",
+          "description": "Using ISO 8601 with YYYY-MM-DDThh:mm:ss"
+        }
+      }
     }
-  }
+  },
+  "title": "Resume Schema",
+  "type": "object"
 }
