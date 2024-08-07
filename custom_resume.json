@@ -1,111 +1,124 @@
 {
     "basics": {
-        "name": "Ishitha Rajan, MSN, APRN, AGPCNP-BC",
+        "name": "Gaurav Manglani",
         "label": "Software Engineer",
-        "email": "ishithar@gmail.com",
-        "phone": "508-314-6727",
-        "summary": "Versatile and driven software engineer with a comprehensive educational background and practical experience in software development and healthcare technology. Proficient in creating user-centered solutions and committed to enhancing system performance and reliability.",
+        "image": "https://s3.us-west-000.backblazeb2.com/proxycurl/person/gaurav-manglani/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240802%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240802T184413Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b4cd2b340cae0765272f02957f3856ed7088ae9bd596a4eb243935a72c054d2d",
+        "email": "your_email@example.com",
+        "phone": "123-456-7890",
+        "url": "https://www.linkedin.com/in/gaurav-manglani",
+        "summary": "Backend Developer with robust experience in building scalable software solutions and a strong foundation in computer science. Committed to improving system performance and enhancing user experiences through innovative technology.",
         "location": {
+            "address": "",
+            "postalCode": "94066",
+            "city": "San Bruno",
             "countryCode": "US",
-            "address": "United States"
+            "region": "CA"
         },
-        "profiles": [
-            {
-                "network": "LinkedIn",
-                "username": "ishitha-rajan",
-                "url": "https://www.linkedin.com/in/ishitha-rajan/"
-            }
-        ]
+        "profiles": []
     },
     "work": [
         {
-            "name": "Bay Area Hyperbarics",
-            "position": "Nurse Practitioner",
-            "startDate": "2024-02-28",
-            "endDate": "",
-            "summary": "Utilized advanced technologies to administer healthcare, integrating software solutions for improved patient tracking and care management.",
-            "highlights": []
+            "name": "Cisco",
+            "location": "San Francisco, California, United States",
+            "description": "Networking and Communication Technology Company",
+            "position": "Software Engineer II",
+            "url": "https://www.linkedin.com/company/cisco",
+            "startDate": "2022-07",
+            "endDate": "2023-11",
+            "summary": "Designed and architected multiple high-availability, customer-facing services to enhance user experience and scalability.",
+            "highlights": [
+                "Led implementation efforts employing agile methodologies delivering robust and efficient code solutions.",
+                "Collaborated cross-functionally with product managers and UX/UI designers to ensure seamless integration of features.",
+                "Deployed services using CI/CD pipelines ensuring reliable and rapid releases.",
+                "Resolved complex technical issues, optimizing performance and maintaining service uptime."
+            ]
         },
         {
-            "name": "MarinHealth",
-            "position": "Nurse Practitioner Clinicals",
-            "startDate": "2023-01-31",
-            "endDate": "2023-08-31",
-            "summary": "Conducted comprehensive health assessments and collaborated with healthcare teams while incorporating software systems to enhance patient care delivery.",
-            "highlights": []
-        },
-        {
-            "name": "UConn Research",
-            "position": "Research Assistant",
-            "startDate": "2018-08-31",
-            "endDate": "2020-01-31",
-            "summary": "Worked on studies integrating data analysis and visualization to improve health outcomes, utilizing algorithmic approaches.",
-            "highlights": []
+            "name": "Conductor",
+            "location": "New York, United States",
+            "description": "Search Engine Optimization Company",
+            "position": "Software Engineer Intern",
+            "url": "https://www.linkedin.com/company/conductor-inc-",
+            "startDate": "2021-05",
+            "endDate": "2021-08",
+            "summary": "Independently developed an ML-driven solution to replace the existing SERP parser, providing insights into client rankings.",
+            "highlights": [
+                "Extensively used Java, Spark, and Spring Boot for data extraction and model training.",
+                "The project's success led to its integration into Conductor's primary architecture."
+            ]
         }
     ],
     "education": [
         {
-            "institution": "Vanderbilt University School of Nursing",
-            "area": "Adult Gerontology Primary Care",
-            "studyType": "Nurse Practitioner",
-            "startDate": "2021-03-31",
-            "endDate": "2023-05-31"
-        },
-        {
-            "institution": "University of Connecticut",
-            "area": "Allied Health Sciences",
-            "studyType": "Bachelor\u2019s Degree",
-            "startDate": "2016-12-31",
-            "endDate": "2020-12-31"
+            "institution": "Purdue University",
+            "url": "https://www.linkedin.com/company/3846/",
+            "area": "Computer Science",
+            "studyType": "Bachelor of Science - BS",
+            "startDate": "2018-01",
+            "endDate": "2022-12",
+            "score": "",
+            "courses": [
+                "Data Structures and Algorithms",
+                "Operating Systems",
+                "Systems Programming"
+            ]
         }
     ],
     "skills": [
         {
-            "name": "Software Development",
-            "level": "Intermediate",
-            "keywords": [
-                "C++",
-                "Data Structures",
-                "Algorithms"
-            ]
-        },
-        {
-            "name": "Healthcare Technologies",
-            "level": "Advanced",
-            "keywords": [
-                "Patient Management Systems",
-                "Electronic Health Records"
-            ]
-        },
-        {
-            "name": "Data Analysis",
-            "level": "Intermediate",
-            "keywords": [
-                "Data Visualization",
-                "Performance Analysis"
-            ]
-        },
-        {
-            "name": "Collaboration",
+            "name": "C++ Programming",
             "level": "Expert",
             "keywords": [
-                "Team Leadership",
-                "Cross-Functional Communication"
+                "Software Development",
+                "System Design",
+                "Debugging"
+            ]
+        },
+        {
+            "name": "Cloud Technologies",
+            "level": "Intermediate",
+            "keywords": [
+                "AWS",
+                "Google Cloud",
+                "CI/CD"
+            ]
+        },
+        {
+            "name": "Machine Learning",
+            "level": "Intermediate",
+            "keywords": [
+                "Data Analysis",
+                "Model Training",
+                "Python"
             ]
         }
     ],
-    "certificates": [
+    "languages": [
         {
-            "name": "Adult-Gerontology Primary Care Nurse Practitioner (A-GNP)",
-            "issuer": "American Nurses Credentialing Center",
-            "startDate": "2023-10-31",
-            "endDate": "2024-02-28"
+            "language": "English",
+            "fluency": "Fluent"
         },
         {
-            "name": "Registered Nurse (RN)",
-            "issuer": "California Board of Registered Nursing",
-            "startDate": "2022-09-30",
-            "endDate": "2026-02-28"
+            "language": "Hindi",
+            "fluency": "Fluent"
         }
-    ]
+    ],
+    "projects": [
+        {
+            "name": "USC Compiler",
+            "description": "Developed a simplified version of C with a working Lexical Analyzer, Parser, and Code Translator using C++ and LLVM.",
+            "startDate": "2021-02",
+            "endDate": "2021-04"
+        },
+        {
+            "name": "MyShell",
+            "description": "Created a UNIX bash shell replica, implementing features such as I/O redirection and built-in functions using C/C++.",
+            "startDate": "2020-10",
+            "endDate": "2020-11"
+        }
+    ],
+    "certificates": [],
+    "awards": [],
+    "volunteer": [],
+    "references": []
 }
