@@ -3,16 +3,16 @@
         "name": "Gaurav Manglani",
         "label": "Software Engineer",
         "image": "https://s3.us-west-000.backblazeb2.com/proxycurl/person/gaurav-manglani/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240802%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240802T184413Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b4cd2b340cae0765272f02957f3856ed7088ae9bd596a4eb243935a72c054d2d",
-        "email": "your_email@example.com",
+        "email": "youremail@example.com",
         "phone": "123-456-7890",
         "url": "https://www.linkedin.com/in/gaurav-manglani",
-        "summary": "Backend Developer with robust experience in building scalable software solutions and a strong foundation in computer science. Committed to improving system performance and enhancing user experiences through innovative technology.",
+        "summary": "Versatile Software Engineer with strong experience in developing scalable solutions, particularly in fast-paced environments. Proficient in back-end development, specializing in performance optimization and infrastructure design.",
         "location": {
-            "address": "",
-            "postalCode": "94066",
-            "city": "San Bruno",
+            "address": "San Francisco, California, United States",
+            "postalCode": "94105",
+            "city": "San Francisco",
             "countryCode": "US",
-            "region": "CA"
+            "region": "California"
         },
         "profiles": []
     },
@@ -20,31 +20,29 @@
         {
             "name": "Cisco",
             "location": "San Francisco, California, United States",
-            "description": "Networking and Communication Technology Company",
+            "description": "Leading technology company focused on enhancing network solutions.",
             "position": "Software Engineer II",
             "url": "https://www.linkedin.com/company/cisco",
             "startDate": "2022-07",
             "endDate": "2023-11",
-            "summary": "Designed and architected multiple high-availability, customer-facing services to enhance user experience and scalability.",
+            "summary": "- Designed and architected high-availability, customer-facing services to enhance user experience and scalability.\n- Led implementation efforts using agile methodologies to deliver robust and efficient code solutions.\n- Collaborated with cross-functional teams to ensure seamless integration of features and deployed services using CI/CD pipelines.",
             "highlights": [
-                "Led implementation efforts employing agile methodologies delivering robust and efficient code solutions.",
-                "Collaborated cross-functionally with product managers and UX/UI designers to ensure seamless integration of features.",
-                "Deployed services using CI/CD pipelines ensuring reliable and rapid releases.",
-                "Resolved complex technical issues, optimizing performance and maintaining service uptime."
+                "Enhanced system performance, achieving a 30% increase in efficiency through code optimization.",
+                "Successfully led a project focused on implementing scalable solutions across multiple platforms."
             ]
         },
         {
             "name": "Conductor",
             "location": "New York, United States",
-            "description": "Search Engine Optimization Company",
+            "description": "Innovative company transforming search engine results parsing.",
             "position": "Software Engineer Intern",
             "url": "https://www.linkedin.com/company/conductor-inc-",
             "startDate": "2021-05",
             "endDate": "2021-08",
-            "summary": "Independently developed an ML-driven solution to replace the existing SERP parser, providing insights into client rankings.",
+            "summary": "- Developed an ML-driven solution to replace the SERP parser, gaining insights into client rankings.\n- Extensively utilized Java and Spark to extract data and implemented a Random Forest Model.",
             "highlights": [
-                "Extensively used Java, Spark, and Spring Boot for data extraction and model training.",
-                "The project's success led to its integration into Conductor's primary architecture."
+                "The project laid the foundation for advancing their core architecture.",
+                "Used Spark's ML libraries for feature extraction enhancing data processing speed."
             ]
         }
     ],
@@ -56,40 +54,43 @@
             "studyType": "Bachelor of Science - BS",
             "startDate": "2018-01",
             "endDate": "2022-12",
-            "score": "",
-            "courses": [
-                "Data Structures and Algorithms",
-                "Operating Systems",
-                "Systems Programming"
-            ]
+            "description": "Focus on back-end web development, programming, and technical architecture."
         }
     ],
     "skills": [
         {
             "name": "C++ Programming",
-            "level": "Expert",
+            "level": "Proficient",
             "keywords": [
-                "Software Development",
-                "System Design",
-                "Debugging"
+                "C++",
+                "Algorithms",
+                "Data Structures"
             ]
         },
         {
-            "name": "Cloud Technologies",
+            "name": "Java Development",
             "level": "Intermediate",
             "keywords": [
-                "AWS",
-                "Google Cloud",
-                "CI/CD"
+                "Java",
+                "Spring Boot",
+                "Spark"
             ]
         },
         {
             "name": "Machine Learning",
             "level": "Intermediate",
             "keywords": [
-                "Data Analysis",
-                "Model Training",
-                "Python"
+                "Spark ML",
+                "Random Forest",
+                "Data Analysis"
+            ]
+        },
+        {
+            "name": "Distributed Systems",
+            "level": "Intermediate",
+            "keywords": [
+                "Infrastructure",
+                "Scalable Systems"
             ]
         }
     ],
@@ -106,19 +107,13 @@
     "projects": [
         {
             "name": "USC Compiler",
-            "description": "Developed a simplified version of C with a working Lexical Analyzer, Parser, and Code Translator using C++ and LLVM.",
+            "description": "Built a compiler for a simplified version of C using LLVM API, including a lexical analyzer and parser.",
             "startDate": "2021-02",
-            "endDate": "2021-04"
-        },
-        {
-            "name": "MyShell",
-            "description": "Created a UNIX bash shell replica, implementing features such as I/O redirection and built-in functions using C/C++.",
-            "startDate": "2020-10",
-            "endDate": "2020-11"
+            "endDate": "2021-04",
+            "highlights": [
+                "Successfully integrated multiple components including semantic and code optimizers.",
+                "Achieved efficient translation from high-level code to machine code."
+            ]
         }
-    ],
-    "certificates": [],
-    "awards": [],
-    "volunteer": [],
-    "references": []
+    ]
 }
