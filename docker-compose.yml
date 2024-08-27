@@ -8,21 +8,11 @@ services:
       - .env.secrets
     depends_on:
       - redis
-      - mongo
+    volumes:
+      - .:/app
 
   redis:
     image: "redis:7.2.5"
     restart: always
     ports:
       - "${REDIS_PORT}:${REDIS_PORT}"
-  
-  mongo:
-    image: "mongo:7.0.12"
-    restart: always
-    ports:
-      - "${MONGO_PORT}:${MONGO_PORT}"
-    volumes:
-      - mongo-data:/data/db
-  
-volumes:
-  mongo-data:
