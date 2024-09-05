@@ -1,7 +1,12 @@
 from flask import Flask, request
 from clients.supabase_client import SupabaseClient
+from api.users import users_bp
+from os import getenv
 
 app = Flask(__name__)
+app.secret_key = getenv('FLASK_SESSION_SECRET_KEY')
+
+app.register_blueprint(users_bp)
 
 
 @app.route('/')
