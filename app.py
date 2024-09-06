@@ -1,17 +1,17 @@
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 from clients.supabase_client import SupabaseClient
-from api.users import users_bp
+from api.oauth.google import google_oauth_bp
 from os import getenv
 
 app = Flask(__name__)
 app.secret_key = getenv('FLASK_SESSION_SECRET_KEY')
 
-app.register_blueprint(users_bp)
+app.register_blueprint(google_oauth_bp)
 
 
 @app.route('/')
 def hello():
-    return 'Hello, World!'
+    return redirect(url_for('googleoauth.get_user'), code=302)
 
 @app.route('/user', methods=['POST'])
 def create_user():
