@@ -9,8 +9,6 @@ from clients.redis_client import RedisClient
 
 google_oauth_bp = Blueprint('googleoauth', __name__, url_prefix='/googleoauth')
 
-SECONDS_IN_A_DAY = 24 * 60 * 60
-
 
 @google_oauth_bp.route('/', methods=['GET'])
 def get_user():
@@ -31,17 +29,14 @@ def get_user():
 
         return redirect('{}?{}'.format(discovery_document['authorization_endpoint'], urlencode(params)))
     
-    return session['credentials'], 200
-    
-    # discovery_document = requests.get('https://accounts.google.com/.well-known/openid-configuration').json()
-    # user_info = requests.get(
-    #     url=discovery_document['userinfo_endpoint'], 
-    #     headers={
-    #         'Authorization': f"Bearer {session['credentials']['token']}"
-    #     }
-    # ).json()
-    
-    # return user_info, 200
+    response = requests.get(
+        url=discovery_document['userinfo_endpoint'],
+        headers={
+            'Authorization': f"Bearer {session['credentials']['access_token']}"
+        }
+    )
+
+    return response.json(), response.status_code
 
 
 @google_oauth_bp.route('/callback', methods=['GET'])
@@ -78,13 +73,16 @@ def oauth2_callback():
 
 
 def retrieve_discovery_document(ignore_cache: bool = False) -> dict:
+    SECONDS_IN_A_DAY = 24 * 60 * 60
+    DISCOVERY_DOCUMENT_URL = 'https://accounts.google.com/.well-known/openid-configuration'
+
     discovery_document: dict = None
 
     if not ignore_cache:
         discovery_document = RedisClient().get_data('google_oauth_discovery_document')
 
     if not discovery_document:
-        discovery_document = requests.get('https://accounts.google.com/.well-known/openid-configuration').json()
+        discovery_document = requests.get(DISCOVERY_DOCUMENT_URL).json()
         RedisClient().set_data(
             'google_oauth_discovery_document',
             str(discovery_document),
