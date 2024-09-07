@@ -36,6 +36,16 @@ def get_user():
         }
     )
 
+    # {
+    #     "email": "gauravmanglani1@gmail.com",
+    #     "email_verified": true,
+    #     "family_name": "Manglani",
+    #     "given_name": "Gaurav",
+    #     "name": "Gaurav Manglani",
+    #     "picture": "https://lh3.googleusercontent.com/a/ACg8ocJKnPq5fXkO2NqLBJovh7OTN-KNijD2Bd_0yXFNFU7-Yu-kXDvV=s96-c",
+    #     "sub": "108257449848101710227"
+    # }
+
     return response.json(), response.status_code
 
 
