@@ -4,8 +4,8 @@ import os
 import requests
 from urllib.parse import urlencode
 import ast
-
 from clients.redis_client import RedisClient
+from settings.settings import GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET
 
 google_oauth_bp = Blueprint('googleoauth', __name__, url_prefix='/googleoauth')
 
@@ -19,7 +19,7 @@ def get_user():
         session['state'] = state
 
         params = {
-            'client_id': os.getenv('GOOGLE_OAUTH_CLIENT_ID'),
+            'client_id': GOOGLE_OAUTH_CLIENT_ID,
             'response_type': 'code',
             'scope': 'openid email profile',
             'redirect_uri': url_for('googleoauth.oauth2_callback', _external=True),
@@ -67,8 +67,8 @@ def oauth2_callback():
         url=retrieve_discovery_document()['token_endpoint'],
         params={
             'code': request.args['code'],
-            'client_id': os.getenv('GOOGLE_OAUTH_CLIENT_ID'),
-            'client_secret': os.getenv('GOOGLE_OAUTH_CLIENT_SECRET'),
+            'client_id': GOOGLE_OAUTH_CLIENT_ID,
+            'client_secret': GOOGLE_OAUTH_CLIENT_SECRET,
             'redirect_uri': url_for('googleoauth.oauth2_callback', _external=True),
             'grant_type': 'authorization_code'
         }
