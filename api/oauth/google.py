@@ -1,5 +1,5 @@
 import hashlib
-from flask import Blueprint, request, redirect, session, url_for
+from flask import Blueprint, request, redirect, session, url_for, make_response
 import os
 import requests
 from urllib.parse import urlencode
@@ -10,43 +10,25 @@ from settings.settings import GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET
 google_oauth_bp = Blueprint('googleoauth', __name__, url_prefix='/googleoauth')
 
 
-@google_oauth_bp.route('/', methods=['GET'])
 def get_user():
-    discovery_document = retrieve_discovery_document()
+    state = hashlib.sha256(os.urandom(1024)).hexdigest()
+    session['state'] = state
 
-    if 'credentials' not in session:
-        state = hashlib.sha256(os.urandom(1024)).hexdigest()
-        session['state'] = state
+    params = {
+        'client_id': GOOGLE_OAUTH_CLIENT_ID,
+        'response_type': 'code',
+        'scope': 'openid email profile',
+        'redirect_uri': url_for('googleoauth.oauth2_callback', _external=True),
+        'state': state,
+        'nonce': hashlib.sha256(os.urandom(1024)).hexdigest()
+    }
 
-        params = {
-            'client_id': GOOGLE_OAUTH_CLIENT_ID,
-            'response_type': 'code',
-            'scope': 'openid email profile',
-            'redirect_uri': url_for('googleoauth.oauth2_callback', _external=True),
-            'state': state,
-            'nonce': hashlib.sha256(os.urandom(1024)).hexdigest()
-        }
+    response = requests.get('{}?{}'.format(retrieve_discovery_document()['authorization_endpoint'], urlencode(params)))
 
-        return redirect('{}?{}'.format(discovery_document['authorization_endpoint'], urlencode(params)))
-    
-    response = requests.get(
-        url=discovery_document['userinfo_endpoint'],
-        headers={
-            'Authorization': f"Bearer {session['credentials']['access_token']}"
-        }
-    )
+    if not response.ok:
+        return make_response(response.json(), response.status_code)
 
-    # {
-    #     "email": "gauravmanglani1@gmail.com",
-    #     "email_verified": true,
-    #     "family_name": "Manglani",
-    #     "given_name": "Gaurav",
-    #     "name": "Gaurav Manglani",
-    #     "picture": "https://lh3.googleusercontent.com/a/ACg8ocJKnPq5fXkO2NqLBJovh7OTN-KNijD2Bd_0yXFNFU7-Yu-kXDvV=s96-c",
-    #     "sub": "108257449848101710227"
-    # }
-
-    return response.json(), response.status_code
+    return {}, 204
 
 
 @google_oauth_bp.route('/callback', methods=['GET'])
@@ -63,8 +45,10 @@ def oauth2_callback():
     if 'code' not in request.args:
         return 'Code not found', 400
     
+    discovery_document = retrieve_discovery_document()
+    
     response = requests.post(
-        url=retrieve_discovery_document()['token_endpoint'],
+        url=discovery_document['token_endpoint'],
         params={
             'code': request.args['code'],
             'client_id': GOOGLE_OAUTH_CLIENT_ID,
@@ -75,11 +59,18 @@ def oauth2_callback():
     )
 
     if not response.ok:
-        return response.json(), response.status_code
+        return make_response(response.json(), response.status_code)
+    
+    credentials = response.json()
+    
+    response = requests.get(
+        url=discovery_document['userinfo_endpoint'],
+        headers={
+            'Authorization': f"Bearer {credentials['access_token']}"
+        }
+    )
 
-    session['credentials'] = response.json()
-
-    return redirect(url_for('googleoauth.get_user')), 302
+    return make_response(response.json(), 200)
 
 
 def retrieve_discovery_document(ignore_cache: bool = False) -> dict:
