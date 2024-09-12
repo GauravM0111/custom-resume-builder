@@ -13,6 +13,8 @@ OPENAI_API_KEY = _secrets['OPENAI_API_KEY']
 
 
 ########### Params
+GOOGLE_DISCOVERY_DOCUMENT_URL = 'https://accounts.google.com/.well-known/openid-configuration'
+
 OPENAI_ASSISTANT_ID='asst_fixO3zdAF2VSLVasrSpNMrDt'
 
 PROXYCURL_BASE_URL='https://nubela.co/proxycurl/api/v2'

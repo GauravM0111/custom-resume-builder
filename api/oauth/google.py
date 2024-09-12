@@ -5,30 +5,45 @@ import requests
 from urllib.parse import urlencode
 import ast
 from clients.redis_client import RedisClient
-from settings.settings import GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET
+from settings.settings import GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, GOOGLE_DISCOVERY_DOCUMENT_URL
+from services.user_service import UserService
 
 google_oauth_bp = Blueprint('googleoauth', __name__, url_prefix='/googleoauth')
 
 
-def get_user():
-    state = hashlib.sha256(os.urandom(1024)).hexdigest()
-    session['state'] = state
+@google_oauth_bp.route('/', methods=['GET'])
+def sign_in():
+    if 'credentials' not in session:
+        state = hashlib.sha256(os.urandom(1024)).hexdigest()
+        session['state'] = state
 
-    params = {
-        'client_id': GOOGLE_OAUTH_CLIENT_ID,
-        'response_type': 'code',
-        'scope': 'openid email profile',
-        'redirect_uri': url_for('googleoauth.oauth2_callback', _external=True),
-        'state': state,
-        'nonce': hashlib.sha256(os.urandom(1024)).hexdigest()
-    }
+        params = {
+            'client_id': GOOGLE_OAUTH_CLIENT_ID,
+            'response_type': 'code',
+            'scope': 'openid email profile',
+            'redirect_uri': url_for('googleoauth.oauth2_callback', _external=True),
+            'state': state,
+            'nonce': hashlib.sha256(os.urandom(1024)).hexdigest()
+        }
 
-    response = requests.get('{}?{}'.format(retrieve_discovery_document()['authorization_endpoint'], urlencode(params)))
+        return redirect('{}?{}'.format(retrieve_discovery_document()['authorization_endpoint'], urlencode(params)))
+
+    response = requests.get(
+        url=retrieve_discovery_document()['userinfo_endpoint'],
+        headers={
+            'Authorization': f"Bearer {session['credentials']['access_token']}"
+        }
+    )
 
     if not response.ok:
         return make_response(response.json(), response.status_code)
 
-    return {}, 204
+    user = UserService().create_user(get_user_if_exists=True, **response.json())
+
+    if not user:
+        return {'error': 'User could not be created or fetched'}, 500
+
+    return user, 200
 
 
 @google_oauth_bp.route('/callback', methods=['GET'])
@@ -44,11 +59,9 @@ def oauth2_callback():
     
     if 'code' not in request.args:
         return 'Code not found', 400
-    
-    discovery_document = retrieve_discovery_document()
-    
+
     response = requests.post(
-        url=discovery_document['token_endpoint'],
+        url=retrieve_discovery_document()['token_endpoint'],
         params={
             'code': request.args['code'],
             'client_id': GOOGLE_OAUTH_CLIENT_ID,
@@ -61,21 +74,13 @@ def oauth2_callback():
     if not response.ok:
         return make_response(response.json(), response.status_code)
     
-    credentials = response.json()
-    
-    response = requests.get(
-        url=discovery_document['userinfo_endpoint'],
-        headers={
-            'Authorization': f"Bearer {credentials['access_token']}"
-        }
-    )
+    session['credentials'] = response.json()
 
-    return make_response(response.json(), 200)
+    return redirect(url_for('googleoauth.sign_in'))
 
 
 def retrieve_discovery_document(ignore_cache: bool = False) -> dict:
     SECONDS_IN_A_DAY = 24 * 60 * 60
-    DISCOVERY_DOCUMENT_URL = 'https://accounts.google.com/.well-known/openid-configuration'
 
     discovery_document: dict = None
 
@@ -83,7 +88,7 @@ def retrieve_discovery_document(ignore_cache: bool = False) -> dict:
         discovery_document = RedisClient().get_data('google_oauth_discovery_document')
 
     if not discovery_document:
-        discovery_document = requests.get(DISCOVERY_DOCUMENT_URL).json()
+        discovery_document = requests.get(GOOGLE_DISCOVERY_DOCUMENT_URL).json()
         RedisClient().set_data(
             'google_oauth_discovery_document',
             str(discovery_document),
