@@ -38,7 +38,7 @@ def sign_in():
     if not response.ok:
         return make_response(response.json(), response.status_code)
 
-    user = UserService().create_user(response.json(), get_user_if_exists=True)
+    user = UserService().create_user(response.json())
 
     if not user:
         return {'error': 'User could not be created or fetched'}, 500
