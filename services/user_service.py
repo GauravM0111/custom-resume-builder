@@ -22,8 +22,7 @@ class UserService():
                 print(f"error creating user: {e}")
             
             elif overwrite_user_if_exists:
-                user_data["id"] = user["id"]
-                user = SupabaseClient().table('Users').upsert(user_data).execute().data[0]
+                user = SupabaseClient().table('Users').update(user_data).eq("id", user["id"]).execute().data[0]
         
         return user
     
