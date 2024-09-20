@@ -7,7 +7,7 @@ import ast
 from clients.redis_client import RedisClient
 from settings.settings import GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, GOOGLE_DISCOVERY_DOCUMENT_URL
 from services.user_service import UserService
-from services.session_service import SessionService
+from services.session_service import SessionService, get_session_cookie_config
 
 google_oauth_bp = Blueprint('googleoauth', __name__, url_prefix='/googleoauth')
 
@@ -45,16 +45,7 @@ def sign_in():
         return {'error': 'User could not be created or fetched'}, 500
 
     response = make_response(redirect(url_for('index')))
-
-    response.set_cookie(
-        key='refresh_token',
-        value=SessionService().create_session(user["id"]),
-        httponly=True,
-        secure=False,   # set to True in prod
-        samesite='lax',
-        domain=None,    # set to actual domain in prod
-        max_age=60*60*24*90 # ninety days
-    )
+    response.set_cookie(**get_session_cookie_config(session_id=SessionService().create_session(user["id"])))
 
     return response
 

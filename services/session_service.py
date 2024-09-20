@@ -47,3 +47,15 @@ def login_required(f):
 
         return redirect(url_for('sign_in'))
     return decorated_function
+
+
+def get_session_cookie_config(session_id: str):
+    return {
+        'key': 'refresh_token',
+        'value': session_id,
+        'httponly': True,
+        'secure': False,   # set to True in prod
+        'samesite': 'lax',
+        'domain': None,    # set to actual domain in prod
+        'max_age': NINETY_DAYS_IN_SECONDS
+    }
