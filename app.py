@@ -1,19 +1,19 @@
-import hashlib
-import os
 from flask import Flask, redirect, url_for
 from settings.settings import *
+from services.session_service import login_required
 
 from api.oauth.google import google_oauth_bp
 
 app = Flask(__name__)
-app.secret_key =  hashlib.sha256(os.urandom(1024)).hexdigest()
+app.secret_key = FLASK_SECRET_KEY
 
 app.register_blueprint(google_oauth_bp)
 
 
 @app.route('/')
-def index():
-    return redirect(url_for('sign_in'))
+@login_required
+def index(user_id):
+    return f'Hello {user_id}', 200
 
 @app.route('/signin')
 def sign_in():

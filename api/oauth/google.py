@@ -7,6 +7,7 @@ import ast
 from clients.redis_client import RedisClient
 from settings.settings import GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, GOOGLE_DISCOVERY_DOCUMENT_URL
 from services.user_service import UserService
+from services.session_service import SessionService
 
 google_oauth_bp = Blueprint('googleoauth', __name__, url_prefix='/googleoauth')
 
@@ -43,7 +44,19 @@ def sign_in():
     if not user:
         return {'error': 'User could not be created or fetched'}, 500
 
-    return user, 200
+    response = make_response(redirect(url_for('index')))
+
+    response.set_cookie(
+        key='refresh_token',
+        value=SessionService().create_session(user["id"]),
+        httponly=True,
+        secure=False,   # set to True in prod
+        samesite='lax',
+        domain=None,    # set to actual domain in prod
+        max_age=60*60*24*90 # ninety days
+    )
+
+    return response
 
 
 @google_oauth_bp.route('/callback', methods=['GET'])
@@ -85,14 +98,14 @@ def retrieve_discovery_document(ignore_cache: bool = False) -> dict:
     discovery_document: dict = None
 
     if not ignore_cache:
-        discovery_document = RedisClient().get_data('google_oauth_discovery_document')
+        discovery_document = RedisClient().get('google_oauth_discovery_document')
 
     if not discovery_document:
         discovery_document = requests.get(GOOGLE_DISCOVERY_DOCUMENT_URL).json()
-        RedisClient().set_data(
+        RedisClient().set(
             'google_oauth_discovery_document',
             str(discovery_document),
-            expires_in_seconds=SECONDS_IN_A_DAY
+            ex=SECONDS_IN_A_DAY
         )
     else:
         discovery_document = ast.literal_eval(discovery_document)

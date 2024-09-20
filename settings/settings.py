@@ -11,6 +11,8 @@ PROXYCURL_API_KEY = _secrets['PROXYCURL_API_KEY']
 
 OPENAI_API_KEY = _secrets['OPENAI_API_KEY']
 
+FLASK_SECRET_KEY = _secrets['FLASK_SECRET_KEY']
+
 
 ########### Params
 GOOGLE_DISCOVERY_DOCUMENT_URL = 'https://accounts.google.com/.well-known/openid-configuration'
