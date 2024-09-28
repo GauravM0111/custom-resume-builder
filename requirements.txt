@@ -3,6 +3,3 @@ openai==1.35.10
 python-dotenv==1.0.1
 requests==2.32.3
 jsonschema==4.23.0
-Flask==3.0.3
-redis==5.0.8
-supabase==2.7.3
