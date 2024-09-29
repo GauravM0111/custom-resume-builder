@@ -33,3 +33,10 @@ def create_user(user: UserCreate, session: Session) -> User:
         raise e
     session.refresh(db_user)
     return User(**db_user.__dict__)
+
+
+def get_user(user_id: str, session: Session) -> User:
+    db_user = session.query(DBUser).filter(DBUser.id == user_id).first()
+    if not db_user:
+        raise NotFoundError(f"User with id {user_id} not found")
+    return User(**db_user.__dict__)

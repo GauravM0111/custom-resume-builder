@@ -4,6 +4,7 @@ services:
     ports:
       - "${API_PORT}:${API_PORT}"
     env_file:
+      - .env
       - .env.secrets
     depends_on:
       - redis

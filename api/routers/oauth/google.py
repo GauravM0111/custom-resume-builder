@@ -7,7 +7,7 @@ from services.user_service import create_or_get_user
 from db.core import get_db
 from sqlalchemy.orm import Session
 from fastapi.params import Depends
-from services.session_service import get_sessionid_cookie_config
+from auth.session_service import get_sessionid_cookie_config
 import hashlib
 import os
 import requests
@@ -86,10 +86,10 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
     
     try:
         _, session_id = create_or_get_user(UserCreate(**response.json()), db)
-    except Exception:
-        return {'error': 'failed to create or retrieve user'}
+    except Exception as e:
+        return {'error': e}, 500
     
-    response = RedirectResponse(url='/index')
+    response = RedirectResponse(url='/')
     response.set_cookie(**get_sessionid_cookie_config(session_id))
 
     return response
