@@ -1,18 +1,17 @@
-from fastapi import Cookie, Response
-from fastapi.params import Depends
+from fastapi import Response
 from fastapi.responses import RedirectResponse
 from functools import wraps
 from settings.settings import BASE_URL
 
 from models.cookies import AuthToken
-from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config
+from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config, is_valid_jwt
 from .session_service import SessionService
 
 
 def user_login_required(func):
     @wraps(func)
     async def wrapper(token: AuthToken, *args, **kwargs):
-        if token.identity_jwt and token.identity_jwt == 'valid':
+        if token.identity_jwt and is_valid_jwt(token.identity_jwt):
             return await func(token, *args, **kwargs)
 
         if token.refresh_token:

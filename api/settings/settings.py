@@ -11,6 +11,8 @@ PROXYCURL_API_KEY = secrets['PROXYCURL_API_KEY']
 
 OPENAI_API_KEY = secrets['OPENAI_API_KEY']
 
+API_SECRET_KEY = secrets['API_SECRET_KEY']
+
 
 # Params
 BASE_URL = 'http://localhost:8000'
