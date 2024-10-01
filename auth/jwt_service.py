@@ -14,12 +14,8 @@ def generate_jwt(user_id: str) -> str:
     return jwt.encode(jwt_data, API_SECRET_KEY, algorithm="HS256")
 
 
-def get_user_id_from_jwt(identity_jwt: str) -> str:
-    return jwt.decode(identity_jwt, API_SECRET_KEY, algorithms="HS256")["user_id"]
-
-
 def get_user_from_jwt(identity_jwt: str, db: Session) -> User:
-    user_id = get_user_id_from_jwt(identity_jwt)
+    user_id = jwt.decode(identity_jwt, API_SECRET_KEY, algorithms="HS256")["user_id"]
     return get_user_by_id(user_id, db)
 
 

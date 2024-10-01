@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Cookie, Depends, Form
+from fastapi import APIRouter, Cookie, Depends, Form, Response
 from sqlalchemy.orm import Session
 from auth.auth import user_login_required
 from auth.jwt_service import get_user_from_jwt
@@ -20,4 +20,18 @@ async def import_profile(token: Annotated[AuthToken, Cookie()], linkedin_url: An
     user = get_user_from_jwt(token.identity_jwt, db)
     user = update_user(UserUpdate(id=user.id, profile=profile_data), db)
 
-    return {"user": user}
+    response =  Response(status_code=200)
+    response.headers["HX-Refresh"] = "true"
+    return response
+
+
+@router.post("/generate-resume")
+@user_login_required
+async def generate_resume(token: Annotated[AuthToken, Cookie()], job_description: Annotated[str, Form()], db: Session = Depends(get_db)):
+    user = get_user_from_jwt(token.identity_jwt, db)
+    resume_data = generate_resume(user.profile, job_description)
+    user = update_user(UserUpdate(id=user.id, resume=resume_data), db)
+
+    response =  Response(status_code=200)
+    response.headers["HX-Refresh"] = "true"
+    return response

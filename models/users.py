@@ -6,7 +6,7 @@ class User(BaseModel):
     id: str
     email: str
     created_at: datetime
-    is_guest: bool = False
+    is_guest: bool
     name: str | None = None
     picture: str | None = None
     profile: dict | None = None
@@ -20,7 +20,7 @@ class UserCreate(BaseModel):
 
 class UserUpdate(BaseModel):
     id: str
-    is_guest: bool = False
+    is_guest: bool | None = None
     name: str | None = None
     picture: str | None = None
     profile: dict | None = None

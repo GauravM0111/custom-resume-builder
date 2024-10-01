@@ -37,7 +37,9 @@
 </head>
 <body>
     <h1>Generate Resume</h1>
-    <p>Hello, {{ user.name }}</p>
+    {% if not user.is_guest %}
+        <p>Hello, {{ user.name }}</p>
+    {% endif %}
     <form hx-post="/generate-resume" hx-target="#result" hx-indicator="#spinner">
         <label for="jobDescription">Job Description:</label>
         <textarea id="jobDescription" name="jobDescription" rows="5" required></textarea>

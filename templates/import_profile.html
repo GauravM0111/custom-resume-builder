@@ -37,14 +37,15 @@
 </head>
 <body>
     <h1>Import Profile</h1>
-    <p>Hello, {{ user.name }}</p>
+    {% if not user.is_guest %}
+        <p>Hello, {{ user.name }}</p>
+    {% endif %}
     <form hx-post="/users/import-profile" hx-target="#result" hx-indicator="#spinner">
         <label for="linkedin_url">LinkedIn URL:</label>
         <input type="url" id="linkedin_url" name="linkedin_url" required>
 
         <button type="submit">Import Profile</button>
     </form>
-
     <div id="spinner" class="htmx-indicator">
         Importing profile...
     </div>
