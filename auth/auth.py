@@ -1,7 +1,6 @@
 from fastapi import Response
 from functools import wraps
 
-from requests import Session
 from db.core import get_db
 from services.user_service import create_guest_user
 
@@ -25,6 +24,7 @@ def user_login_required(func):
                 response.set_cookie(**get_identity_jwt_cookie_config(new_identity_jwt))
                 return response
         
+        # No jwt or refresh token means its a fresh user
         with next(get_db()) as db:
             user, session_id = create_guest_user(db)
         
