@@ -1,3 +1,4 @@
+from fastapi.templating import Jinja2Templates
 from .secret_manager import get_all_secrets
 
 
@@ -16,6 +17,7 @@ API_SECRET_KEY = secrets['API_SECRET_KEY']
 
 # Params
 BASE_URL = 'http://localhost:8000'
+TEMPLATES = Jinja2Templates(directory="templates")
 
 GOOGLE_DISCOVERY_DOCUMENT_URL = 'https://accounts.google.com/.well-known/openid-configuration'
 

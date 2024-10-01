@@ -1,6 +1,9 @@
 import jwt
+from models.users import User
 from settings.settings import API_SECRET_KEY
 from datetime import datetime, timedelta
+from db.users import get_user_by_id
+from sqlalchemy.orm import Session
 
 
 def generate_jwt(user_id: str) -> str:
@@ -13,6 +16,11 @@ def generate_jwt(user_id: str) -> str:
 
 def get_user_id_from_jwt(identity_jwt: str) -> str:
     return jwt.decode(identity_jwt, API_SECRET_KEY, algorithms="HS256")["user_id"]
+
+
+def get_user_from_jwt(identity_jwt: str, db: Session) -> User:
+    user_id = get_user_id_from_jwt(identity_jwt)
+    return get_user_by_id(user_id, db)
 
 
 def is_valid_jwt(identity_jwt: str) -> bool:

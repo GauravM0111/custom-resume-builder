@@ -5,7 +5,7 @@ import uuid
 NINETY_DAYS_IN_SECONDS = 60 * 60 * 24 * 90
 
 
-class SessionService():
+class SessionService:
     def __init__(self):
         self.redis = Redis(
             host='redis',   # This is the name of the service in the docker-compose file

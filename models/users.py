@@ -1,0 +1,26 @@
+from pydantic import BaseModel
+from datetime import datetime
+
+
+class User(BaseModel):
+    id: str
+    email: str
+    created_at: datetime
+    is_guest: bool = False
+    name: str | None = None
+    picture: str | None = None
+    profile: dict | None = None
+
+class UserCreate(BaseModel):
+    email: str
+    is_guest: bool = False
+    name: str | None = None
+    picture: str | None = None
+    profile: dict | None = None
+
+class UserUpdate(BaseModel):
+    id: str
+    is_guest: bool = False
+    name: str | None = None
+    picture: str | None = None
+    profile: dict | None = None

@@ -1,11 +1,13 @@
 from fastapi import Response
-from fastapi.responses import RedirectResponse
 from functools import wraps
-from settings.settings import BASE_URL
+
+from requests import Session
+from db.core import get_db
+from services.user_service import create_guest_user
 
 from models.cookies import AuthToken
 from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config, is_valid_jwt
-from .session_service import SessionService
+from auth.session_service import SessionService, get_sessionid_cookie_config
 
 
 def user_login_required(func):
@@ -22,7 +24,16 @@ def user_login_required(func):
                 response: Response = await func(token, *args, **kwargs)
                 response.set_cookie(**get_identity_jwt_cookie_config(new_identity_jwt))
                 return response
+        
+        with next(get_db()) as db:
+            user, session_id = create_guest_user(db)
+        
+        new_identity_jwt = generate_jwt(user.id)
+        token.identity_jwt = new_identity_jwt
 
-        return RedirectResponse(url=f'{BASE_URL}/signin')
+        response: Response = await func(token, *args, **kwargs)
+        response.set_cookie(**get_identity_jwt_cookie_config(new_identity_jwt))
+        response.set_cookie(**get_sessionid_cookie_config(session_id))
+        return response
 
     return wrapper

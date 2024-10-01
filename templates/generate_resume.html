@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        label, input, textarea, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generate Resume</h1>
+    <p>Hello, {{ user.name }}</p>
+    <form hx-post="/generate-resume" hx-target="#result" hx-indicator="#spinner">
+        <label for="jobDescription">Job Description:</label>
+        <textarea id="jobDescription" name="jobDescription" rows="5" required></textarea>
+
+        <button type="submit">Generate Resume</button>
+    </form>
+
+    <div id="spinner" class="htmx-indicator">
+        Generating resume...
+    </div>
+
+    <div id="result"></div>
+</body>
+</html>
