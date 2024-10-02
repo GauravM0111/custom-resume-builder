@@ -1,6 +1,8 @@
 from fastapi import Response
 from functools import wraps
 
+from fastapi.responses import RedirectResponse
+
 from db.core import get_db
 from services.user_service import create_guest_user
 
@@ -31,7 +33,7 @@ def user_login_required(func):
         new_identity_jwt = generate_jwt(user.id)
         token.identity_jwt = new_identity_jwt
 
-        response: Response = await func(token, *args, **kwargs)
+        response = RedirectResponse(url="/")
         response.set_cookie(**get_identity_jwt_cookie_config(new_identity_jwt))
         response.set_cookie(**get_sessionid_cookie_config(session_id))
         return response

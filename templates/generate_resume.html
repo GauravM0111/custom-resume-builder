@@ -41,6 +41,9 @@
         <p>Hello, {{ user.name }}</p>
     {% endif %}
     <form hx-post="/generate-resume" hx-target="#result" hx-indicator="#spinner">
+        <label for="title">Job Title (optional):</label>
+        <input type="text" id="title" name="title">
+
         <label for="jobDescription">Job Description:</label>
         <textarea id="jobDescription" name="jobDescription" rows="5" required></textarea>
 
