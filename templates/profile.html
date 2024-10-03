@@ -36,20 +36,9 @@
     </style>
 </head>
 <body>
-    <h1>Import Profile</h1>
+    <h1>Profile page</h1>
     {% if not user.is_guest %}
         <p>Hello, {{ user.name }}</p>
     {% endif %}
-    <form hx-post="/resume/import-profile" hx-target="#result" hx-indicator="#spinner">
-        <label for="linkedin_url">LinkedIn URL:</label>
-        <input type="url" id="linkedin_url" name="linkedin_url" required>
-
-        <button type="submit">Import Profile</button>
-    </form>
-    <div id="spinner" class="htmx-indicator">
-        Importing profile...
-    </div>
-
-    <div id="result"></div>
 </body>
 </html>

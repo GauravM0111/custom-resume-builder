@@ -40,12 +40,12 @@
     {% if not user.is_guest %}
         <p>Hello, {{ user.name }}</p>
     {% endif %}
-    <form hx-post="/generate-resume" hx-target="#result" hx-indicator="#spinner">
+    <form hx-post="/resume/generate" hx-target="#result" hx-indicator="#spinner">
         <label for="title">Job Title (optional):</label>
         <input type="text" id="title" name="title">
 
-        <label for="jobDescription">Job Description:</label>
-        <textarea id="jobDescription" name="jobDescription" rows="5" required></textarea>
+        <label for="description">Job Description:</label>
+        <textarea id="description" name="description" rows="5" required></textarea>
 
         <button type="submit">Generate Resume</button>
     </form>

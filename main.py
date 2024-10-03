@@ -4,6 +4,7 @@ from fastapi.responses import RedirectResponse
 from models.cookies import AuthToken
 from routers.oauth.google import router as google_oauth_router
 from routers.users import router as users_router
+from routers.resume import router as resume_router
 from auth.auth import user_login_required
 from auth.jwt_service import get_user_from_jwt
 from sqlalchemy.orm import Session
@@ -13,6 +14,8 @@ from settings.settings import TEMPLATES
 app = FastAPI()
 app.include_router(google_oauth_router)
 app.include_router(users_router)
+app.include_router(resume_router)
+
 
 @app.get("/")
 @user_login_required
