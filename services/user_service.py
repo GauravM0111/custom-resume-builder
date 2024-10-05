@@ -18,6 +18,7 @@ def create_or_get_user(user: UserCreate, session: Session) -> tuple[User, str]:
 
 def create_guest_user(session: Session) -> tuple[User, str]:
     user = UserCreate(
+        name='Guest User',
         email=f'guest_user_{uuid4()}@guest.com',
         is_guest=True
     )

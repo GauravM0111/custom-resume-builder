@@ -5,51 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Generator</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        label, input, textarea, button {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #result {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
 </head>
 <body>
-    <h1>Import Profile</h1>
-    {% if not user.is_guest %}
-        <p>Hello, {{ user.name }}</p>
-    {% endif %}
-    <form hx-post="/resume/import-profile" hx-target="#result" hx-indicator="#spinner">
-        <label for="linkedin_url">LinkedIn URL:</label>
-        <input type="url" id="linkedin_url" name="linkedin_url" required>
+    {% include "navbar.html" %}
+    <div class="content">
+        <h1>Import Profile</h1>
+        <form hx-post="/resume/import-profile" hx-target="outerHTML" hx-indicator="#spinner">
+            <label for="linkedin_url">LinkedIn URL:</label>
+            <input type="url" id="linkedin_url" name="linkedin_url" required>
 
-        <button type="submit">Import Profile</button>
-    </form>
-    <div id="spinner" class="htmx-indicator">
-        Importing profile...
+            <button type="submit">Import Profile</button>
+        </form>
+        <div id="spinner" class="htmx-indicator">
+            Importing profile...
+        </div>
+        <div id="result"></div>
     </div>
-
-    <div id="result"></div>
 </body>
 </html>

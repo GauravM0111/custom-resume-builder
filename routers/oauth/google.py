@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 from fastapi import APIRouter, Cookie
 from fastapi.responses import RedirectResponse
 from typing import Annotated
+from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config
 from models.users import UserCreate
 from services.user_service import create_or_get_user
 from db.core import get_db
@@ -85,12 +86,13 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
         return response.json(), response.status_code
     
     try:
-        _, session_id = create_or_get_user(UserCreate(**response.json()), db)
+        user, session_id = create_or_get_user(UserCreate(**response.json()), db)
     except Exception as e:
         return {'error': e}, 500
     
     response = RedirectResponse(url='/')
     response.set_cookie(**get_sessionid_cookie_config(session_id))
+    response.set_cookie(**get_identity_jwt_cookie_config(generate_jwt(user.id)))
 
     return response
 

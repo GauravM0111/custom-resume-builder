@@ -10,11 +10,14 @@ from auth.jwt_service import get_user_from_jwt
 from sqlalchemy.orm import Session
 from db.core import get_db
 from settings.settings import TEMPLATES
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 app.include_router(google_oauth_router)
 app.include_router(users_router)
 app.include_router(resume_router)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/")
