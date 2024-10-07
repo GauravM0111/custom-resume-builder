@@ -2,21 +2,26 @@ import jwt
 from models.users import User
 from settings.settings import API_SECRET_KEY
 from datetime import datetime, timedelta
-from db.users import get_user_by_id
-from sqlalchemy.orm import Session
 
 
-def generate_jwt(user_id: str) -> str:
+def generate_jwt(user: User) -> str:
     jwt_data = {
-        "user_id": user_id,
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "name": user.name,
+            "created_at": user.created_at.isoformat(),
+            "picture": user.picture,
+            "profile": True if user.profile else False,
+            "is_guest": user.is_guest
+        },
         "exp": datetime.now() + timedelta(minutes=15)
     }
     return jwt.encode(jwt_data, API_SECRET_KEY, algorithm="HS256")
 
 
-def get_user_from_jwt(identity_jwt: str, db: Session) -> User:
-    user_id = jwt.decode(identity_jwt, API_SECRET_KEY, algorithms="HS256")["user_id"]
-    return get_user_by_id(user_id, db)
+def get_user_data_from_jwt(identity_jwt: str) -> dict:
+    return jwt.decode(identity_jwt, API_SECRET_KEY, algorithms="HS256")["user"]
 
 
 def is_valid_jwt(identity_jwt: str) -> bool:

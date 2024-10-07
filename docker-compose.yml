@@ -16,3 +16,8 @@ services:
     restart: always
     ports:
       - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:

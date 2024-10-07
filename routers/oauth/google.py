@@ -92,7 +92,7 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
     
     response = RedirectResponse(url='/')
     response.set_cookie(**get_sessionid_cookie_config(session_id))
-    response.set_cookie(**get_identity_jwt_cookie_config(generate_jwt(user.id)))
+    response.set_cookie(**get_identity_jwt_cookie_config(generate_jwt(user)))
 
     return response
 

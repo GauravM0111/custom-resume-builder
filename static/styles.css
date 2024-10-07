@@ -112,3 +112,47 @@ button:hover {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+.resume-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.resume-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.resume-card:hover {
+    transform: translateY(-5px);
+}
+
+.resume-card h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.resume-card p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.resume-card .btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.resume-card .btn:hover {
+    background-color: #0056b3;
+}

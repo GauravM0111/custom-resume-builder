@@ -27,3 +27,9 @@ PROXYCURL_BASE_URL='https://nubela.co/proxycurl/api/v2'
 
 RESUME_SCHEMA_URL='https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json'
 EXAMPLE_RESUME_URL='https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json'
+
+UNAUTHENTICATED_ENDPOINTS = [
+    "/signin",
+    "/googleoauth",
+    "/googleoauth/callback",
+]

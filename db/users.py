@@ -52,3 +52,10 @@ def update_user(user: UserUpdate, session: Session) -> User:
     session.commit()
     session.refresh(db_user)
     return User(**db_user.__dict__)
+
+
+def get_user_profile(user_id: str, session: Session) -> dict:
+    db_user = session.query(DBUser).filter(DBUser.id == user_id).first()
+    if not db_user:
+        raise NotFoundError(f"User with id {user_id} not found")
+    return db_user.profile
