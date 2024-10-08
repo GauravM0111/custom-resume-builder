@@ -9,21 +9,27 @@ import json
 
 
 SYSTEM_PROMPT = """
-Convert a given user profile in JSON format and a job description into a comprehensive JSON resume.
-
-The model should analyze the user's profile and the job description to extract key details and qualifications, then compile these into a structured JSON resume format. Ensure that the resume highlights relevant skills, experiences, and achievements that match the job description.
+Generate a resume for a user based on their detailed profile and a specific job description. The resume should highlight skills, experiences, and accomplishments that align closely with the requirements of the job description provided. The final resume must be output in JSON format.
 
 # Steps
 
-1. **Analyze User Profile**: Extract important details such as name, contact information, education, work experiences, skills, and achievements from the user's profile JSON.
-2. **Review Job Description**: Identify key skills, qualifications, and responsibilities mentioned in the job description.
-3. **Match Qualifications**: Compare the user's profile with the job description to find relevant experiences and skills.
-4. **Compile Resume**: Structure a resume in JSON format that includes sections for contact information, summary or objective, work experience, education, skills, and additional sections if relevant (e.g., certifications, projects).
-5. **Emphasize Relevance**: Ensure that the highlighted information in the resume closely aligns with the job description requirements.
+1. **Analyze the Job Description:**
+   - Extract key responsibilities, required skills, qualifications, and any preferred experiences.
+  
+2. **Review User Profile:**
+   - Examine the user's information in the JSON format, identifying skills, experiences, and achievements.
+
+3. **Match and Select:**
+   - Match the user’s qualifications and experiences with the job description.
+   - Select the most relevant skills, experiences, and accomplishments that can enhance the user's candidacy.
+
+4. **Organize and Format:**
+   - Organize the selected information into the predefined JSON resume format.
+   - Ensure all sections are complete, and each entry is presented in the proper format.
 
 # Output Format
 
-The output should be a JSON object structured as follows:
+The output should be a JSON object structured as follows, filling in the relevant fields according to the user's profile and job description alignment:
 
 ```json
 {
@@ -189,80 +195,11 @@ The output should be a JSON object structured as follows:
 }
 ```
 
-# Examples
-
-## Example 1
-
-**Input:**
-
-- User Profile JSON:
-  ```json
-  {
-    "name": "Jane Doe",
-    "email": "jane.doe@example.com",
-    "phone": "555-1234",
-    "linkedin": "https://linkedin.com/in/janedoe",
-    "education": [
-      {
-        "degree": "BSc Computer Science",
-        "institution": "University of Example",
-        "dates": "2015 - 2019"
-      }
-    ],
-    "experience": [
-      {
-        "position": "Software Developer",
-        "company": "Tech Corp",
-        "dates": "2019 - Present",
-        "responsibilities": [
-          "Developed software solutions for clients",
-          "Led a team of developers"
-        ]
-      }
-    ],
-    "skills": ["Python", "JavaScript", "Leadership"]
-  }
-  ```
-
-- Job Description: "Looking for a Software Developer skilled in Python and leadership to lead projects at Tech Solutions."
-
-**Output:**
-```json
-{
-  "name": "Jane Doe",
-  "contact_info": {
-    "email": "jane.doe@example.com",
-    "phone": "555-1234",
-    "linkedin": "https://linkedin.com/in/janedoe"
-  },
-  "summary": "Experienced Software Developer skilled at leading projects with proficiency in Python and leadership.",
-  "work_experience": [
-    {
-      "position": "Software Developer",
-      "company": "Tech Corp",
-      "dates": "2019 - Present",
-      "responsibilities": [
-        "Developed software solutions for clients",
-        "Led a team of developers"
-      ]
-    }
-  ],
-  "education": [
-    {
-      "degree": "BSc Computer Science",
-      "institution": "University of Example",
-      "dates": "2015 - 2019"
-    }
-  ],
-  "skills": ["Python", "Leadership"]
-}
-```
-
 # Notes
 
-- Ensure the JSON is well-formed and all the necessary information fields are filled out based on the user's data and job description requirements.
-- Pick the most relevant information from the user's profile and job description to create a tailored resume.
-- Tailor the resume's objective, experiences, and skills directly towards the job description's requirements and preferred qualifications.
+- **Customization:** Focus on tailoring the resume content to maximize alignment with the job description and industry standards.
+- **Accuracy and Completeness:** Verify that all sections of the resume are filled accurately, based on the user’s profile and job description.
+- **Visual Coherence:** Ensure the resume maintains a consistent and professional format throughout all sections.
 """
 
 
