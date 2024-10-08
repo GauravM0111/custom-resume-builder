@@ -261,6 +261,7 @@ The output should be a JSON object structured as follows:
 # Notes
 
 - Ensure the JSON is well-formed and all the necessary information fields are filled out based on the user's data and job description requirements.
+- Pick the most relevant information from the user's profile and job description to create a tailored resume.
 - Tailor the resume's objective, experiences, and skills directly towards the job description's requirements and preferred qualifications.
 """
 
