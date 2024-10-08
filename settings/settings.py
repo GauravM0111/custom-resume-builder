@@ -21,8 +21,6 @@ TEMPLATES = Jinja2Templates(directory="templates")
 
 GOOGLE_DISCOVERY_DOCUMENT_URL = 'https://accounts.google.com/.well-known/openid-configuration'
 
-OPENAI_ASSISTANT_ID='asst_fixO3zdAF2VSLVasrSpNMrDt'
-
 PROXYCURL_BASE_URL='https://nubela.co/proxycurl/api/v2'
 
 RESUME_SCHEMA_URL='https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json'
