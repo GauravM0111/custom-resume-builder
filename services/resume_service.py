@@ -53,97 +53,139 @@ The output should be a JSON object structured as follows:
   },
   "work": [
     {
-        "name": "Company Name e.g. Facebook",
-        "location": "Company Location e.g. San Francisco, CA",
-        "description": "Short description of the company e.g. Social Media Company",
-        "position": "Position in the company e.g. President",
-        "url": "URL to your company homepage. e.g. https://example.com",
-        "startDate": "Start Date in iso8601 format e.g. 2014-06-29",
-        "endDate": "End Date in iso8601 format e.g. 2014-01-01",
-        "summary": "Give an overview of your responsibilities at the company",
-        "highlights": [
+      "name": "Company Name e.g. Facebook",
+      "location": "Company Location e.g. San Francisco, CA",
+      "description": "Short description of the company e.g. Social Media Company",
+      "position": "Position in the company e.g. President",
+      "url": "URL to your company homepage. e.g. https://example.com",
+      "startDate": "Start Date in iso8601 format e.g. 2014-06-29",
+      "endDate": "End Date in iso8601 format e.g. 2014-01-01",
+      "summary": "Give an overview of your responsibilities at the company",
+      "highlights": [
         "e.g. Increased profits by 20% from 2011-2012 through viral advertising",
         "...more highlights..."
-        ]
+      ]
     },
     "...more work experiences..."
   ],
-  "volunteer": [{
-    "organization": "Organization",
-    "position": "Volunteer",
-    "url": "https://organization.com/",
-    "startDate": "2012-01-01",
-    "endDate": "2013-01-01",
-    "summary": "Description…",
-    "highlights": [
-      "Awarded 'Volunteer of the Month'"
-    ]
-  }],
-  "education": [{
-    "institution": "University",
-    "url": "https://institution.com/",
-    "area": "Software Development",
-    "studyType": "Bachelor",
-    "startDate": "2011-01-01",
-    "endDate": "2013-01-01",
-    "score": "4.0",
-    "courses": [
-      "DB1101 - Basic SQL"
-    ]
-  }],
-  "awards": [{
-    "title": "Award",
-    "date": "2014-11-01",
-    "awarder": "Company",
-    "summary": "There is no spoon."
-  }],
-  "certificates": [{
-    "name": "Certificate",
-    "date": "2021-11-07",
-    "issuer": "Company",
-    "url": "https://certificate.com"
-  }],
-  "publications": [{
-    "name": "Publication",
-    "publisher": "Company",
-    "releaseDate": "2014-10-01",
-    "url": "https://publication.com",
-    "summary": "Description…"
-  }],
-  "skills": [{
-    "name": "Web Development",
-    "level": "Master",
-    "keywords": [
-      "HTML",
-      "CSS",
-      "JavaScript"
-    ]
-  }],
-  "languages": [{
-    "language": "English",
-    "fluency": "Native speaker"
-  }],
-  "interests": [{
-    "name": "Wildlife",
-    "keywords": [
-      "Ferrets",
-      "Unicorns"
-    ]
-  }],
-  "references": [{
-    "name": "Jane Doe",
-    "reference": "Reference…"
-  }],
-  "projects": [{
-    "name": "Project",
-    "startDate": "2019-01-01",
-    "endDate": "2021-01-01",
-    "description": "Description...",
-    "highlights": [
-      "Won award at AIHacks 2016"
-    ],
-    "url": "https://project.com/"
-  }]
+  "volunteer": [
+    {
+      "organization": "Organization name e.g. American Red Cross",
+      "position": "Volunteer position e.g. Tutor",
+      "url": "URL to the organization's website e.g. https://example.com",
+      "startDate": "Start date in iso8601 format e.g. 2014-06-29",
+      "endDate": "End date in iso8601 format e.g. 2014-01-01",
+      "summary": "Give an overview of your responsibilities at the organization",
+      "highlights": [
+        "e.g. Awarded 'Volunteer of the Month'",
+        "...more highlights..."
+      ]
+    },
+    "...more volunteer experiences..."
+  ],
+  "education": [
+    {
+      "institution": "Institution name e.g. Stanford University",
+      "url": "URL to the institution's website e.g. https://example.com",
+      "area": "Field of study e.g. Software Development",
+      "studyType": "Degree level e.g. Bachelor",
+      "startDate": "Start date in iso8601 format e.g. 2011-01-01",
+      "endDate": "End date in iso8601 format e.g. 2013-01-01",
+      "score": "grade point average, e.g. 3.67/4.0",
+      "courses": [
+        "e.g. DB1101 - Basic SQL",
+        "...more courses..."
+      ]
+    },
+    "...more education..."
+  ],
+  "awards": [
+    {
+      "title": "Award title e.g. One of the 100 greatest minds of the century",
+      "date": "Award date in iso8601 format e.g. 2014-11-01",
+      "awarder": "e.g. Time Magazine",
+      "summary": "Give an overview of the award and your achievements, e.g. Received for my work with Quantum Physics"
+    },
+    "...more awards..."
+  ],
+  "certificates": [
+    {
+      "name": "Certificate name e.g. AWS Certified Cloud Practitioner",
+      "date": "Award date in iso8601 format e.g. 2021-11-07",
+      "issuer": "Company name e.g. Amazon Web Services",
+      "url": "URL to the certificate e.g. https://example.com"
+    },
+    "...more certificates..."
+  ],
+  "publications": [
+    {
+      "name": "e.g. The World Wide Web",
+      "publisher": "e.g. IEEE, Computer Magazine",
+      "releaseDate": "Award date in iso8601 format e.g. 2021-11-07",
+      "url": "e.g. http://www.computer.org.example.com/csdl/mags/co/1996/10/rx069-abs.html",
+      "summary": "Short summary of publication. e.g. Discussion of the World Wide Web, HTTP, HTML."
+    },
+    "...more publications..."
+  ],
+  "skills": [
+    {
+      "name": "e.g. Web Development",
+      "level": "e.g. Master",
+      "keywords": [
+        "e.g. HTML",
+        "...more keywords..."
+      ]
+    },
+    "...more skills..."
+  ],
+  "languages": [
+    {
+      "language": "e.g. English",
+      "fluency": "e.g. Native"
+    },
+    "...more languages..."
+  ],
+  "interests": [
+    {
+      "name": "e.g. Philosophy",
+      "keywords": [
+        "e.g. Friedrich Nietzsche",
+        "...more keywords..."
+      ]
+    },
+    "...more interests..."
+  ],
+  "references": [
+    {
+      "name": "e.g. Jane Doe",
+      "reference": "e.g. Joe was a great employee and a pleasure to work with."
+    },
+    "...more references..."
+  ],
+  "projects": [
+    {
+      "name": "e.g. My Cool Project",
+      "startDate": "start date in iso8601 format e.g. 2011-01-01",
+      "endDate": "end date in iso8601 format e.g. 2021-01-01",
+      "description": "Short summary of project. e.g. Social Media App that lets you share your favorite memes with your friends!",
+      "highlights": [
+        "e.g. Won award at AIHacks 2016",
+        "...more highlights..."
+      ],
+      "keywords": [
+        "e.g. Python",
+        "...more keywords..."
+      ],
+      "url": "e.g. https://project.com/",
+      "roles": [
+        "e.g. Project Manager",
+        "...more roles..."
+      ],
+      "entity": "Specify the relevant company/entity affiliations e.g. 'greenpeace', 'corporationXYZ'",
+      "type": "e.g. 'volunteering', 'presentation', 'talk', 'application', 'conference't"
+    },
+    "...more projects..."
+  ]
 }
 ```
 
