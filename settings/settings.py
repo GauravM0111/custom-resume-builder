@@ -3,16 +3,17 @@ from .secret_manager import get_all_secrets
 
 
 # Secrets
-secrets = get_all_secrets()
+_secrets = get_all_secrets()
 
-GOOGLE_OAUTH_CLIENT_SECRET = secrets['GOOGLE_OAUTH_CLIENT_SECRET']
-GOOGLE_OAUTH_CLIENT_ID = secrets['GOOGLE_OAUTH_CLIENT_ID']
+GOOGLE_OAUTH_CLIENT_SECRET = _secrets['GOOGLE_OAUTH_CLIENT_SECRET']
+GOOGLE_OAUTH_CLIENT_ID = _secrets['GOOGLE_OAUTH_CLIENT_ID']
 
-PROXYCURL_API_KEY = secrets['PROXYCURL_API_KEY']
+PROXYCURL_API_KEY = _secrets['PROXYCURL_API_KEY']
 
-OPENAI_API_KEY = secrets['OPENAI_API_KEY']
+OPENAI_API_KEY = _secrets['OPENAI_API_KEY']
+OPENAI_ORGANIZATION_ID = _secrets['OPENAI_ORGANIZATION_ID']
 
-API_SECRET_KEY = secrets['API_SECRET_KEY']
+API_SECRET_KEY = _secrets['API_SECRET_KEY']
 
 
 # Params

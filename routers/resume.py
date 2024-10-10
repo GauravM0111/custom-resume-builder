@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from db.core import get_db
 from db.users import get_user_profile, update_user
+from db.resumes import create_resume
 from models.jobs import JobForm
 from models.users import User, UserUpdate
 from services.job_service import create_job
@@ -49,7 +50,8 @@ async def generate_resume(job_form: Annotated[JobForm, Form()], request: Request
 
     job = create_job(job_form, db)
     
-    ResumeService().generate_and_save_resume(user, job, db)
+    resume = await ResumeService().generate_resume(user, job)
+    create_resume(resume, db)
 
     response = Response(status_code=200)
     response.headers["HX-Redirect"] = "/"

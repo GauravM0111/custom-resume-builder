@@ -1,35 +1,74 @@
-from requests import Session
-from db.resumes import create_resume
 from models.jobs import Job
 from models.resumes import Resume
 from models.users import User
-from openai import OpenAI
-from settings.settings import OPENAI_API_KEY
-import json
+from settings.settings import OPENAI_API_KEY, OPENAI_ORGANIZATION_ID
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.output_parsers import JsonOutputParser
+
+
+class ResumeService:
+    def __init__(self):
+        self.llm = ChatOpenAI(
+            api_key=OPENAI_API_KEY,
+            organization=OPENAI_ORGANIZATION_ID,
+            model="gpt-4o-mini"
+          ).bind(response_format={"type": "json_object"})
+        self.messages = [SystemMessage(content=SYSTEM_PROMPT)]
+
+    async def generate_resume(self, user: User, job: Job) -> Resume:
+        if not user.profile:
+            raise ValueError("User profile is required")
+        self.messages.append(HumanMessage(content=f"User Profile: {user.profile}\n\nJob Description: {job.description}"))
+
+        response = self.llm.invoke(self.messages)
+        parsed_response = JsonOutputParser().parse(response.content)
+        
+        return Resume(user_id=user.id, job_id=job.id, resume=parsed_response)
 
 
 SYSTEM_PROMPT = """
-Generate a resume for a user based on their detailed profile and a specific job description. The resume should highlight skills, experiences, and accomplishments that align closely with the requirements of the job description provided. The final resume must be output in JSON format.
+You are an expert resume writer. Generate a resume for a user based on their detailed JSON profile and a specific job description. The resume should highlight skills, experiences, and accomplishments that align closely with the requirements of the job description provided. The final resume must be output in JSON format.
+
+# Important Rules
+- NEVER invent or fabricate any information about the user.
+- Only use information explicitly provided in the user's profile.
+- If information for a section is not available, leave it blank or omit the section entirely.
+- Do not make assumptions about the user's skills, experiences, or qualifications.
 
 # Steps
 
 1. **Analyze the Job Description:**
    - Extract key responsibilities, required skills, qualifications, and any preferred experiences.
-  
+
 2. **Review User Profile:**
-   - Examine the user's information in the JSON format, identifying skills, experiences, and achievements.
+   - Carefully examine the user's provided information, identifying skills, experiences, achievements, and projects.
 
-3. **Match and Select:**
-   - Match the user’s qualifications and experiences with the job description.
-   - Select the most relevant skills, experiences, and accomplishments that can enhance the user's candidacy.
+3. **Match and Rewrite:**
+   - Match the user's actual qualifications, experiences, and projects with the job description.
+   - Rewrite and tailor each experience, project, and skill description to highlight relevance to the job requirements, using only factual information from the user's profile.
+   - Use action verbs and quantify achievements where possible to make them more impactful, but only if specific metrics are provided in the user's profile.
 
-4. **Organize and Format:**
-   - Organize the selected information into the predefined JSON resume format.
-   - Ensure all sections are complete, and each entry is presented in the proper format.
+4. **Select and Prioritize:**
+   - Select the most relevant rewritten experiences, projects, and skills that best demonstrate the user's fit for the job.
+   - Prioritize these elements in the resume, placing the most relevant and impressive items first.
+
+5. **Organize and Format:**
+   - Organize the selected and rewritten information into the predefined JSON resume format.
+   - Ensure all sections are complete with accurate information, omitting any sections or fields for which no information is available.
+
+# Rewriting Guidelines
+
+When rewriting experiences, projects, and skills:
+- Focus on actual achievements and results that align with the job requirements.
+- Use industry-specific terminology from the job description where appropriate, but only if it accurately describes the user's experience.
+- Highlight transferable skills if the user is changing industries or roles, based on their actual experiences.
+- Only quantify achievements with specific metrics or percentages when these are explicitly provided in the user's profile.
+- Emphasize leadership, teamwork, and problem-solving skills as relevant to the job, but only if they are evident from the user's actual experiences.
 
 # Output Format
 
-The output should be a JSON object structured as follows, filling in the relevant fields according to the user's profile and job description alignment:
+The output should be a JSON object structured as follows, filling in the relevant fields according to the user's profile and job description alignment. Omit any fields or sections for which no information is available:
 
 ```json
 {
@@ -195,110 +234,25 @@ The output should be a JSON object structured as follows, filling in the relevan
 }
 ```
 
+# Important Formatting Notes
+
+1. For work experiences, volunteer work, and projects:
+   - Use the "summary" field for a brief overview of responsibilities.
+   - Use the "highlights" array for specific achievements, responsibilities, or notable points.
+   - Do not include bullet points or newlines in the "summary" field.
+   - Each item in the "highlights" array should be a separate string.
+
+2. Ensure all array fields (like "highlights", "keywords", etc.) are properly formatted as JSON arrays, not as strings containing multiple items.
+
+3. Do not use string formatting (like bullet points or newlines) within JSON fields unless explicitly part of the content.
+
+4. If there's no information for a field, omit it entirely rather than including it with an empty value.
+
 # Notes
 
-- **Customization:** Focus on tailoring the resume content to maximize alignment with the job description and industry standards.
-- **Accuracy and Completeness:** Verify that all sections of the resume are filled accurately, based on the user’s profile and job description.
-- **Visual Coherence:** Ensure the resume maintains a consistent and professional format throughout all sections.
+- **Accuracy:** Ensure all information in the resume is factual and directly based on the user's provided profile. Do not invent or assume any details.
+- **Customization:** Tailor the resume content to maximize alignment with the job description and industry standards, rewriting experiences as needed, but always maintaining factual accuracy.
+- **Relevance:** Include only items that clearly demonstrate value for the specific job being applied to, based on the user's actual experiences and skills.
+- **Completeness:** Fill out all relevant sections of the resume accurately, based solely on the user's profile and job description. It's okay to have incomplete sections if information is not available.
+- **Visual Coherence:** Ensure the resume maintains a consistent and professional format throughout all included sections.
 """
-
-
-class ResumeService:
-    def __init__(self):
-        self.client = OpenAI(api_key=OPENAI_API_KEY)
-
-    def generate_and_save_resume(self, user: User, job: Job, db: Session) -> Resume:
-        resume = Resume(user_id=user.id, job_id=job.id, resume={"wooo": "testing resume hehehehe"})
-        return create_resume(resume, db)
-
-#         profile = self.client.files.create(
-#             file=open("LinkedIn_profile.json", "rb"),   # TODO: input profile instead of hardcoding
-#             purpose="assistants"
-#         )
-
-#         # OpenAI automatically creates a vector store for the file that expires in 7 days
-#         thread = self.client.beta.threads.create(
-#             tool_resources={
-#                 'file_search': {
-#                     'vector_stores': [
-#                         {
-#                             'file_ids': [profile.id]
-#                         }
-#                     ]
-#                 }
-#             },
-#             messages=[
-#                 {
-#                     'role': 'user',
-#                     'content': job_details.description
-#                 }
-#             ]
-#         )
-
-#         self.run_assistant(thread.id)
-#         resume = self.extract_resume(thread.id)
-#         return resume
-    
-    
-#     def run_assistant(self, thread_id):
-#         return self.client.beta.threads.runs.create_and_poll(
-#             thread_id=thread_id,
-#             assistant_id=OPENAI_ASSISTANT_ID
-#         )
-
-
-#     def extract_resume(self, thread_id):
-#         thread_messages = self.client.beta.threads.messages.list(thread_id)
-#         asssitant_response = thread_messages.data[0].content[0].text.value
-
-#         # Extract the JSON resume from the message content
-#         start = asssitant_response.index("```json") + len("```json")
-#         end = asssitant_response.index("```", start)
-
-#         resume = json.loads(asssitant_response[start:end])
-
-#         # Remove endDate if empty (indicates current position)
-#         for experience in resume["work"]:
-#             if experience.get("endDate") == "":
-#                 experience.pop("endDate")
-        
-#         return resume
-
-
-# # %%
-# from jsonschema import validate
-# import json
-
-# # read in schema
-# with open("schema.json", "r") as f:
-#     schema = json.loads(f.read())
-# print(schema)
-
-# # Validate Schema
-# def validate_and_correct_resume(resume):
-#     try:
-#         validate(instance=resume, schema=schema)
-#     except Exception as e:
-#         print(f'Error validating JSON Schema: {e}')
-        
-#         # Feed error back into assistant
-#         client.beta.threads.messages.create(
-#             thread_id=thread.id,
-#             role="user",
-#             content=f'There was an error validating the generated JSON resume against the JSON Schema.\
-#                 Fix the issues outlined by the following error and regenerate the JSON resume: {e}'
-#         )
-
-#         run_assistant(thread.id)
-#         resume = validate_and_correct_resume(extract_resume(thread.id))
-    
-#     return resume
-
-# resume = validate_and_correct_resume(resume)
-
-# # %%
-# # write custom resume to file
-# with open('custom_resume.json', 'w') as output_file:
-#     json.dump(resume, output_file)
-
-
