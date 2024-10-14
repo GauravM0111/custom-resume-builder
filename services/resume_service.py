@@ -34,7 +34,7 @@ class ResumeService:
         response = await self.invoke_model()
 
         resume = Resume(user_id=user.id, job_id=job.id, resume=response)
-        return self.format_resume(resume)
+        return await self.format_resume(resume)
 
 
     async def format_resume(self, resume: Resume) -> Resume:
@@ -43,7 +43,7 @@ class ResumeService:
         except Exception as e:
             self.messages.append(HumanMessage(content=f"There was an error validating the resume. Please correct the errors and return the resume in valid JSON format.\n\nError: {e}"))
             response = await self.invoke_model()
-            return self.format_resume(Resume(user_id=resume.user_id, job_id=resume.job_id, resume=response))
+            return await self.format_resume(Resume(user_id=resume.user_id, job_id=resume.job_id, resume=response))
 
         return resume
 

@@ -20,6 +20,7 @@ class UserCreate(BaseModel):
 
 class UserUpdate(BaseModel):
     id: str
+    email: str | None = None
     is_guest: bool | None = None
     name: str | None = None
     picture: str | None = None

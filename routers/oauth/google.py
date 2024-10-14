@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from typing import Annotated
 from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config
 from models.users import UserCreate
-from services.user_service import create_or_get_user
+from services.user_service import create_or_get_user, create_user_from_guest, update_guest_user, get_user_by_email
 from db.core import get_db
 from sqlalchemy.orm import Session
 from fastapi.params import Depends
@@ -22,8 +22,17 @@ from settings.settings import (
 router = APIRouter(prefix='/googleoauth')
 
 
+TEMP_COOKIE_CONFIG = {
+    'httponly': True,
+    'secure': False,   # set to True in prod
+    'samesite': 'lax',
+    'domain': None,    # set to actual domain in prod
+    'max_age': 60 * 5  # 5 minutes
+}
+
+
 @router.get('/')
-async def sign_in():
+async def sign_in(guest_id: str):
     state = hashlib.sha256(os.urandom(1024)).hexdigest()
 
     params = {
@@ -36,20 +45,13 @@ async def sign_in():
     }
 
     response = RedirectResponse(url='{}?{}'.format(retrieve_discovery_document()['authorization_endpoint'], urlencode(params)))
-    response.set_cookie(
-        key='google_oauth_state',
-        value=state,
-        httponly=True,
-        secure=False,   # set to True in prod
-        samesite='lax',
-        domain=None,    # set to actual domain in prod
-        max_age=60 * 5  # 5 minutes
-    )
+    response.set_cookie(key='google_oauth_state', value=state, **TEMP_COOKIE_CONFIG)
+    response.set_cookie(key='guest_id', value=guest_id, **TEMP_COOKIE_CONFIG)
     return response
 
 
 @router.get('/callback')
-async def callback(state: str, code: str, error: str = None, google_oauth_state: Annotated[str | None, Cookie()] = None, db: Session = Depends(get_db)):
+async def callback(state: str, code: str, error: str = None, google_oauth_state: Annotated[str | None, Cookie()] = None, guest_id: Annotated[str | None, Cookie()] = None, db: Session = Depends(get_db)):
     if not google_oauth_state:
         return {'error': 'State not found'}, 400
 
@@ -84,11 +86,17 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
 
     if not response.ok:
         return response.json(), response.status_code
-    
+
+
     try:
-        user, session_id = create_or_get_user(UserCreate(**response.json()), db)
-    except Exception as e:
-        return {'error': e}, 500
+        user, session_id = get_user_by_email(response.json()['email'], db)
+        # TODO: delete guest user
+    except Exception:
+        try:
+            user, session_id = create_user_from_guest(guest_id, UserCreate(**response.json()), db)
+        except Exception as e:
+            print(e)
+            return {'error': 'Failed to create user'}, 500
     
     response = RedirectResponse(url='/')
     response.set_cookie(**get_sessionid_cookie_config(session_id))

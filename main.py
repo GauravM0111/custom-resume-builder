@@ -29,5 +29,5 @@ async def read_root(request: Request):
 
 
 @app.get("/signin")
-async def sign_in():
-    return RedirectResponse(google_oauth_router.url_path_for("sign_in"))
+async def sign_in(guest_id: str):
+    return RedirectResponse(google_oauth_router.url_path_for("sign_in", guest_id=guest_id))

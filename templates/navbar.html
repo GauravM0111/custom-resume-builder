@@ -17,7 +17,7 @@
             <span>{{ user.name }}</span>
             <span>{{ user.email }}</span>
             {% if user.is_guest %}
-                <a href="/signin">Sign In</a>
+                <a href="/signin?guest_id={{ user.id }}">Sign In</a>
             {% endif %}
           </div>
         </div>
