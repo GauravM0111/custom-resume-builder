@@ -1,10 +1,12 @@
+import requests
 from models.jobs import Job
 from models.resumes import Resume
 from models.users import User
-from settings.settings import OPENAI_API_KEY, OPENAI_ORGANIZATION_ID
+from settings.settings import OPENAI_API_KEY, OPENAI_ORGANIZATION_ID, RESUME_SCHEMA_URL
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langchain_core.output_parsers import JsonOutputParser
+from jsonschema import validate
 
 
 class ResumeService:
@@ -15,16 +17,35 @@ class ResumeService:
             model="gpt-4o-mini"
           ).bind(response_format={"type": "json_object"})
         self.messages = [SystemMessage(content=SYSTEM_PROMPT)]
+        self.schema = requests.get(RESUME_SCHEMA_URL).json()
+
+
+    async def invoke_model(self) -> dict:
+        response = self.llm.invoke(self.messages)
+        self.messages.append(AIMessage(content=response.content))
+        return JsonOutputParser().parse(response.content)
+
 
     async def generate_resume(self, user: User, job: Job) -> Resume:
         if not user.profile:
             raise ValueError("User profile is required")
-        self.messages.append(HumanMessage(content=f"User Profile: {user.profile}\n\nJob Description: {job.description}"))
 
-        response = self.llm.invoke(self.messages)
-        parsed_response = JsonOutputParser().parse(response.content)
-        
-        return Resume(user_id=user.id, job_id=job.id, resume=parsed_response)
+        self.messages.append(HumanMessage(content=f"User Profile: {user.profile}\n\nJob Description: {job.description}"))
+        response = await self.invoke_model()
+
+        resume = Resume(user_id=user.id, job_id=job.id, resume=response)
+        return self.format_resume(resume)
+
+
+    async def format_resume(self, resume: Resume) -> Resume:
+        try:
+            validate(instance=resume.resume, schema=self.schema)
+        except Exception as e:
+            self.messages.append(HumanMessage(content=f"There was an error validating the resume. Please correct the errors and return the resume in valid JSON format.\n\nError: {e}"))
+            response = await self.invoke_model()
+            return self.format_resume(Resume(user_id=resume.user_id, job_id=resume.job_id, resume=response))
+
+        return resume
 
 
 SYSTEM_PROMPT = """
@@ -56,6 +77,13 @@ You are an expert resume writer. Generate a resume for a user based on their det
 5. **Organize and Format:**
    - Organize the selected and rewritten information into the predefined JSON resume format.
    - Ensure all sections are complete with accurate information, omitting any sections or fields for which no information is available.
+
+6. **Validate Against Schema:**
+   - Ensure the output JSON adheres to the provided JSON schema format.
+
+7. **Error Handling:**
+   - If there are validation errors, analyze error messages.
+   - Adjust the JSON to correct any issues and regenerate until it passes validation.
 
 # Rewriting Guidelines
 
@@ -255,4 +283,5 @@ The output should be a JSON object structured as follows, filling in the relevan
 - **Relevance:** Include only items that clearly demonstrate value for the specific job being applied to, based on the user's actual experiences and skills.
 - **Completeness:** Fill out all relevant sections of the resume accurately, based solely on the user's profile and job description. It's okay to have incomplete sections if information is not available.
 - **Visual Coherence:** Ensure the resume maintains a consistent and professional format throughout all included sections.
+- **Schema Compliance:** Ensure the JSON is structured strictly according to the provided schema to prevent validation errors.
 """
