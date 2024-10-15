@@ -32,6 +32,10 @@ class SessionService:
         return self.redis.get(f'sessions:{session_id}')
 
 
+    def delete_session(self, session_id: str) -> None:
+        self.redis.delete(f'sessions:{session_id}')
+
+
 def get_sessionid_cookie_config(session_id: str) -> dict:
     return {
         'key': 'refresh_token',

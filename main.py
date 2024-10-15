@@ -1,5 +1,7 @@
-from fastapi import FastAPI, Request
+from typing import Annotated
+from fastapi import Cookie, FastAPI, Request
 from fastapi.responses import RedirectResponse
+from auth.session_service import SessionService
 from routers.oauth.google import router as google_oauth_router
 from routers.users import router as users_router
 from routers.resume import router as resume_router
@@ -31,3 +33,12 @@ async def read_root(request: Request):
 @app.get("/signin")
 async def sign_in(guest_id: str):
     return RedirectResponse("{}?guest_id={}".format(google_oauth_router.url_path_for("sign_in"), guest_id))
+
+
+@app.get("/logout")
+async def logout(refresh_token: Annotated[str | None, Cookie()]):
+    SessionService().delete_session(refresh_token)
+    response = RedirectResponse(url="/")
+    response.delete_cookie('refresh_token')
+    response.delete_cookie('identity_jwt')
+    return response

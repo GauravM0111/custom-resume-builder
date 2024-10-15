@@ -18,6 +18,8 @@
             <span>{{ user.email }}</span>
             {% if user.is_guest %}
                 <a href="/signin?guest_id={{ user.id }}">Sign In</a>
+            {% else %}
+                <a href="/logout">Logout</a>
             {% endif %}
           </div>
         </div>
