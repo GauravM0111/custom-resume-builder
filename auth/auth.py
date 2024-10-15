@@ -3,8 +3,7 @@ from fastapi.responses import RedirectResponse
 
 from db.core import get_db
 from db.users import get_user_by_id
-from services.user_service import create_guest_user
-
+from services.user_service import UserService
 from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config, get_user_data_from_jwt, is_valid_jwt
 from auth.session_service import SessionService, get_sessionid_cookie_config
 
@@ -28,7 +27,7 @@ async def user_authentication_middleware(request: Request, call_next):
             return response
     
     with next(get_db()) as db:
-        user, session_id = create_guest_user(db)
+        user, session_id = UserService().create_guest_user(db)
 
     new_identity_jwt = generate_jwt(user)
     request.state.user = get_user_data_from_jwt(new_identity_jwt)

@@ -10,37 +10,38 @@ from db.users import (
 from auth.session_service import SessionService
 
 
-def create_user(user: UserCreate, session: Session) -> tuple[User, str]:
-    user = create_user_db(user, session)
-    session_id = SessionService().create_session(user.id)
+class UserService:
+    def create_user(self, user: UserCreate, db: Session, create_session: bool = True) -> tuple[User, str]:
+        user = create_user_db(user, db)
+        session_id = SessionService().create_session(user.id) if create_session else None
 
-    return user, session_id
-
-
-def get_user_by_email(email: str, session: Session) -> tuple[User, str]:
-    user = get_user_by_email_db(email, session)
-    session_id = SessionService().create_session(user.id)
-
-    return user, session_id
+        return user, session_id
 
 
-def create_guest_user(session: Session) -> tuple[User, str]:
-    user_name = f'guest_{uuid4()}'
-    user = UserCreate(
-        name=user_name,
-        email=f'{user_name}@guest.com',
-        is_guest=True
-    )
-    return create_user(user, session)
+    def get_user_by_email(self, email: str, db: Session, create_session: bool = True) -> tuple[User, str]:
+        user = get_user_by_email_db(email, db)
+        session_id = SessionService().create_session(user.id) if create_session else None
+
+        return user, session_id
 
 
-def create_user_from_guest(guest_id: str, user: UserCreate, session: Session) -> User:
-    try:
-        guest_user = get_user_by_id_db(guest_id, session)
-    except Exception:
-        raise ValueError('Guest user not found')
-    
-    if not guest_user.is_guest:
-        raise ValueError('User is not a guest')
-    
-    return update_user_db(UserUpdate(id=guest_id, is_guest=False, **user.model_dump()), session)
+    def create_guest_user(self, db: Session, create_session: bool = True) -> tuple[User, str]:
+        user_name = f'guest_{uuid4()}'
+        user = UserCreate(
+            name=user_name,
+            email=f'{user_name}@guest.com',
+            is_guest=True
+        )
+        return self.create_user(user, db, create_session)
+
+
+    def create_user_from_guest(self, guest_id: str, user: UserCreate, db: Session) -> User:
+        try:
+            guest_user = get_user_by_id_db(guest_id, db)
+        except Exception:
+            raise ValueError('Guest user not found')
+        
+        if not guest_user.is_guest:
+            raise ValueError('User is not a guest')
+        
+        return update_user_db(UserUpdate(id=guest_id, is_guest=False, **user.model_dump()), db)

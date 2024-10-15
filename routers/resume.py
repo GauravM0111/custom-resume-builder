@@ -9,8 +9,8 @@ from db.users import get_user_profile, update_user
 from db.resumes import create_resume
 from models.jobs import JobForm
 from models.users import User, UserUpdate
-from services.job_service import create_job
-from services.linkedin_service import get_profile_data
+from services.job_service import JobService
+from services.profile_service import ProfileService
 from services.resume_service import ResumeService
 from settings.settings import TEMPLATES
 
@@ -25,7 +25,7 @@ async def import_profile_page(request: Request, redirect: Optional[str] = None):
 
 @router.post("/import-profile")
 async def import_profile(linkedin_url: Annotated[str, Form()], request: Request, redirect: Optional[str] = None, db: Session = Depends(get_db)):
-    profile_data = get_profile_data(linkedin_url)
+    profile_data = ProfileService().get_linkedin_profile(linkedin_url)
     update_user(UserUpdate(id=request.state.user["id"], profile=profile_data), db)
 
     response = Response(status_code=200)
@@ -48,7 +48,7 @@ async def generate_resume(job_form: Annotated[JobForm, Form()], request: Request
     user["profile"] = get_user_profile(request.state.user["id"], db)
     user = User(**user)
 
-    job = create_job(job_form, db)
+    job = JobService().create_job(job_form, db)
     
     resume = await ResumeService().generate_resume(user, job)
     create_resume(resume, db)

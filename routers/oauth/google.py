@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from typing import Annotated
 from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config
 from models.users import UserCreate
-from services.user_service import create_or_get_user, create_user_from_guest, update_guest_user, get_user_by_email
+from services.user_service import UserService
 from db.core import get_db
 from sqlalchemy.orm import Session
 from fastapi.params import Depends
@@ -89,11 +89,11 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
 
 
     try:
-        user, session_id = get_user_by_email(response.json()['email'], db)
+        user, session_id = UserService().get_user_by_email(response.json()['email'], db)
         # TODO: delete guest user
     except Exception:
         try:
-            user, session_id = create_user_from_guest(guest_id, UserCreate(**response.json()), db)
+            user, session_id = UserService().create_user_from_guest(guest_id, UserCreate(**response.json()), db)
         except Exception as e:
             print(e)
             return {'error': 'Failed to create user'}, 500
