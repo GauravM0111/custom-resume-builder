@@ -35,7 +35,10 @@ class UserService:
         return self.create_user(user, db, create_session)
 
 
-    def create_user_from_guest(self, guest_id: str, user: UserCreate, db: Session) -> User:
+    def create_user_from_guest(self, guest_id: str, user: UserCreate, db: Session, create_session: bool = True) -> tuple[User, str]:
+        if user.is_guest:
+            raise ValueError('Target user is a guest')
+        
         try:
             guest_user = get_user_by_id_db(guest_id, db)
         except Exception:
@@ -44,4 +47,7 @@ class UserService:
         if not guest_user.is_guest:
             raise ValueError('User is not a guest')
         
-        return update_user_db(UserUpdate(id=guest_id, is_guest=False, **user.model_dump()), db)
+        user = update_user_db(UserUpdate(id=guest_id, **user.model_dump()), db)
+        session_id = SessionService().create_session(user.id) if create_session else None
+
+        return user, session_id

@@ -59,3 +59,11 @@ def get_user_profile(user_id: str, session: Session) -> dict:
     if not db_user:
         raise NotFoundError(f"User with id {user_id} not found")
     return db_user.profile
+
+
+def delete_user(user_id: str, session: Session) -> None:
+    db_user = session.query(DBUser).filter(DBUser.id == user_id).first()
+    if not db_user:
+        raise NotFoundError(f"User with id {user_id} not found")
+    session.delete(db_user)
+    session.commit()

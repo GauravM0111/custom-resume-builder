@@ -6,6 +6,7 @@ from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config
 from models.users import UserCreate
 from services.user_service import UserService
 from db.core import get_db
+from db.users import delete_user
 from sqlalchemy.orm import Session
 from fastapi.params import Depends
 from auth.session_service import get_sessionid_cookie_config
@@ -90,7 +91,7 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
 
     try:
         user, session_id = UserService().get_user_by_email(response.json()['email'], db)
-        # TODO: delete guest user
+        delete_user(guest_id, db)
     except Exception:
         try:
             user, session_id = UserService().create_user_from_guest(guest_id, UserCreate(**response.json()), db)
