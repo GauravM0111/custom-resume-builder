@@ -1,6 +1,5 @@
 venv
-.ipynb*
-.env.secrets
 __pycache__
 package-lock.json
 node_modules
+.env.secrets
