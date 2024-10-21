@@ -1,5 +1,5 @@
-# Use the official Python image as the base image
-FROM python:3.12-slim
+# Use the combined Python and Node.js image as the base image
+FROM python-nodejs:python3.12-nodejs23-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -7,8 +7,11 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install FastAPI and Uvicorn
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Node.js dependencies
+RUN npm install
 
 # Expose port 8000 for FastAPI
 EXPOSE 8000

@@ -7,6 +7,8 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langchain_core.output_parsers import JsonOutputParser
 from jsonschema import validate
+import subprocess
+import json
 
 
 class ResumeService:
@@ -46,6 +48,24 @@ class ResumeService:
             return await self.format_resume(Resume(user_id=resume.user_id, job_id=resume.job_id, resume=response))
 
         return resume
+
+
+    async def render_resume(self, resume: Resume) -> str:
+        # Convert the resume.resume dict to a JSON string
+        resume_json = json.dumps(resume.resume)
+
+        # Execute the npx command with the resume JSON as input
+        try:
+            result = subprocess.run(
+                ["npx", "resumed", "render"],
+                input=resume_json,
+                text=True,
+                capture_output=True,
+                check=True
+            )
+            return result.stdout
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(f"Error rendering resume: {e.stderr}")
 
 
 SYSTEM_PROMPT = """
