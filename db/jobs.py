@@ -9,8 +9,8 @@ from uuid import uuid4
 class DBJob(Base):
     __tablename__ = "Jobs"
 
-    id: Mapped[str] = mapped_column(primary_key=True, index=True, default=str(uuid4()))
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now())
+    id: Mapped[str] = mapped_column(primary_key=True, index=True, default=lambda: str(uuid4()))
+    created_at: Mapped[datetime] = mapped_column(nullable=False, default=lambda: datetime.now())
     title: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)
 

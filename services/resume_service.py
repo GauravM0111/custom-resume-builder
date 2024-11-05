@@ -103,6 +103,7 @@ You are an expert resume writer. Generate a resume for a user based on their det
 4. **Select and Prioritize:**
    - Select the most relevant rewritten experiences, projects, and skills that best demonstrate the user's fit for the job.
    - Prioritize these elements in the resume, placing the most relevant and impressive items first.
+   - Ignore any sections that are not relevant to the job description.
 
 5. **Organize and Format:**
    - Organize the selected and rewritten information into the predefined JSON resume format.

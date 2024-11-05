@@ -10,7 +10,7 @@ from .core import Base
 class DBResume(Base):
     __tablename__ = "Resumes"
 
-    id: Mapped[str] = mapped_column(primary_key=True, index=True, default=str(uuid4()))
+    id: Mapped[str] = mapped_column(primary_key=True, index=True, default=lambda: str(uuid4()))
     user_id: Mapped[str] = mapped_column(ForeignKey("Users.id"), index=True)
     job_id: Mapped[str] = mapped_column(ForeignKey("Jobs.id"))
     resume: Mapped[dict] = mapped_column(JSON, nullable=False)
