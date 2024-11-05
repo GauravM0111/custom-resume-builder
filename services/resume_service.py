@@ -9,6 +9,8 @@ from langchain_core.output_parsers import JsonOutputParser
 from jsonschema import validate
 import subprocess
 import json
+import tempfile
+import os
 
 
 class ResumeService:
@@ -28,44 +30,52 @@ class ResumeService:
         return JsonOutputParser().parse(response.content)
 
 
-    async def generate_resume(self, user: User, job: Job) -> Resume:
+    async def generate_resume(self, user: User, job: Job) -> dict:
         if not user.profile:
             raise ValueError("User profile is required")
 
         self.messages.append(HumanMessage(content=f"User Profile: {user.profile}\n\nJob Description: {job.description}"))
         response = await self.invoke_model()
 
-        resume = Resume(user_id=user.id, job_id=job.id, resume=response)
-        return await self.format_resume(resume)
+        return await self.format_resume(response)
 
 
-    async def format_resume(self, resume: Resume) -> Resume:
+    async def format_resume(self, resume: dict) -> dict:
         try:
-            validate(instance=resume.resume, schema=self.schema)
+            validate(instance=resume, schema=self.schema)
         except Exception as e:
             self.messages.append(HumanMessage(content=f"There was an error validating the resume. Please correct the errors and return the resume in valid JSON format.\n\nError: {e}"))
             response = await self.invoke_model()
-            return await self.format_resume(Resume(user_id=resume.user_id, job_id=resume.job_id, resume=response))
+            return await self.format_resume(resume=response)
 
         return resume
 
 
-    async def render_resume(self, resume: Resume) -> str:
-        # Convert the resume.resume dict to a JSON string
-        resume_json = json.dumps(resume.resume)
+    async def render_resume(self, resume: dict) -> str:
+        input_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
+        output_file = tempfile.NamedTemporaryFile(mode='r', suffix='.html', delete=False)
 
-        # Execute the npx command with the resume JSON as input
+        json.dump(resume, input_file)
+        input_file.flush()
+        
         try:
-            result = subprocess.run(
-                ["npx", "resumed", "render"],
-                input=resume_json,
-                text=True,
+            subprocess.run(
+                ["npx", "resumed", "--theme", "jsonresume-theme-even", "--output", output_file.name, input_file.name],
                 capture_output=True,
                 check=True
             )
-            return result.stdout
+
+            # Read the output file
+            output_file.seek(0)
+            result = output_file.read()
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Error rendering resume: {e.stderr}")
+        finally:
+            # Clean up temporary files
+            os.unlink(input_file.name)
+            os.unlink(output_file.name)
+
+        return result
 
 
 SYSTEM_PROMPT = """

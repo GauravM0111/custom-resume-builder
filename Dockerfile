@@ -1,5 +1,5 @@
 # Use the combined Python and Node.js image as the base image
-FROM python-nodejs:python3.12-nodejs23-slim
+FROM nikolaik/python-nodejs:python3.12-nodejs23-slim
 
 # Set the working directory in the container
 WORKDIR /app

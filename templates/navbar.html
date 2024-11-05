@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Generator</title>
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
-</head>
-<body>
-    <div class="navbar">
-        <div class="dropdown">
-          <button class="dropbtn"><img src="{{ user.picture }}" alt="Profile Picture">
+<div class="navbar">
+    <div class="dropdown">
+        <button class="dropbtn"><img src="{{ user.picture }}" alt="Profile Picture">
             <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-content">
+        </button>
+        <div class="dropdown-content">
             <span>{{ user.name }}</span>
             <span>{{ user.email }}</span>
             {% if user.is_guest %}
@@ -21,8 +11,6 @@
             {% else %}
                 <a href="/logout">Logout</a>
             {% endif %}
-          </div>
         </div>
     </div>
-</body>
-</html>
+</div>

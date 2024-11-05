@@ -1,13 +1,14 @@
 from typing import Annotated, Optional
 
-from fastapi import APIRouter, Depends, Form, Request, Response
-from fastapi.responses import RedirectResponse
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
+from fastapi.responses import RedirectResponse, HTMLResponse
 from sqlalchemy.orm import Session
 
 from db.core import get_db
 from db.users import get_user_profile, update_user
-from db.resumes import create_resume
+from db.resumes import create_resume, get_resume
 from models.jobs import JobForm
+from models.resumes import CreateResume
 from models.users import User, UserUpdate
 from services.job_service import JobService
 from services.profile_service import ProfileService
@@ -49,13 +50,30 @@ async def generate_resume(job_form: Annotated[JobForm, Form()], request: Request
     user = User(**user)
 
     job = JobService().create_job(job_form, db)
-    
-    resume = await ResumeService().generate_resume(user, job)
-    create_resume(resume, db)
+
+    resume = create_resume(
+        CreateResume(
+            user_id = user.id,
+            job_id = job.id,
+            resume = await ResumeService().generate_resume(user, job)
+        ),
+        db
+    )
 
     response = Response(status_code=200)
-    response.headers["HX-Redirect"] = "/"
+    response.headers["HX-Redirect"] = f"/resume/render/{resume.id}"
     return response
+
+
+@router.get("/render/{resume_id}")
+async def render_resume(resume_id: str, request: Request, db: Session = Depends(get_db)):
+    resume = get_resume(resume_id, db)
+
+    if resume.user_id != request.state.user["id"]:
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+    resume_html = await ResumeService().render_resume(resume.resume)
+    return HTMLResponse(content=resume_html)
 
 
 @router.get("/history")
@@ -64,5 +82,5 @@ async def resume_history(request: Request):
 
 
 @router.get("/history/{resume_id}")
-async def view_resume(resume_id: int, request: Request):
+async def view_resume(resume_id: str, request: Request):
     return TEMPLATES.TemplateResponse("resume.html", {"request": request})
