@@ -2,14 +2,13 @@ from urllib.parse import urlencode
 from fastapi import APIRouter, Cookie
 from fastapi.responses import RedirectResponse
 from typing import Annotated
-from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config
+from auth.auth import login_user_in_response
 from models.users import UserCreate
 from services.user_service import UserService
 from db.core import get_db
-from db.users import delete_user
+from db.users import delete_user, get_user_by_email
 from sqlalchemy.orm import Session
 from fastapi.params import Depends
-from auth.session_service import get_sessionid_cookie_config
 import hashlib
 import os
 import requests
@@ -90,18 +89,17 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
 
 
     try:
-        user, session_id = UserService().get_user_by_email(response.json()['email'], db)
+        user = get_user_by_email(response.json()['email'], db)
         delete_user(guest_id, db)
     except Exception:
         try:
-            user, session_id = UserService().create_user_from_guest(guest_id, UserCreate(**response.json()), db)
+            user = UserService().create_user_from_guest(guest_id, UserCreate(**response.json()), db)
         except Exception as e:
             print(e)
             return {'error': 'Failed to create user'}, 500
-    
+
     response = RedirectResponse(url='/')
-    response.set_cookie(**get_sessionid_cookie_config(session_id))
-    response.set_cookie(**get_identity_jwt_cookie_config(generate_jwt(user)))
+    response = await login_user_in_response(response, user)
 
     return response
 

@@ -2,19 +2,11 @@ import jwt
 from models.users import User
 from settings.settings import API_SECRET_KEY
 from datetime import datetime, timedelta
-
+from services.user_service import UserService
 
 def generate_jwt(user: User) -> str:
     jwt_data = {
-        "user": {
-            "id": user.id,
-            "email": user.email,
-            "name": user.name,
-            "created_at": user.created_at.isoformat(),
-            "picture": user.picture,
-            "profile": True if user.profile else False,
-            "is_guest": user.is_guest
-        },
+        "user": UserService().user_dict_compact(user),
         "exp": datetime.now() + timedelta(minutes=15)
     }
     return jwt.encode(jwt_data, API_SECRET_KEY, algorithm="HS256")

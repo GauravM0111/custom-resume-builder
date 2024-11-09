@@ -3,39 +3,35 @@ from models.users import UserCreate, User, UserUpdate
 from sqlalchemy.orm import Session
 from db.users import (
     create_user as create_user_db,
-    get_user_by_email as get_user_by_email_db,
     get_user_by_id as get_user_by_id_db,
     update_user as update_user_db
 )
-from auth.session_service import SessionService
 
 
 class UserService:
-    def create_user(self, user: UserCreate, db: Session, create_session: bool = True) -> tuple[User, str]:
-        user = create_user_db(user, db)
-        session_id = SessionService().create_session(user.id) if create_session else None
-
-        return user, session_id
-
-
-    def get_user_by_email(self, email: str, db: Session, create_session: bool = True) -> tuple[User, str]:
-        user = get_user_by_email_db(email, db)
-        session_id = SessionService().create_session(user.id) if create_session else None
-
-        return user, session_id
+    def user_dict_compact(self, user: User) -> dict:
+        return {
+            "id": user.id,
+            "email": user.email,
+            "name": user.name,
+            "created_at": user.created_at.isoformat(),
+            "picture": user.picture,
+            "profile": True if user.profile else False,
+            "is_guest": user.is_guest
+        }
 
 
-    def create_guest_user(self, db: Session, create_session: bool = True) -> tuple[User, str]:
+    def create_guest_user(self, db: Session) -> User:
         user_name = f'guest_{uuid4()}'
         user = UserCreate(
             name=user_name,
             email=f'{user_name}@guest.com',
             is_guest=True
         )
-        return self.create_user(user, db, create_session)
+        return create_user_db(user, db)
 
 
-    def create_user_from_guest(self, guest_id: str, user: UserCreate, db: Session, create_session: bool = True) -> tuple[User, str]:
+    def create_user_from_guest(self, guest_id: str, user: UserCreate, db: Session) -> User:
         if user.is_guest:
             raise ValueError('Target user is a guest')
         
@@ -46,8 +42,5 @@ class UserService:
         
         if not guest_user.is_guest:
             raise ValueError('User is not a guest')
-        
-        user = update_user_db(UserUpdate(id=guest_id, **user.model_dump()), db)
-        session_id = SessionService().create_session(user.id) if create_session else None
 
-        return user, session_id
+        return update_user_db(UserUpdate(id=guest_id, **user.model_dump()), db)

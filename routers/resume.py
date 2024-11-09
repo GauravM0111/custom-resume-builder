@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
 from fastapi.responses import RedirectResponse, HTMLResponse
 from sqlalchemy.orm import Session
 
+from auth.auth import login_user_in_response
 from db.core import get_db
 from db.users import get_user_profile, update_user
 from db.resumes import create_resume, get_resume
@@ -13,6 +14,7 @@ from models.users import User, UserUpdate
 from services.job_service import JobService
 from services.profile_service import ProfileService
 from services.resume_service import ResumeService
+from services.user_service import UserService
 from settings.settings import TEMPLATES
 
 
@@ -26,18 +28,24 @@ async def import_profile_page(request: Request, redirect: Optional[str] = None):
 
 @router.post("/import-profile")
 async def import_profile(linkedin_url: Annotated[str, Form()], request: Request, redirect: Optional[str] = None, db: Session = Depends(get_db)):
-    profile_data = ProfileService().get_linkedin_profile(linkedin_url)
-    update_user(UserUpdate(id=request.state.user["id"], profile=profile_data), db)
-
     response = Response(status_code=200)
-    response.delete_cookie(key="identity_jwt")  # since profile is imported, we need to update the jwt
+    profile_data = ProfileService().get_linkedin_profile(linkedin_url)
+
+    if request.state.user:
+        user = update_user(UserUpdate(id=request.state.user["id"], profile=profile_data), db)
+        response.delete_cookie(key="identity_jwt")  # since profile is imported, we need to update the jwt
+    else:
+        user = UserService().create_guest_user(db)
+        user = update_user(UserUpdate(id=user.id, profile=profile_data), db)
+        response = await login_user_in_response(response, user)
+
     response.headers["HX-Redirect"] = redirect or "/"
     return response
 
 
 @router.get("/generate")
 async def generate_resume_page(request: Request):
-    if not request.state.user["profile"]:
+    if not request.state.user or not request.state.user["profile"]:
         return RedirectResponse(url="/resume/import-profile?redirect=/resume/generate")
 
     return TEMPLATES.TemplateResponse("generate_resume.html", {"request": request, "user": request.state.user})

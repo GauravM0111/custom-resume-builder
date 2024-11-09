@@ -1,11 +1,10 @@
 from fastapi import Request, Response
-from fastapi.responses import RedirectResponse
 
 from db.core import get_db
 from db.users import get_user_by_id
-from services.user_service import UserService
 from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config, get_user_data_from_jwt, is_valid_jwt
 from auth.session_service import SessionService, get_sessionid_cookie_config
+from models.users import User
 
 
 async def user_authentication_middleware(request: Request, call_next):
@@ -25,15 +24,13 @@ async def user_authentication_middleware(request: Request, call_next):
             response: Response = await call_next(request)
             response.set_cookie(**get_identity_jwt_cookie_config(new_identity_jwt))
             return response
-    
-    with next(get_db()) as db:
-        user, session_id = UserService().create_guest_user(db)
 
-    new_identity_jwt = generate_jwt(user)
-    request.state.user = get_user_data_from_jwt(new_identity_jwt)
+    request.state.user = None
+    return await call_next(request)
 
-    response = RedirectResponse(url="/")
-    response.set_cookie(**get_identity_jwt_cookie_config(new_identity_jwt))
+
+async def login_user_in_response(response: Response, user: User) -> Response:
+    session_id = SessionService().create_session(user.id)
+    response.set_cookie(**get_identity_jwt_cookie_config(generate_jwt(user)))
     response.set_cookie(**get_sessionid_cookie_config(session_id))
-    
     return response

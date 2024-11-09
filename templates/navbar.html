@@ -4,11 +4,11 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <span>{{ user.name }}</span>
-            <span>{{ user.email }}</span>
-            {% if user.is_guest %}
+            {% if not user or user.is_guest %}
                 <a href="/signin?guest_id={{ user.id }}">Sign In</a>
             {% else %}
+                <span>{{ user.name }}</span>
+                <span>{{ user.email }}</span>
                 <a href="/logout">Logout</a>
             {% endif %}
         </div>
