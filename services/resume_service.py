@@ -1,6 +1,5 @@
 import requests
 from models.jobs import Job
-from models.resumes import Resume
 from models.users import User
 from settings.settings import OPENAI_API_KEY, OPENAI_ORGANIZATION_ID, RESUME_SCHEMA_URL
 from langchain_openai import ChatOpenAI
