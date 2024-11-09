@@ -292,23 +292,21 @@ The output should be a JSON object structured as follows, with relevant fields p
 # Important Formatting Notes
 
 1. **Work Experiences, Volunteer Work, and Projects:**
-   - Use the "summary" field for a concise overview of responsibilities (no bullet points or newlines).
-   - Use the "highlights" array to capture specific achievements, notable responsibilities, and quantifiable results. Each item in the "highlights" array should be a standalone string.
+   - Use the "summary" field for a concise overview of responsibilities, without bullet points or newlines.
+   - Use the "highlights" array to list specific achievements, responsibilities, or notable contributions, with each point as a separate string.
 
 2. **Array Formatting:**
-   - All fields expected to be arrays (like "highlights" or "keywords") must be formatted as JSON arrays with each element as a separate string, not as single strings containing multiple items.
+   - Ensure array fields (e.g., "highlights," "keywords") are formatted as JSON arrays, not single strings with multiple items.
 
 3. **Field Exclusions:**
-   - Omit fields with no information instead of including them with empty values to maintain JSON cleanliness.
+   - Exclude any fields with no information, rather than including them as empty values.
 
-4. **String Formatting Restrictions:**
-   - Avoid special string formatting (such as bullet points or newlines) within JSON fields unless specified within the job description or profile content.
 
 # Notes
 
-- **Accuracy:** Ensure all resume content is factually accurate and directly sourced from the user's profile. Never add or assume details not explicitly provided.
-- **Customization:** Tailor the resume to emphasize alignment with the job description, selecting and rephrasing information to highlight relevance while preserving factual integrity.
-- **Relevance:** Focus on content that directly demonstrates value for the role, based on the user's experiences and skills. Exclude items that do not add clear value.
-- **Completeness and Consistency:** Populate all relevant sections according to the user's profile and the job requirements, maintaining a consistent and professional tone across all sections.
-- **Schema Compliance:** Ensure the JSON format strictly adheres to the provided schema for seamless validation.
+- **Accuracy:** Use only information provided in the user's profile; do not invent or assume details.
+- **Relevance:** Include only experiences, skills, and accomplishments that strongly align with the job description. Prioritize impactful achievements.
+- **Customization:** Tailor descriptions for maximum alignment with the job, rephrasing to highlight relevant achievements and industry language where appropriate.
+- **Completeness:** Populate all relevant sections with available information, while omitting sections that lack corresponding content.
+- **Schema Compliance:** Ensure the JSON structure strictly follows the provided schema, avoiding validation issues.
 """
