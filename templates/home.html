@@ -3,36 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Generator</title>
+    <title>Get A Job</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+    <link rel="stylesheet" href="{{url_for('static',path='dist/css/output.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </head>
 <body>
     {% include "navbar.html" %}
-    <div class="content">
-        <h1>Resume Generator</h1>
-        <div class="resume-grid">
-            <div class="resume-card">
-                <h2>Profile</h2>
-                <p>View and edit your professional profile</p>
-                <a href="{{ url_for('profile') }}" class="btn">Go to Profile</a>
-            </div>
-            <div class="resume-card">
-                <h2>Import LinkedIn</h2>
-                <p>Import your profile data from LinkedIn</p>
-                <a href="{{ url_for('import_profile') }}" class="btn">Import Profile</a>
-            </div>
-            <div class="resume-card">
-                <h2>Generate Resume</h2>
-                <p>Create a tailored resume for your job application</p>
-                <a href="{{ url_for('generate_resume') }}" class="btn">Generate Resume</a>
-            </div>
-            <div class="resume-card">
-                <h2>Resume History</h2>
-                <p>View your previously generated resumes</p>
-                <a href="{{ url_for('resume_history') }}" class="btn">View History</a>
-            </div>
+
+    {% for resume in resumes %}
+    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" onclick="window.location.href='/resume/{{ resume.id }}'">
+        <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+        <div class="p-5">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ resume.job_title }}</h5>
         </div>
     </div>
+    {% endfor %}
 </body>
 </html>

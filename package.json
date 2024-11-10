@@ -4,5 +4,8 @@
   "dependencies": {
     "jsonresume-theme-even": "^0.17.0",
     "resumed": "^3.0.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
   }
 }

@@ -7,11 +7,9 @@ from sqlalchemy.orm import Session
 from auth.auth import login_user_in_response
 from db.core import get_db
 from db.users import get_user_profile, update_user
-from db.resumes import create_resume, get_resume
-from models.jobs import JobForm
-from models.resumes import CreateResume
+from db.resumes import get_resume, get_user_resumes
+from models.resumes import JobDetails
 from models.users import User, UserUpdate
-from services.job_service import JobService
 from services.profile_service import ProfileService
 from services.resume_service import ResumeService
 from services.user_service import UserService
@@ -52,20 +50,17 @@ async def generate_resume_page(request: Request):
 
 
 @router.post("/generate")
-async def generate_resume(job_form: Annotated[JobForm, Form()], request: Request, db: Session = Depends(get_db)):
+async def generate_resume(job_details: Annotated[JobDetails, Form()], request: Request, db: Session = Depends(get_db)):
     user = dict(request.state.user).copy()
     user["profile"] = get_user_profile(request.state.user["id"], db)
     user = User(**user)
 
-    job = JobService().create_job(job_form, db)
-
-    resume = create_resume(
-        CreateResume(
-            user_id = user.id,
-            job_id = job.id,
-            resume = await ResumeService().generate_resume(user, job)
-        ),
-        db
+    resume = await ResumeService().save_resume(
+        resume = await ResumeService().generate_resume(user, job_details.description),
+        user_id = user.id,
+        job_description = job_details.description,
+        job_title = job_details.title,
+        db = db
     )
 
     response = Response(status_code=200)
@@ -85,10 +80,14 @@ async def render_resume(resume_id: str, request: Request, db: Session = Depends(
 
 
 @router.get("/history")
-async def resume_history(request: Request):
-    return TEMPLATES.TemplateResponse("resumes.html", {"request": request})
+async def resume_history(request: Request, db: Session = Depends(get_db)):
+    if not request.state.user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    resumes = get_user_resumes(request.state.user["id"], db)
+    return TEMPLATES.TemplateResponse("resumes.html", {"request": request, "user": request.state.user, "resumes": resumes})
 
 
 @router.get("/history/{resume_id}")
 async def view_resume(resume_id: str, request: Request):
-    return TEMPLATES.TemplateResponse("resume.html", {"request": request})
+    return TEMPLATES.TemplateResponse("resume.html", {"request": request, "user": request.state.user})

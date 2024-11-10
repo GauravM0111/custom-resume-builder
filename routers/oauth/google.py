@@ -1,12 +1,12 @@
 from urllib.parse import urlencode
 from fastapi import APIRouter, Cookie
 from fastapi.responses import RedirectResponse
-from typing import Annotated
+from typing import Annotated, Optional
 from auth.auth import login_user_in_response
 from models.users import UserCreate
 from services.user_service import UserService
-from db.core import get_db
-from db.users import delete_user, get_user_by_email
+from db.core import NotFoundError, get_db
+from db.users import create_user, delete_user, get_user_by_email
 from sqlalchemy.orm import Session
 from fastapi.params import Depends
 import hashlib
@@ -32,7 +32,7 @@ TEMP_COOKIE_CONFIG = {
 
 
 @router.get('/')
-async def sign_in(guest_id: str):
+async def sign_in(guest_id: Optional[str] = None):
     state = hashlib.sha256(os.urandom(1024)).hexdigest()
 
     params = {
@@ -46,7 +46,10 @@ async def sign_in(guest_id: str):
 
     response = RedirectResponse(url='{}?{}'.format(retrieve_discovery_document()['authorization_endpoint'], urlencode(params)))
     response.set_cookie(key='google_oauth_state', value=state, **TEMP_COOKIE_CONFIG)
-    response.set_cookie(key='guest_id', value=guest_id, **TEMP_COOKIE_CONFIG)
+
+    if guest_id:
+        response.set_cookie(key='guest_id', value=guest_id, **TEMP_COOKIE_CONFIG)
+
     return response
 
 
@@ -87,13 +90,16 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
     if not response.ok:
         return response.json(), response.status_code
 
-
     try:
         user = get_user_by_email(response.json()['email'], db)
-        delete_user(guest_id, db)
-    except Exception:
+        if guest_id:
+            delete_user(guest_id, db)
+    except NotFoundError:
         try:
-            user = UserService().create_user_from_guest(guest_id, UserCreate(**response.json()), db)
+            if guest_id:
+                user = UserService().create_user_from_guest(guest_id, UserCreate(**response.json()), db)
+            else:
+                user = create_user(UserCreate(**response.json()))
         except Exception as e:
             print(e)
             return {'error': 'Failed to create user'}, 500

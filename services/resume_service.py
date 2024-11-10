@@ -1,5 +1,7 @@
 import requests
-from models.jobs import Job
+from sqlalchemy.orm import Session
+from db.resumes import create_resume
+from models.resumes import CreateResume, Resume
 from models.users import User
 from settings.settings import OPENAI_API_KEY, OPENAI_ORGANIZATION_ID, RESUME_SCHEMA_URL
 from langchain_openai import ChatOpenAI
@@ -21,6 +23,13 @@ class ResumeService:
           ).bind(response_format={"type": "json_object"})
         self.messages = [SystemMessage(content=SYSTEM_PROMPT)]
         self.schema = requests.get(RESUME_SCHEMA_URL).json()
+    
+
+    async def save_resume(self, db: Session, resume: dict, user_id: str, job_description: str, job_title: str = None) -> Resume:
+        if not job_title:
+            job_title = "No title lolololol"
+
+        return create_resume(CreateResume(resume=resume, user_id=user_id, job_title=job_title, job_description=job_description), db)
 
 
     async def invoke_model(self) -> dict:
@@ -29,11 +38,11 @@ class ResumeService:
         return JsonOutputParser().parse(response.content)
 
 
-    async def generate_resume(self, user: User, job: Job) -> dict:
+    async def generate_resume(self, user: User, job_description: str) -> dict:
         if not user.profile:
             raise ValueError("User profile is required")
 
-        self.messages.append(HumanMessage(content=f"User Profile: {user.profile}\n\nJob Description: {job.description}"))
+        self.messages.append(HumanMessage(content=f"User Profile: {user.profile}\n\nJob Description: {job_description}"))
         response = await self.invoke_model()
 
         return await self.format_resume(response)
