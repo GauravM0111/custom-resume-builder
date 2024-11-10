@@ -7,6 +7,6 @@ SUPABASE_API_KEY={{supabase-anon-public-key}}
 
 # Run
 ```
-npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch
+npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch   # only during development
 docker compose up
 ```
