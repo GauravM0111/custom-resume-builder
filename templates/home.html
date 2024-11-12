@@ -14,14 +14,16 @@
     <div class="container mx-auto p-4 flex flex-wrap gap-4 justify-left">
         {% for resume in resumes %}
         <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
+            <a href="/resume/preview/{{resume.id}}">
                 <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
             </a>
             <div class="p-5">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ resume.job_title }}</h5>
+                <a href="/resume/preview/{{resume.id}}">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ resume.job_title }}</h5>
+                </a>
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ resume.job_description|truncate(100, True) }}</p>
-                <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Download
+                <a href="/resume/pdf/{{resume.id}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 [&>*]:px-0.5">
+                    PDF
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                     </svg>

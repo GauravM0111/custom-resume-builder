@@ -7,3 +7,4 @@ pyjwt==2.9.0
 python-dotenv==1.0.1
 jsonschema==4.23.0
 langchain-openai==0.2.2
+playwright==1.48.0

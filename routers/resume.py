@@ -1,13 +1,15 @@
 from typing import Annotated, Optional
+import io
+from playwright.async_api import async_playwright
 
 from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
-from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.responses import RedirectResponse, HTMLResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
 from auth.auth import login_user_in_response
 from db.core import get_db
 from db.users import get_user_profile, update_user
-from db.resumes import get_resume, get_user_resumes
+from db.resumes import get_resume
 from models.resumes import JobDetails
 from models.users import User, UserUpdate
 from services.profile_service import ProfileService
@@ -51,6 +53,9 @@ async def generate_resume_page(request: Request):
 
 @router.post("/generate")
 async def generate_resume(job_details: Annotated[JobDetails, Form()], request: Request, db: Session = Depends(get_db)):
+    if not request.state.user:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    
     user = dict(request.state.user).copy()
     user["profile"] = get_user_profile(request.state.user["id"], db)
     user = User(**user)
@@ -64,30 +69,40 @@ async def generate_resume(job_details: Annotated[JobDetails, Form()], request: R
     )
 
     response = Response(status_code=200)
-    response.headers["HX-Redirect"] = f"/resume/render/{resume.id}"
+    response.headers["HX-Redirect"] = f"/resume/preview/{resume.id}"
     return response
 
 
-@router.get("/render/{resume_id}")
-async def render_resume(resume_id: str, request: Request, db: Session = Depends(get_db)):
+@router.get("/preview/{resume_id}")
+async def preview_resume(resume_id: str, request: Request, db: Session = Depends(get_db)):
     resume = get_resume(resume_id, db)
 
-    if resume.user_id != request.state.user["id"]:
+    if not request.state.user or resume.user_id != request.state.user["id"]:
         raise HTTPException(status_code=403, detail="Forbidden")
 
     resume_html = await ResumeService().render_resume(resume.resume)
     return HTMLResponse(content=resume_html)
 
 
-@router.get("/history")
-async def resume_history(request: Request, db: Session = Depends(get_db)):
-    if not request.state.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+@router.get("/pdf/{resume_id}")
+async def download_resume_pdf(resume_id: str, request: Request, db: Session = Depends(get_db)):
+    resume = get_resume(resume_id, db)
 
-    resumes = get_user_resumes(request.state.user["id"], db)
-    return TEMPLATES.TemplateResponse("resumes.html", {"request": request, "user": request.state.user, "resumes": resumes})
+    if not request.state.user or resume.user_id != request.state.user["id"]:
+        raise HTTPException(status_code=403, detail="Forbidden")
 
+    resume_html = await ResumeService().render_resume(resume.resume)
 
-@router.get("/history/{resume_id}")
-async def view_resume(resume_id: str, request: Request):
-    return TEMPLATES.TemplateResponse("resume.html", {"request": request, "user": request.state.user})
+    async with async_playwright() as p:
+        browser = await p.chromium.launch()
+        page = await browser.new_page()
+
+        # Set content to the HTML string
+        await page.set_content(resume_html)
+
+        # Generate the PDF in memory
+        pdf_bytes = await page.pdf(format="A4")  # Adjust options as needed
+
+        await browser.close()
+
+    return StreamingResponse(io.BytesIO(pdf_bytes), media_type="application/pdf", headers={"Content-Disposition": f"attachment; filename={resume.job_title}-resume.pdf"})

@@ -10,6 +10,9 @@ COPY . /app
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install playwright browsers for PDF generation
+RUN playwright install
+
 # Install Node.js dependencies
 RUN npm install
 
