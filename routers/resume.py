@@ -1,6 +1,5 @@
 from typing import Annotated, Optional
 import io
-from playwright.async_api import async_playwright
 
 from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
 from fastapi.responses import RedirectResponse, HTMLResponse, StreamingResponse
@@ -91,18 +90,6 @@ async def download_resume_pdf(resume_id: str, request: Request, db: Session = De
     if not request.state.user or resume.user_id != request.state.user["id"]:
         raise HTTPException(status_code=403, detail="Forbidden")
 
-    resume_html = await ResumeService().render_resume(resume.resume)
-
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        page = await browser.new_page()
-
-        # Set content to the HTML string
-        await page.set_content(resume_html)
-
-        # Generate the PDF in memory
-        pdf_bytes = await page.pdf(format="A4")  # Adjust options as needed
-
-        await browser.close()
+    pdf_bytes = await ResumeService().generate_pdf(resume)
 
     return StreamingResponse(io.BytesIO(pdf_bytes), media_type="application/pdf", headers={"Content-Disposition": f"attachment; filename={resume.job_title}-resume.pdf"})

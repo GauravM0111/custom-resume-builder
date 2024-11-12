@@ -1,17 +1,28 @@
-# Use the combined Python and Node.js image as the base image
-FROM nikolaik/python-nodejs:python3.12-nodejs23-slim
+FROM python:3.12-slim
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
+# Install system dependencies and Node.js
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy application files
 COPY . /app
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Install playwright browsers for PDF generation
-RUN playwright install
+RUN playwright install \
+    && playwright install-deps chromium
 
 # Install Node.js dependencies
 RUN npm install

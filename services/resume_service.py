@@ -12,6 +12,7 @@ import subprocess
 import json
 import tempfile
 import os
+from playwright.async_api import async_playwright
 
 
 class ResumeService:
@@ -84,6 +85,24 @@ class ResumeService:
             os.unlink(output_file.name)
 
         return result
+    
+
+    async def generate_pdf(self, resume: Resume) -> bytes:
+        resume_html = await self.render_resume(resume.resume)
+
+        async with async_playwright() as p:
+            browser = await p.chromium.launch()
+            page = await browser.new_page()
+
+            # Set content to the HTML string
+            await page.set_content(resume_html)
+
+            # Generate the PDF in memory
+            pdf_bytes = await page.pdf(format="A4")  # Adjust options as needed
+
+            await browser.close()
+
+        return pdf_bytes
 
 
 SYSTEM_PROMPT = """
