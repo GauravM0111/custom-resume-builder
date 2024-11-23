@@ -59,12 +59,19 @@ async def generate_resume(job_details: Annotated[JobDetails, Form()], request: R
     user["profile"] = get_user_profile(request.state.user["id"], db)
     user = User(**user)
 
+    try:
+        resume = await ResumeService().generate_resume(user, job_details.description)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
     resume = await ResumeService().save_resume(
-        resume = await ResumeService().generate_resume(user, job_details.description),
-        user_id = user.id,
-        job_description = job_details.description,
-        job_title = job_details.title,
-        db = db
+        resume=resume,
+        user_id=user.id,
+        job_description=job_details.description,
+        job_title=job_details.title,
+        db=db
     )
 
     response = Response(status_code=200)
@@ -79,7 +86,7 @@ async def preview_resume(resume_id: str, request: Request, db: Session = Depends
     if not request.state.user or resume.user_id != request.state.user["id"]:
         raise HTTPException(status_code=403, detail="Forbidden")
 
-    resume_html = await ResumeService().render_resume(resume.resume)
+    resume_html = await ResumeService().render_resume(resume)
     return HTMLResponse(content=resume_html)
 
 

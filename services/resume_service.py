@@ -1,3 +1,9 @@
+import json
+import os
+import subprocess
+import tempfile
+import jsonschema
+import jsonschema.exceptions
 import requests
 from sqlalchemy.orm import Session
 from db.resumes import create_resume
@@ -6,13 +12,8 @@ from models.users import User
 from settings.settings import OPENAI_API_KEY, OPENAI_ORGANIZATION_ID, RESUME_SCHEMA_URL
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
-from langchain_core.output_parsers import JsonOutputParser
-from jsonschema import validate
-import subprocess
-import json
-import tempfile
-import os
 from playwright.async_api import async_playwright
+from langchain_core.output_parsers import JsonOutputParser
 
 
 class ResumeService:
@@ -51,8 +52,8 @@ class ResumeService:
 
     async def format_resume(self, resume: dict) -> dict:
         try:
-            validate(instance=resume, schema=self.schema)
-        except Exception as e:
+            jsonschema.validate(instance=resume, schema=self.schema)
+        except jsonschema.exceptions.ValidationError as e:
             self.messages.append(HumanMessage(content=f"There was an error validating the resume. Please correct the errors and return the resume in valid JSON format.\n\nError: {e}"))
             response = await self.invoke_model()
             return await self.format_resume(resume=response)
@@ -60,13 +61,13 @@ class ResumeService:
         return resume
 
 
-    async def render_resume(self, resume: dict) -> str:
+    async def render_resume(self, resume: Resume) -> str:
         input_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
         output_file = tempfile.NamedTemporaryFile(mode='r', suffix='.html', delete=False)
 
-        json.dump(resume, input_file)
+        json.dump(resume.resume, input_file)
         input_file.flush()
-        
+
         try:
             subprocess.run(
                 ["npx", "resumed", "--theme", "jsonresume-theme-even", "--output", output_file.name, input_file.name],
@@ -88,7 +89,7 @@ class ResumeService:
     
 
     async def generate_pdf(self, resume: Resume) -> bytes:
-        resume_html = await self.render_resume(resume.resume)
+        resume_html = await self.render_resume(resume)
 
         async with async_playwright() as p:
             browser = await p.chromium.launch()
@@ -106,12 +107,12 @@ class ResumeService:
 
 
 SYSTEM_PROMPT = """
-You are an expert resume writer. Generate a resume for a user based on their detailed JSON profile and a specific job description. This resume should be customized to the job, showcasing skills, experiences, and achievements that best align with the employer's needs. Output the resume in JSON format.
+You are an expert resume writer. Generate a resume for a user based on their provided LinkedIn profile and a specific job description. This resume should be customized to the job, showcasing skills, experiences, and achievements that best align with the employer's needs. Output the resume in JSON format.
 
 # Important Rules
 - NEVER invent or fabricate information about the user.
 - Use only the information explicitly provided in the user's profile.
-- If information for a section is unavailable, leave it blank or omit the section entirely.
+- If information for a field or section is unavailable, OMIT it entirely - do not include empty or placeholder values.
 
 # Steps
 
@@ -147,10 +148,11 @@ When crafting descriptions of experiences, projects, and skills:
 - Emphasize specific accomplishments, particularly those with measurable results, if such metrics are in the user's profile.
 - Highlight relevant leadership, teamwork, and problem-solving abilities only if these are evident in the user's actual experiences.
 - Use industry-specific terms and job-related keywords to strengthen alignment, but ensure they reflect the user's actual qualifications and experience.
+- Make use of dynamic and professional wording, integrating job keywords to capture recruiter and Automated Tracking System (ATS) attention effectively.
 
 # Output Format
 
-The output should be a JSON object structured as follows, with relevant fields populated according to the user's profile and job description alignment. Omit fields or sections if they lack corresponding information:
+The output should be a JSON object structured as follows, with fields strictly ordered as follows, with relevant fields populated according to the user's profile and job description alignment. Omit fields or sections if they lack corresponding information:
 
 ```json
 {
@@ -323,11 +325,17 @@ The output should be a JSON object structured as follows, with relevant fields p
    - Use the "highlights" array to list specific achievements, responsibilities, or notable contributions, with each point as a separate string.
 
 2. **Array Formatting:**
-   - Ensure array fields (e.g., "highlights," "keywords") are formatted as JSON arrays, not single strings with multiple items.
+   - Ensure array fields (e.g., "highlights") are formatted as JSON arrays, not single strings with multiple items.
+   - However, for the "skills" field, it should be a single string with a comma-separated list of skills.
 
 3. **Field Exclusions:**
    - Exclude any fields with no information, rather than including them as empty values.
 
+4. **Data Completeness:**
+   - Include ONLY fields and sections where user data is explicitly provided
+   - Completely omit any fields or sections lacking corresponding information
+   - Do not generate placeholder or default values
+   - Do not make assumptions about missing information
 
 # Notes
 
