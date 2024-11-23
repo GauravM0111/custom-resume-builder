@@ -25,7 +25,7 @@ RUN playwright install \
     && playwright install-deps chromium
 
 # Install Node.js dependencies
-RUN npm install
+RUN npm install --omit=dev
 
 # Expose port 8000 for FastAPI
 EXPOSE 8000
