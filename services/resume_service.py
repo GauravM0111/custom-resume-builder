@@ -86,7 +86,7 @@ class ResumeService:
             os.unlink(output_file.name)
 
         return result
-    
+
 
     async def generate_pdf(self, resume: Resume) -> bytes:
         resume_html = await self.render_resume(resume)

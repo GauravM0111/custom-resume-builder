@@ -99,4 +99,10 @@ async def download_resume_pdf(resume_id: str, request: Request, db: Session = De
 
     pdf_bytes = await ResumeService().generate_pdf(resume)
 
-    return StreamingResponse(io.BytesIO(pdf_bytes), media_type="application/pdf", headers={"Content-Disposition": f"attachment; filename={resume.job_title}-resume.pdf"})
+    return StreamingResponse(
+        io.BytesIO(pdf_bytes),
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename={resume.job_title}-resume.pdf"
+        }
+    )
