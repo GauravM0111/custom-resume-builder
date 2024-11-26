@@ -29,7 +29,7 @@ class ResumeService:
 
     async def save_resume(self, db: Session, resume: dict, user_id: str, job_description: str, job_title: str = None) -> Resume:
         if not job_title:
-            job_title = "No title lolololol"
+            job_title = "Untitled Resume"
 
         return create_resume(CreateResume(resume=resume, user_id=user_id, job_title=job_title, job_description=job_description), db)
 
