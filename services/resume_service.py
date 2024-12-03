@@ -159,10 +159,10 @@ The output should be a JSON object structured as follows, with fields strictly o
   "basics": {
     "name": "Full Name",
     "label": "e.g. Web Developer",
-    "image": "URL (as per RFC 3986) to a image in JPEG or PNG format",
-    "email": "email@example.com",
-    "phone": "(123) 456-7890",
-    "url": "URL (as per RFC 3986) to your website or personal homepage. e.g. https://example.com",
+    "image": "URL (as per RFC 3986) to the user's profile picture in JPEG or PNG format",
+    "email": "user's email address",
+    "phone": "user's phone number in any format",
+    "url": "URL (as per RFC 3986) to the user's website or personal homepage. e.g. https://example.com",
     "summary": "Write a short 2-3 sentence biography",
     "location": {
       "address": "To add multiple address lines, use \n. For example, 1234 Glücklichkeit Straße\nHinterhaus 5. Etage li.",

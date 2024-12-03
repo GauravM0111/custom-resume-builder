@@ -2,7 +2,7 @@ from uuid import uuid4
 from sqlalchemy.orm import Session, Mapped, mapped_column
 from sqlalchemy import JSON, ForeignKey
 from datetime import datetime
-from models.resumes import Resume, CreateResume
+from models.resumes import Resume, CreateResume, UpdateResume
 
 from .core import Base
 
@@ -26,6 +26,26 @@ def create_resume(resume: CreateResume, session: Session) -> Resume:
     except Exception as e:
         session.rollback()
         raise e
+    session.refresh(db_resume)
+    return Resume(**db_resume.__dict__)
+
+
+def update_resume(resume: UpdateResume, session: Session) -> Resume:
+    db_resume = session.query(DBResume).filter(DBResume.id == resume.id).first()
+
+    if resume.job_title:
+        db_resume.job_title = resume.job_title
+    if resume.job_description:
+        db_resume.job_description = resume.job_description
+    if resume.resume:
+        db_resume.resume = resume.resume
+
+    try:
+        session.commit()
+    except Exception as e:
+        session.rollback()
+        raise e
+
     session.refresh(db_resume)
     return Resume(**db_resume.__dict__)
 

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get A Job</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link rel="stylesheet" href="{{url_for('static',path='dist/css/output.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+</head>
+<body>
+    {% include "navbar.html" %}
+
+    <div class="bg-white p-8 max-w-4xl mx-auto shadow-lg rounded-lg">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">{{ resume.job_title }}</h1>
+            <button 
+                class="bg-green-500 text-white p-2 rounded hover:bg-green-600 flex items-center"
+            >
+                PDF
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 gap-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+            </button>
+        </div>
+
+        <section class="mb-6">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-2xl font-semibold">Personal Information</h2>
+              <button 
+                id="personalInfoEditButton"
+                class="text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2"
+              >
+                Edit
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                </svg>
+              </button>
+              <button 
+                id="personalInfoDoneButton"
+                class="text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2"
+                type="submit"
+                form="personalInfoEditor"
+              >
+                <div id="spinner" class="htmx-indicator pl-2" role="status">
+                        <svg aria-hidden="true" class="w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
+                    </div>
+                    Done
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+                </button>
+            </div>
+            <form id="personalInfoEditor"
+                class="grid grid-cols-2 gap-6 text-gray-700"
+                hx-patch="/resume/{{resume.id}}"
+                hx-indicator="#spinner"
+                hx-disabled-elt="#personalInfoDoneButton"
+            >
+                <div class="w-full">
+                    <label for="name" class="block mb-2 font-semibold">Name</label>
+                    <input
+                        id="name"
+                        name="name" 
+                        type="text"
+                        value="{{resume.resume.basics.name}}"
+                        class="border p-2 rounded w-full"
+                        placeholder="{{resume.resume.basics.name if resume.resume.basics.name else ''}}"
+                    />
+                </div>
+                <div class="w-full">
+                    <label for="label" class="block mb-2 font-semibold">Professional Title</label>
+                    <input
+                        id="label"
+                        name="label"
+                        type="text"
+                        value="{{resume.resume.basics.label}}"
+                        class="border p-2 rounded w-full"
+                        placeholder="{{resume.resume.basics.label if resume.resume.basics.label else ''}}"
+                    />
+                </div>
+                <div class="w-full">
+                    <label for="email" class="block mb-2 font-semibold">Email Address</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value="{{resume.resume.basics.email}}"
+                        class="border p-2 rounded w-full"
+                        placeholder="{{resume.resume.basics.email if resume.resume.basics.email else ''}}"
+                    />
+                </div>
+                <div class="w-full">
+                    <label for="phone" class="block mb-2 font-semibold">Phone Number</label>
+                    <input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        value="{{resume.resume.basics.phone}}"
+                        class="border p-2 rounded w-full"
+                        placeholder="{{resume.resume.basics.phone if resume.resume.basics.phone else ''}}"
+                    />
+                </div>
+                <div class="w-full">
+                        <label for="url" class="block mb-2 font-semibold">Website URL</label>
+                        <input
+                            id="url"
+                            name="url"
+                            type="url"
+                            value="{{resume.resume.basics.url}}"
+                            class="border p-2 rounded w-full"
+                            placeholder="{{resume.resume.basics.url if resume.resume.basics.url else ''}}"
+                        />
+                    </div>
+                    <div class="w-full invisible"></div>
+                    <div class="w-full col-span-full">
+                        <label for="summary" class="block mb-2 font-semibold">Professional Summary</label>
+                        <textarea
+                            id="summary"
+                            name="summary"
+                            class="border p-2 rounded w-full"
+                            rows="5"
+                        >{{resume.resume.basics.summary if resume.resume.basics.summary else ''}}</textarea>
+                </div>
+            </form>
+            <div id="personalInfoPreview" class="grid grid-cols-2 gap-4 text-gray-700">
+                <div key="name">
+                    <strong>Name:</strong> {{resume.resume.basics.name}}
+                </div>
+                <div key="label">
+                    <strong>Professional Title:</strong> {{resume.resume.basics.label}}
+                </div>
+                <div key="email">
+                    <strong>Email Address:</strong> {{resume.resume.basics.email}}
+                </div>
+                <div key="phone">
+                    <strong>Phone Number:</strong> {{resume.resume.basics.phone}}
+                </div>
+                <div key="url">
+                    <strong>Website URL:</strong> {{resume.resume.basics.url}}
+                </div>
+                <div key="summary">
+                    <strong>Professional Summary:</strong> {{resume.resume.basics.summary}}
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        $('#personalInfoDoneButton').hide();
+        $('#personalInfoEditor').hide();
+
+        $('#personalInfoEditButton').click(function() {
+            $(this).hide();
+            $('#personalInfoPreview').hide();
+
+            $('#personalInfoEditor').show();
+            $('#personalInfoDoneButton').show();
+        });
+
+        $('#personalInfoEditor').on('htmx:beforeRequest', function(evt) {
+            let resume = JSON.parse('{{resume.resume | tojson}}');
+
+            var changed = false;
+            for (const [key, value] of Object.entries(evt.detail.requestConfig.parameters)) {
+                if (value && value != resume.basics[key]) {
+                    resume.basics[key] = value;
+                    changed = true;
+                }
+            }
+
+            if (changed) {
+                // Have to clear object instead of setting to new one because
+                // htmx holds a reference to the object and will not update it
+                // if we just set it to a new object
+                Object.keys(evt.detail.requestConfig.parameters).forEach(
+                    key => delete evt.detail.requestConfig.parameters[key]
+                );
+                evt.detail.requestConfig.parameters.resume = JSON.stringify(resume);
+            } else {
+                evt.preventDefault();
+                $('#personalInfoDoneButton').hide();
+                $('#personalInfoEditor').hide();
+                $('#personalInfoPreview').show();
+                $('#personalInfoEditButton').show();
+            }
+        });
+    </script>
+</body>
+</html>

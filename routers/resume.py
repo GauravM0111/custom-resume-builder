@@ -1,15 +1,16 @@
+import json
 from typing import Annotated, Optional
 import io
 
-from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response, status
 from fastapi.responses import RedirectResponse, HTMLResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
 from auth.auth import login_user_in_response
 from db.core import get_db
 from db.users import get_user_profile, update_user
-from db.resumes import get_resume
-from models.resumes import JobDetails
+from db.resumes import get_resume, update_resume as update_resume_db
+from models.resumes import JobDetails, UpdateResume, UpdateResumeForm
 from models.users import User, UserUpdate
 from services.profile_service import ProfileService
 from services.resume_service import ResumeService
@@ -106,3 +107,30 @@ async def download_resume_pdf(resume_id: str, request: Request, db: Session = De
             "Content-Disposition": f"attachment; filename={resume.job_title}-resume.pdf"
         }
     )
+
+
+@router.get("/{resume_id}/edit")
+async def edit_resume(resume_id: str, request: Request, db: Session = Depends(get_db)):
+    resume = get_resume(resume_id, db)
+
+    if not request.state.user or resume.user_id != request.state.user["id"]:
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+    return TEMPLATES.TemplateResponse("edit_resume.html", {"request": request, "resume": resume, "user": request.state.user})
+
+
+@router.patch("/{resume_id}")
+async def update_resume(resume_id: str, update_form: Annotated[UpdateResumeForm, Form()], db: Session = Depends(get_db)):
+    update_form = update_form.model_dump(exclude_none=True)
+
+    if len(update_form) == 0:
+        response = Response(status_code=status.HTTP_204_NO_CONTENT)
+    else:
+        if 'resume' in update_form:
+            update_form["resume"] = json.loads(update_form["resume"])
+
+        update_resume_db(UpdateResume(id=resume_id, **update_form), db)
+        response = Response(status_code=status.HTTP_200_OK)
+
+    response.headers["HX-Redirect"] = f"/resume/{resume_id}/edit"
+    return response
