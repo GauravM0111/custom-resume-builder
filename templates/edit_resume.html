@@ -64,9 +64,8 @@
                         id="name"
                         name="name" 
                         type="text"
-                        value="{{resume.resume.basics.name}}"
+                        value="{{resume.resume.basics.name if resume.resume.basics.name else ''}}"
                         class="border p-2 rounded w-full"
-                        placeholder="{{resume.resume.basics.name if resume.resume.basics.name else ''}}"
                     />
                 </div>
                 <div class="w-full">
@@ -75,9 +74,8 @@
                         id="label"
                         name="label"
                         type="text"
-                        value="{{resume.resume.basics.label}}"
+                        value="{{resume.resume.basics.label if resume.resume.basics.label else ''}}"
                         class="border p-2 rounded w-full"
-                        placeholder="{{resume.resume.basics.label if resume.resume.basics.label else ''}}"
                     />
                 </div>
                 <div class="w-full">
@@ -86,9 +84,8 @@
                         id="email"
                         name="email"
                         type="email"
-                        value="{{resume.resume.basics.email}}"
+                        value="{{resume.resume.basics.email if resume.resume.basics.email else ''}}"
                         class="border p-2 rounded w-full"
-                        placeholder="{{resume.resume.basics.email if resume.resume.basics.email else ''}}"
                     />
                 </div>
                 <div class="w-full">
@@ -97,31 +94,91 @@
                         id="phone"
                         name="phone"
                         type="tel"
-                        value="{{resume.resume.basics.phone}}"
+                        value="{{resume.resume.basics.phone if resume.resume.basics.phone else ''}}"
                         class="border p-2 rounded w-full"
-                        placeholder="{{resume.resume.basics.phone if resume.resume.basics.phone else ''}}"
                     />
                 </div>
                 <div class="w-full">
-                        <label for="url" class="block mb-2 font-semibold">Website URL</label>
-                        <input
-                            id="url"
-                            name="url"
-                            type="url"
-                            value="{{resume.resume.basics.url}}"
-                            class="border p-2 rounded w-full"
-                            placeholder="{{resume.resume.basics.url if resume.resume.basics.url else ''}}"
-                        />
-                    </div>
-                    <div class="w-full invisible"></div>
-                    <div class="w-full col-span-full">
-                        <label for="summary" class="block mb-2 font-semibold">Professional Summary</label>
-                        <textarea
-                            id="summary"
-                            name="summary"
-                            class="border p-2 rounded w-full"
-                            rows="5"
-                        >{{resume.resume.basics.summary if resume.resume.basics.summary else ''}}</textarea>
+                    <label for="url" class="block mb-2 font-semibold">Website URL</label>
+                    <input
+                        id="url"
+                        name="url"
+                        type="url"
+                        value="{{resume.resume.basics.url if resume.resume.basics.url else ''}}"
+                        class="border p-2 rounded w-full"
+                    />
+                </div>
+                <div class="w-full invisible"></div>
+                <div class="w-full col-span-full">
+                    <label class="block mt-2 font-semibold mb-2">Location</label>
+                    <label for="location_address1" class="block mb-2 font-semibold">Address Line 1</label>
+                    <input
+                        id="location_address1"
+                        name="location_address1"
+                        type="text"
+                        value="{{resume.resume.basics.location.address.split('\n')[0] if resume.resume.basics.location.address else ''}}"
+                        class="border p-2 rounded w-full"
+                    />
+                </div>
+                <div class="w-full col-span-full">
+                    <label for="location_address2" class="block mb-2 font-semibold">Address Line 2</label>
+                    <input
+                        id="location_address2"
+                        name="location_address2"
+                        type="text"
+                        value="{{resume.resume.basics.location.address.split('\n')[1] if resume.resume.basics.location.address else ''}}"
+                        class="border p-2 rounded w-full"
+                    />
+                </div>
+                <div class="w-full">
+                    <label for="location_city" class="block mb-2 font-semibold">City</label>
+                    <input
+                        id="location_city"
+                        name="location_city"
+                        type="text"
+                        value="{{resume.resume.basics.location.city if resume.resume.basics.location.city else ''}}"
+                        class="border p-2 rounded w-full"
+                    />
+                </div>
+                <div class="w-full">
+                    <label for="location_countryCode" class="block mb-2 font-semibold">Country Code</label>
+                    <input
+                        id="location_countryCode"
+                        name="location_countryCode"
+                        type="text"
+                        value="{{resume.resume.basics.location.countryCode if resume.resume.basics.location.countryCode else ''}}"
+                        class="border p-2 rounded w-full"
+                    />
+                </div>
+                <div class="w-full">
+                    <label for="location_postalCode" class="block mb-2 font-semibold">Postal Code</label>
+                    <input
+                        id="location_postalCode"
+                        name="location_postalCode"
+                        type="text"
+                        value="{{resume.resume.basics.location.postalCode if resume.resume.basics.location.postalCode else ''}}"
+                        class="border p-2 rounded w-full"
+                    />
+                </div>
+                <div class="w-full">
+                    <label for="location_region" class="block mb-2 font-semibold">Region</label>
+                    <input
+                        id="location_region"
+                        name="location_region"
+                        type="text"
+                        value="{{resume.resume.basics.location.region if resume.resume.basics.location.region else ''}}"
+                        class="border p-2 rounded w-full"
+                    />
+                </div>
+                <div class="w-full invisible"></div>
+                <div class="w-full col-span-full">
+                    <label for="summary" class="block mb-2 font-semibold">Professional Summary</label>
+                    <textarea
+                        id="summary"
+                        name="summary"
+                        class="border p-2 rounded w-full"
+                        rows="5"
+                    >{{resume.resume.basics.summary if resume.resume.basics.summary else ''}}</textarea>
                 </div>
             </form>
             <div id="personalInfoPreview" class="grid grid-cols-2 gap-4 text-gray-700">
@@ -139,6 +196,14 @@
                 </div>
                 <div key="url">
                     <strong>Website URL:</strong> {{resume.resume.basics.url}}
+                </div>
+                <div key="location">
+                    <strong>Location:</strong> {{resume.resume.basics.location.address}}
+                    <br>
+                    {{(resume.resume.basics.location.city + ", ") if resume.resume.basics.location.city else ''}}
+                    {{(resume.resume.basics.location.region + ", " if resume.resume.basics.location.region else '')}}
+                    {{(resume.resume.basics.location.countryCode + " - " if resume.resume.basics.location.countryCode else '')}}
+                    {{resume.resume.basics.location.postalCode if resume.resume.basics.location.postalCode else ''}}
                 </div>
                 <div key="summary">
                     <strong>Professional Summary:</strong> {{resume.resume.basics.summary}}
@@ -159,10 +224,11 @@
             $('#personalInfoDoneButton').show();
         });
 
-        $('#personalInfoEditor').on('htmx:beforeRequest', function(evt) {
-            let resume = JSON.parse('{{resume.resume | tojson}}');
+        $('#personalInfoEditor').on('htmx:beforeRequest', function(evt) {            
+            let resume = {{resume.resume | tojson}};
 
-            var changed = false;
+            var changed = constructLocationParameter(resume, evt.detail.requestConfig.parameters);
+
             for (const [key, value] of Object.entries(evt.detail.requestConfig.parameters)) {
                 if (value && value != resume.basics[key]) {
                     resume.basics[key] = value;
@@ -186,6 +252,45 @@
                 $('#personalInfoEditButton').show();
             }
         });
+
+        function constructLocationParameter(resume, parameters) {
+            const {
+                location_address1: address,
+                location_address2: address2,
+                location_city: city,
+                location_countryCode: countryCode,
+                location_postalCode: postalCode,
+                location_region: region
+            } = parameters;
+
+            const locationData = {
+                address,
+                city,
+                countryCode,
+                postalCode,
+                region
+            };
+
+            if (address2) {
+                locationData.address += '\n' + address2;
+            }
+
+            delete parameters["location_address1"];
+            delete parameters["location_address2"];
+            delete parameters["location_city"];
+            delete parameters["location_countryCode"];
+            delete parameters["location_postalCode"];
+            delete parameters["location_region"];
+
+            for (const [key, value] of Object.entries(locationData)) {
+                if (value != resume.basics.location[key]) {
+                    parameters.location = locationData;
+                    return true;
+                }
+            }
+
+            return false;
+        }
     </script>
 </body>
 </html>
