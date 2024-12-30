@@ -99,7 +99,7 @@ async def callback(state: str, code: str, error: str = None, google_oauth_state:
             if guest_id:
                 user = UserService().create_user_from_guest(guest_id, UserCreate(**response.json()), db)
             else:
-                user = create_user(UserCreate(**response.json()))
+                user = create_user(UserCreate(**response.json()), db)
         except Exception as e:
             print(e)
             return {'error': 'Failed to create user'}, 500
