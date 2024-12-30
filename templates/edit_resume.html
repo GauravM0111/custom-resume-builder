@@ -12,22 +12,21 @@
 <body>
     {% include "navbar.html" %}
 
-    <div class="bg-white p-8 max-w-4xl mx-auto shadow-lg rounded-lg">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">{{ resume.job_title }}</h1>
-            <button 
-                class="bg-green-500 text-white p-2 rounded hover:bg-green-600 flex items-center"
-            >
-                PDF
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 gap-2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                </svg>
-            </button>
+    <div class="grid grid-cols-2 p-4 gap-1">
+        <div class="bg-white p-8 w-full shadow-lg rounded-lg">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">{{ resume.job_title }}</h1>
+    
+            {% include "edit_resume_personal_info.html" %}
+            <hr class="my-8">
+            {% include "edit_resume_work.html" %}
         </div>
-
-        {% include "edit_resume_personal_info.html" %}
-        <hr class="my-8">
-        {% include "edit_resume_work.html" %}
+        <object
+            data="/resume/pdf/{{resume.id}}"
+            type="application/pdf"
+            class="bg-white w-full h-full shadow-lg rounded-lg"
+        ></object>
     </div>
+
+    
 </body>
 </html>

@@ -310,8 +310,6 @@
         var changed = constructLocationParameter(resume, evt.detail.requestConfig.parameters);
         changed = changed || constructProfilesParameter(resume, evt.detail.requestConfig.parameters);
 
-        console.log(evt.detail.requestConfig.parameters);
-
         for (const [key, value] of Object.entries(evt.detail.requestConfig.parameters)) {
             if (value && value != resume.basics[key]) {
                 resume.basics[key] = value;
@@ -408,7 +406,7 @@
 
         var changed = newProfileCreated;
 
-        if (!changed) {
+        if (!changed && resume.basics.profiles) {
             resume.basics.profiles.forEach((profile, index) => {
                 if (profileFields[index]) {
                     changed = changed || Object.entries(profileFields[index]).some(([field, value]) => {

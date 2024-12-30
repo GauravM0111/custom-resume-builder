@@ -92,7 +92,7 @@ async def preview_resume(resume_id: str, request: Request, db: Session = Depends
 
 
 @router.get("/pdf/{resume_id}")
-async def download_resume_pdf(resume_id: str, request: Request, db: Session = Depends(get_db)):
+async def download_resume_pdf(resume_id: str, request: Request, download: bool = False, db: Session = Depends(get_db)):
     resume = get_resume(resume_id, db)
 
     if not request.state.user or resume.user_id != request.state.user["id"]:
@@ -100,13 +100,17 @@ async def download_resume_pdf(resume_id: str, request: Request, db: Session = De
 
     pdf_bytes = await ResumeService().generate_pdf(resume)
 
-    return StreamingResponse(
+    response = StreamingResponse(
         io.BytesIO(pdf_bytes),
-        media_type="application/pdf",
-        headers={
-            "Content-Disposition": f"attachment; filename={resume.job_title}-resume.pdf"
-        }
+        media_type="application/pdf"
     )
+
+    if download:
+        response.headers["Content-Disposition"] = f"attachment; filename={resume.job_title}-resume.pdf"
+    else:
+        response.headers["Content-Disposition"] = f"inline; filename={resume.job_title}-resume.pdf"
+
+    return response
 
 
 @router.get("/{resume_id}/edit")
