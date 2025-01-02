@@ -9,9 +9,10 @@ from sqlalchemy.orm import Session
 from auth.auth import login_user_in_response
 from db.core import get_db
 from db.users import get_user_profile, update_user
-from db.resumes import get_resume, update_resume as update_resume_db
-from models.resumes import JobDetails, UpdateResume, UpdateResumeForm
+from db.resumes import get_resume
+from models.resumes import CreateResume, JobDetails, UpdateResume, UpdateResumeForm
 from models.users import User, UserUpdate
+from services.llm_service import LLMService
 from services.profile_service import ProfileService
 from services.resume_service import ResumeService
 from services.user_service import UserService
@@ -61,18 +62,20 @@ async def generate_resume(job_details: Annotated[JobDetails, Form()], request: R
     user = User(**user)
 
     try:
-        resume = await ResumeService().generate_resume(user, job_details.description)
+        resume = await LLMService().generate_resume(user, job_details.description)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
     resume = await ResumeService().save_resume(
-        resume=resume,
-        user_id=user.id,
-        job_description=job_details.description,
-        job_title=job_details.title,
-        db=db
+        db=db,
+        create_resume_object=CreateResume(
+            resume=resume,
+            user_id=user.id,
+            job_title=job_details.title,
+            job_description=job_details.description
+        )
     )
 
     response = Response(status_code=200)
@@ -133,7 +136,7 @@ async def update_resume(resume_id: str, update_form: Annotated[UpdateResumeForm,
         if 'resume' in update_form:
             update_form["resume"] = json.loads(update_form["resume"])
 
-        update_resume_db(UpdateResume(id=resume_id, **update_form), db)
+        await ResumeService().update_resume(db, UpdateResume(id=resume_id, **update_form))
         response = Response(status_code=status.HTTP_200_OK)
 
     response.headers["HX-Redirect"] = f"/resume/{resume_id}/edit"
