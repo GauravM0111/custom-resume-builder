@@ -2,11 +2,12 @@ import json
 import os
 import subprocess
 import tempfile
+from typing import Literal
 from sqlalchemy.orm import Session
 from db.resumes import create_resume, update_resume
 from models.resumes import CreateResume, Resume, UpdateResume
 from playwright.async_api import async_playwright
-
+import boto3
 
 AVAILABLE_THEMES = ["jsonresume-theme-even"]
 
@@ -53,8 +54,8 @@ class ResumeService:
         resume = create_resume(create_resume_object, db)
 
         pdf_bytes, img_bytes = await self.generate_pdf_and_img(resume)
-        await self.save_pdf_to_s3(pdf_bytes, resume.id)
-        await self.save_thumbnail_to_s3(img_bytes, resume.id)
+        await self.save_to_s3(bucket="pdf", file_bytes=pdf_bytes, file_name=f"{resume.id}.pdf")
+        await self.save_to_s3(bucket="thumbnail", file_bytes=img_bytes, file_name=f"{resume.id}.png")
 
         return resume
 
@@ -63,8 +64,8 @@ class ResumeService:
         resume = update_resume(update_resume_object, db)
 
         pdf_bytes, img_bytes = await self.generate_pdf_and_img(resume)
-        await self.save_pdf_to_s3(pdf_bytes, resume.id)
-        await self.save_thumbnail_to_s3(img_bytes, resume.id)
+        await self.save_to_s3(bucket="pdf", file_bytes=pdf_bytes, file_name=f"{resume.id}.pdf")
+        await self.save_to_s3(bucket="thumbnail", file_bytes=img_bytes, file_name=f"{resume.id}.png")
 
         return resume
 
@@ -103,13 +104,23 @@ class ResumeService:
             await browser.close()
 
         return pdf_bytes, img_bytes
+    
 
+    async def save_to_s3(self, bucket: Literal["pdf", "thumbnail"], file_bytes: str, file_name: str) -> None:
+        if bucket not in ["pdf", "thumbnail"]:
+            raise ValueError(f"Invalid bucket: {bucket}")
+        elif bucket == "pdf" and not file_name.endswith(".pdf"):
+            raise ValueError("PDF file name must end with .pdf")
+        elif bucket == "thumbnail" and not file_name.endswith(".png"):
+            raise ValueError("Thumbnail file name must end with .png")
 
-    async def save_thumbnail_to_s3(self, thumbnail_bytes: bytes, thumbnail_name: str) -> None:
-        print(f'thumbnail_name: {thumbnail_name}')
-        open(f'{thumbnail_name}.png', "wb").write(thumbnail_bytes)
+        s3 = boto3.client("s3", endpoint_url=os.getenv("AWS_S3_ENDPOINT_URL"))
 
+        response = s3.put_object(
+            Bucket=bucket,
+            Key=file_name,
+            Body=file_bytes,
+            ContentType="application/pdf" if bucket == "pdf" else "image/png"
+        )
 
-    async def save_pdf_to_s3(self, pdf_bytes: bytes, pdf_name: str) -> None:
-        print(f'pdf_name: {pdf_name}')
-        open(f'{pdf_name}.pdf', "wb").write(pdf_bytes)
+        return response
