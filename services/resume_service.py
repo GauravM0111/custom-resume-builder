@@ -8,6 +8,7 @@ from db.resumes import create_resume, update_resume
 from models.resumes import CreateResume, Resume, UpdateResume
 from playwright.async_api import async_playwright
 import boto3
+from settings.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_ENDPOINT_URL, AWS_S3_REGION
 
 AVAILABLE_THEMES = ["jsonresume-theme-even"]
 
@@ -54,8 +55,8 @@ class ResumeService:
         resume = create_resume(create_resume_object, db)
 
         pdf_bytes, img_bytes = await self.generate_pdf_and_img(resume)
-        await self.save_to_s3(bucket="pdf", file_bytes=pdf_bytes, file_name=f"{resume.id}.pdf")
-        await self.save_to_s3(bucket="thumbnail", file_bytes=img_bytes, file_name=f"{resume.id}.png")
+        await self.save_to_s3(bucket="pdfs", file_bytes=pdf_bytes, file_name=f"{resume.id}.pdf")
+        await self.save_to_s3(bucket="thumbnails", file_bytes=img_bytes, file_name=f"{resume.id}.png")
 
         return resume
 
@@ -64,28 +65,10 @@ class ResumeService:
         resume = update_resume(update_resume_object, db)
 
         pdf_bytes, img_bytes = await self.generate_pdf_and_img(resume)
-        await self.save_to_s3(bucket="pdf", file_bytes=pdf_bytes, file_name=f"{resume.id}.pdf")
-        await self.save_to_s3(bucket="thumbnail", file_bytes=img_bytes, file_name=f"{resume.id}.png")
+        await self.save_to_s3(bucket="pdfs", file_bytes=pdf_bytes, file_name=f"{resume.id}.pdf")
+        await self.save_to_s3(bucket="thumbnails", file_bytes=img_bytes, file_name=f"{resume.id}.png")
 
         return resume
-
-
-    async def generate_pdf(self, resume: Resume) -> bytes:
-        resume_html = await self.render_resume(resume)
-
-        async with async_playwright() as p:
-            browser = await p.chromium.launch()
-            page = await browser.new_page()
-
-            # Set content to the HTML string
-            await page.set_content(resume_html)
-
-            # Generate the PDF in memory
-            pdf_bytes = await page.pdf(format="A4")
-
-            await browser.close()
-
-        return pdf_bytes
 
 
     async def generate_pdf_and_img(self, resume: Resume) -> tuple[bytes, bytes]:
@@ -104,23 +87,31 @@ class ResumeService:
             await browser.close()
 
         return pdf_bytes, img_bytes
-    
 
-    async def save_to_s3(self, bucket: Literal["pdf", "thumbnail"], file_bytes: str, file_name: str) -> None:
-        if bucket not in ["pdf", "thumbnail"]:
+
+    async def save_to_s3(self, bucket: Literal["pdfs", "thumbnails"], file_bytes: str, file_name: str) -> None:
+        if bucket not in ["pdfs", "thumbnails"]:
             raise ValueError(f"Invalid bucket: {bucket}")
-        elif bucket == "pdf" and not file_name.endswith(".pdf"):
+        elif bucket == "pdfs" and not file_name.endswith(".pdf"):
             raise ValueError("PDF file name must end with .pdf")
-        elif bucket == "thumbnail" and not file_name.endswith(".png"):
+        elif bucket == "thumbnails" and not file_name.endswith(".png"):
             raise ValueError("Thumbnail file name must end with .png")
 
-        s3 = boto3.client("s3", endpoint_url=os.getenv("AWS_S3_ENDPOINT_URL"))
-
-        response = s3.put_object(
+        response = self.s3_client().put_object(
             Bucket=bucket,
             Key=file_name,
             Body=file_bytes,
-            ContentType="application/pdf" if bucket == "pdf" else "image/png"
+            ContentType="application/pdf" if bucket == "pdfs" else "image/png"
         )
 
         return response
+
+
+    def s3_client(self):
+        return boto3.client(
+            "s3",
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            endpoint_url=AWS_S3_ENDPOINT_URL,
+            region_name=AWS_S3_REGION
+        )

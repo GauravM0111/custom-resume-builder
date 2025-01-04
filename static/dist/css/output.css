@@ -600,10 +600,6 @@ video {
   border-width: 0;
 }
 
-.pointer-events-none {
-  pointer-events: none;
-}
-
 .invisible {
   visibility: hidden;
 }
@@ -927,6 +923,16 @@ video {
 
 .fill-blue-600 {
   fill: #2563eb;
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.object-top {
+  -o-object-position: top;
+     object-position: top;
 }
 
 .p-2 {

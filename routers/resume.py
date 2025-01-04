@@ -16,7 +16,7 @@ from services.llm_service import LLMService
 from services.profile_service import ProfileService
 from services.resume_service import ResumeService
 from services.user_service import UserService
-from settings.settings import TEMPLATES
+from settings.settings import STORAGE_PUBLIC_ACCESS_URL, TEMPLATES
 
 
 router = APIRouter(prefix="/resume")
@@ -79,40 +79,7 @@ async def generate_resume(job_details: Annotated[JobDetails, Form()], request: R
     )
 
     response = Response(status_code=200)
-    response.headers["HX-Redirect"] = f"/resume/preview/{resume.id}"
-    return response
-
-
-@router.get("/preview/{resume_id}")
-async def preview_resume(resume_id: str, request: Request, db: Session = Depends(get_db)):
-    resume = get_resume(resume_id, db)
-
-    if not request.state.user or resume.user_id != request.state.user["id"]:
-        raise HTTPException(status_code=403, detail="Forbidden")
-
-    resume_html = await ResumeService().render_resume(resume)
-    return HTMLResponse(content=resume_html)
-
-
-@router.get("/pdf/{resume_id}")
-async def download_resume_pdf(resume_id: str, request: Request, download: bool = False, db: Session = Depends(get_db)):
-    resume = get_resume(resume_id, db)
-
-    if not request.state.user or resume.user_id != request.state.user["id"]:
-        raise HTTPException(status_code=403, detail="Forbidden")
-
-    pdf_bytes = await ResumeService().generate_pdf(resume)
-
-    response = StreamingResponse(
-        io.BytesIO(pdf_bytes),
-        media_type="application/pdf"
-    )
-
-    if download:
-        response.headers["Content-Disposition"] = f"attachment; filename={resume.job_title}-resume.pdf"
-    else:
-        response.headers["Content-Disposition"] = f"inline; filename={resume.job_title}-resume.pdf"
-
+    response.headers["HX-Redirect"] = f"/resume/{resume.id}/edit"
     return response
 
 
@@ -123,7 +90,15 @@ async def edit_resume(resume_id: str, request: Request, db: Session = Depends(ge
     if not request.state.user or resume.user_id != request.state.user["id"]:
         raise HTTPException(status_code=403, detail="Forbidden")
 
-    return TEMPLATES.TemplateResponse("edit_resume.html", {"request": request, "resume": resume, "user": request.state.user})
+    return TEMPLATES.TemplateResponse(
+        "edit_resume.html",
+        {
+            "request": request,
+            "resume": resume,
+            "user": request.state.user,
+            "storage_public_access_url": STORAGE_PUBLIC_ACCESS_URL
+        }
+    )
 
 
 @router.patch("/{resume_id}")
