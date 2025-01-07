@@ -33,7 +33,6 @@ EXAMPLE_RESUME_URL='https://raw.githubusercontent.com/jsonresume/resume-schema/v
 STORAGE_PUBLIC_ACCESS_URL='https://d1lyyg4t00nvl0.cloudfront.net'
 
 AWS_S3_THUMBNAILS_BUCKET="thumbnails-resume-builder"
-CLOUDFRONT_DISTRIBUTION_URL=""
 
 UNAUTHENTICATED_ENDPOINTS = [
     "/signin",
