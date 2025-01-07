@@ -30,7 +30,7 @@ PROXYCURL_BASE_URL='https://nubela.co/proxycurl/api/v2'
 RESUME_SCHEMA_URL='https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json'
 EXAMPLE_RESUME_URL='https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json'
 
-STORAGE_PUBLIC_ACCESS_URL='https://ylkzxvhponuhelczayhv.supabase.co/storage/v1/object/public'
+STORAGE_PUBLIC_ACCESS_URL='https://d1lyyg4t00nvl0.cloudfront.net'
 
 AWS_S3_THUMBNAILS_BUCKET="thumbnails-resume-builder"
 CLOUDFRONT_DISTRIBUTION_URL=""

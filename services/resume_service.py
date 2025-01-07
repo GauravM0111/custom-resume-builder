@@ -90,7 +90,9 @@ class ResumeService:
         if not file_name.endswith(".png"):
             raise ValueError("Thumbnail file name must end with .png")
         
-        await self.s3_client().put_object(
+        s3 = await self.s3_client()
+
+        s3.put_object(
             Bucket=AWS_S3_THUMBNAILS_BUCKET,
             Key=file_name,
             Body=img_bytes,
