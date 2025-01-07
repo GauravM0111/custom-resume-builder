@@ -30,10 +30,10 @@ PROXYCURL_BASE_URL='https://nubela.co/proxycurl/api/v2'
 RESUME_SCHEMA_URL='https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json'
 EXAMPLE_RESUME_URL='https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json'
 
-AWS_S3_ENDPOINT_URL='https://ylkzxvhponuhelczayhv.supabase.co/storage/v1/s3'
-AWS_S3_REGION='us-west-1'
-
 STORAGE_PUBLIC_ACCESS_URL='https://ylkzxvhponuhelczayhv.supabase.co/storage/v1/object/public'
+
+AWS_S3_THUMBNAILS_BUCKET="thumbnails-resume-builder"
+CLOUDFRONT_DISTRIBUTION_URL=""
 
 UNAUTHENTICATED_ENDPOINTS = [
     "/signin",

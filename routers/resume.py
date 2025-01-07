@@ -83,6 +83,24 @@ async def generate_resume(job_details: Annotated[JobDetails, Form()], request: R
     return response
 
 
+@router.get("/{resume_id}/pdf")
+async def resume_pdf(resume_id: str, download: bool = False, db: Session = Depends(get_db)):
+    resume = get_resume(resume_id, db)
+
+    pdf_bytes, _ = await ResumeService().generate_pdf_and_img(resume)
+
+    return StreamingResponse(
+        io.BytesIO(pdf_bytes),
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": "{}; filename={}-resume.pdf".format(
+                'attachment' if download else 'inline',
+                resume.job_title.replace(" ", "_")
+            )
+        }
+    )
+
+
 @router.get("/{resume_id}/edit")
 async def edit_resume(resume_id: str, request: Request, db: Session = Depends(get_db)):
     resume = get_resume(resume_id, db)
