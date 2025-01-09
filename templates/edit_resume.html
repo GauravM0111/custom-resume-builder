@@ -14,7 +14,15 @@
 
     <div class="grid grid-cols-2 p-4 gap-1">
         <div class="bg-white p-8 w-full shadow-lg rounded-lg">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6">{{ resume.job_title }}</h1>
+            <input
+                name="job_title"
+                class="text-3xl font-bold text-gray-800 mb-6"
+                hx-patch="/resume/{{resume.id}}"
+                hx-target="this"
+                hx-swap="textContent"
+                hx-trigger="keyup changed delay:1s"
+                value="{{ resume.job_title }}"
+            >
     
             {% include "edit_resume_personal_info.html" %}
             <hr class="my-8">

@@ -124,13 +124,20 @@ async def update_resume(resume_id: str, update_form: Annotated[UpdateResumeForm,
     update_form = update_form.model_dump(exclude_none=True)
 
     if len(update_form) == 0:
-        response = Response(status_code=status.HTTP_204_NO_CONTENT)
-    else:
-        if 'resume' in update_form:
-            update_form["resume"] = json.loads(update_form["resume"])
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+    if 'resume' in update_form:
+        update_form["resume"] = json.loads(update_form["resume"])
         await ResumeService().update_resume(db, UpdateResume(id=resume_id, **update_form))
-        response = Response(status_code=status.HTTP_200_OK)
+        return Response(
+            headers={
+                "HX-Redirect": f"/resume/{resume_id}/edit"
+            },
+            status_code=status.HTTP_308_PERMANENT_REDIRECT
+        )
 
-    response.headers["HX-Redirect"] = f"/resume/{resume_id}/edit"
-    return response
+    resume = await ResumeService().update_resume(db, UpdateResume(id=resume_id, **update_form))
+    return Response(
+        content=resume.job_title,
+        status_code=status.HTTP_200_OK
+    )
