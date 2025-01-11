@@ -1,8 +1,8 @@
     <section class="mb-6">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-2xl font-semibold">Professional Experience</h2>
+          <h2 class="text-2xl font-semibold">Education</h2>
           <button 
-            id="workInfoEditButton"
+            id="eduInfoEditButton"
             class="text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2"
           >
             Edit
@@ -11,10 +11,10 @@
             </svg>
           </button>
           <button 
-            id="workInfoDoneButton"
+            id="eduInfoDoneButton"
             class="text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2"
             type="submit"
-            form="workInfoEditor"
+            form="eduInfoEditor"
           >
                 <div id="spinner" class="htmx-indicator pl-2" role="status">
                     <svg aria-hidden="true" class="w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
@@ -25,50 +25,42 @@
                 </svg>
             </button>
         </div>
-        <form id="workInfoEditor"
+        <form id="eduInfoEditor"
             class="gap-6 text-gray-700"
             hx-patch="/resume/{{resume.id}}"
             hx-indicator="#spinner"
-            hx-disabled-elt="#workInfoDoneButton"
+            hx-disabled-elt="#eduInfoDoneButton"
         >
             <button
-                id="addWorkButton"
+                id="addEduButton"
                 type="button"
                 class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
-                onclick="(this).before(renderBlankWorkEntry(`new_${new_work_index}`));new_work_index++;"
+                onclick="$(this).before(renderBlankEduEntry(`new_${new_edu_index}`));new_edu_index++;"
             >
-                New Experience
+                New Education
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
             </button>
         </form>
 
-        <div id="workInfoPreview" class="block text-gray-700 gap-4">
-            {% for work in resume.resume.work %}
+        <div id="eduInfoPreview" class="block text-gray-700 gap-4">
+            {% for education in resume.resume.education %}
             <div class="gap-1 border p-2 rounded my-4">
                 <div class="flex justify-between items-center">
-                    <strong>{{work.name}}</strong>
-                    <span>{{work.startDate}} - {{work.endDate}}</span>
+                    <strong>{{education.institution}}</strong>
+                    <span>{{education.startDate}} - {{education.endDate}}</span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span>{{work.position}}</span>
-                    <span>{{work.location}}</span>
+                    <span>{{education.studyType}} in {{education.area}}</span>
+                    <span>{{education.score}}</span>
                 </div>
-                <u><a href="{{work.url}}" target="_blank">{{work.url}}</a></u>
+                <u><a href="{{education.url}}" target="_blank">{{education.url}}</a></u>
                 <div class="w-full mt-2">
-                    <i>Company Description</i>
-                    <br>{{work.description}}
-                </div>
-                <div class="w-full mt-2">
-                    <i>Summary</i>
-                    <br>{{work.summary}}
-                </div>
-                <div class="w-full mt-2">
-                    <i>Highlights</i>
+                    <i>Courses</i>
                     <ul class="list-disc pl-4">
-                        {% for highlight in work.highlights %}
-                            <li>{{highlight}}</li>
+                        {% for course in education.courses %}
+                            <li>{{course}}</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -78,32 +70,31 @@
     </section>
     
     <script>
-        let new_highlight_index=0;
-        let new_work_index = 0;
+        let new_course_index = 0;
+        let new_edu_index = 0;
 
-        $('#workInfoDoneButton').hide();
-        $('#workInfoEditor').hide();
+        $('#eduInfoDoneButton').hide();
+        $('#eduInfoEditor').hide();
 
-        {% for work in resume.resume.work %}
-        $('#workInfoEditor').children('#addWorkButton').before(renderBlankWorkEntry({{loop.index0}}));
+        {% for education in resume.resume.education %}
+        $('#eduInfoEditor').children('#addEduButton').before(renderBlankEduEntry({{loop.index0}}));
         
-        $('#work_{{loop.index0}}').find('input#name').val('{{work.name if work.name else ''}}');
-        $('#work_{{loop.index0}}').find('input#location').val('{{work.location if work.location else ''}}');
-        $('#work_{{loop.index0}}').find('input#description').val('{{work.description if work.description else ''}}');
-        $('#work_{{loop.index0}}').find('input#url').val('{{work.url if work.url else ''}}');
-        $('#work_{{loop.index0}}').find('input#position').val('{{work.position if work.position else ''}}');
-        $('#work_{{loop.index0}}').find('input#startDate').val('{{work.startDate if work.startDate else ''}}');
-        $('#work_{{loop.index0}}').find('input#endDate').val('{{work.endDate if work.endDate else ''}}');
-        $('#work_{{loop.index0}}').find('input#summary').val('{{work.summary if work.summary else ''}}');
+        $('#edu_{{loop.index0}}').find('input#institution').val('{{education.institution if education.institution else ''}}');
+        $('#edu_{{loop.index0}}').find('input#score').val('{{education.score if education.score else ''}}');
+        $('#edu_{{loop.index0}}').find('input#studyType').val('{{education.studyType if education.studyType else ''}}');
+        $('#edu_{{loop.index0}}').find('input#area').val('{{education.area if education.area else ''}}');
+        $('#edu_{{loop.index0}}').find('input#startDate').val('{{education.startDate if education.startDate else ''}}');
+        $('#edu_{{loop.index0}}').find('input#endDate').val('{{education.endDate if education.endDate else ''}}');
+        $('#edu_{{loop.index0}}').find('input#url').val('{{education.url if education.url else ''}}');
 
-        {% for highlight in work.highlights %}
-        $('#work_{{loop.index0}}').find('#addHighlightButton').before(
+        {% for course in education.courses %}
+        $('#edu_{{loop.index0}}').find('#addCourseButton').before(
             '<div class=\'flex justify-between items-center gap-4\'>' +
                 '<input' +
-                    ' id=\'highlight_{{loop.index0}}\'' +
-                    ' name=\'highlight_{{loop.index0}}\'' +
+                    ' id=\'course_{{loop.index0}}\'' +
+                    ' name=\'course_{{loop.index0}}\'' +
                     ' type=\'text\' class=\'border p-2 rounded w-full\'' +
-                    ' value=\'{{highlight}}\'  />' +
+                    ' value=\'{{course}}\'  />' +
                 '<button class=\'text-red-500 hover:text-red-700 flex items-center\' onclick=\'$(this).parent().remove();\'>' +
                     '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' class=\'size-6\'>' +
                         '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\' />' +
@@ -116,34 +107,34 @@
 
         // Listeners
     
-        $('#workInfoEditButton').click(function() {
+        $('#eduInfoEditButton').click(function() {
             $(this).hide();
-            $('#workInfoPreview').hide();
+            $('#eduInfoPreview').hide();
 
-            $('#workInfoEditor').show();
-            $('#workInfoDoneButton').show();
+            $('#eduInfoEditor').show();
+            $('#eduInfoDoneButton').show();
         });
 
-        $('#workInfoEditor').on('htmx:beforeRequest', function(evt) {
+        $('#eduInfoEditor').on('htmx:beforeRequest', function(evt) {
             let resume = {{resume.resume | tojson}};
 
-            let work = [];
-            $('div[id^="work_"]').each(function() {
-                let work_obj = { "highlights": [] };
+            let edu = [];
+            $('div[id^="edu_"]').each(function() {
+                let edu_obj = { "courses": [] };
                 $(this).find('input').each(function() {
-                    if ($(this).attr('name').startsWith('highlight_')) {
-                        work_obj.highlights.push($(this).val());
+                    if ($(this).attr('name').startsWith('course_')) {
+                        edu_obj.courses.push($(this).val());
                     } else {
-                        work_obj[$(this).attr('name')] = $(this).val();
+                        edu_obj[$(this).attr('name')] = $(this).val();
                     }
                 });
                 $(this).find('textarea').each(function() {
-                    work_obj[$(this).attr('name')] = $(this).val();
+                    edu_obj[$(this).attr('name')] = $(this).val();
                 });
-                work.push(work_obj);
+                edu.push(edu_obj);
             });
 
-            resume.work = work;
+            resume.education = education;
 
             // Have to clear object instead of setting to new one because
             // htmx holds a reference to the object and will not update it
@@ -154,21 +145,43 @@
             evt.detail.requestConfig.parameters.resume = JSON.stringify(resume);
         });
 
-        function renderBlankWorkEntry(index) {
+        function renderBlankEduEntry(index) {
+            document.append('<div class=\'flex justify-between items-center gap-4\'>' +
+                                        '<input' +
+                                            ' id=\'course_new_' + new_course_index + '\'' + 
+                                            ' name=\'course_new_' + new_course_index + '\'' + 
+                                            ' type=\'text\' class=\'border p-2 rounded w-full\' />' +
+                                        '<button class=\'text-red-500 hover:text-red-700 flex items-center\' onclick=\'$(this).parent().remove();\'>' +
+                                            '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' class=\'size-6\'>' +
+                                                '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\' />' +
+                                            '</svg>' +
+                                        '</button>' +
+                                    '</div>');
+            console.log('<div class=\'flex justify-between items-center gap-4\'>' +
+                                        '<input' +
+                                            ' id=\'course_new_' + new_course_index + '\'' + 
+                                            ' name=\'course_new_' + new_course_index + '\'' + 
+                                            ' type=\'text\' class=\'border p-2 rounded w-full\' />' +
+                                        '<button class=\'text-red-500 hover:text-red-700 flex items-center\' onclick=\'$(this).parent().remove();\'>' +
+                                            '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' class=\'size-6\'>' +
+                                                '<path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\' />' +
+                                            '</svg>' +
+                                        '</button>' +
+                                    '</div>');
             return (
-                `<div class="grid grid-cols-2 border p-2 rounded gap-4 my-4" id="work_${index}">
+                `<div class="grid grid-cols-2 border p-2 rounded gap-4 my-4" id="edu_${index}">
                     <div class="block">
-                        <label for="name" class="block mb-2 font-semibold">Company Name</label>
+                        <label for="institution" class="block mb-2 font-semibold">Institution Name</label>
                         <input
-                            id="name"
-                            name="name"
+                            id="institution"
+                            name="institution"
                             type="text"
                             class="border p-2 rounded w-full"
                         />
                     </div>
                     <div class="block">
                         <div class="flex justify-between items-center">
-                            <label for="location" class="block mb-2 font-semibold">Company Location</label>
+                            <label for="score" class="block mb-2 font-semibold">Grade</label>
                             <button
                                 class="text-red-500 hover:text-red-700 flex items-center"
                                 onclick="$(this).parent().parent().parent().remove();"
@@ -179,37 +192,27 @@
                             </button>
                         </div>
                         <input
-                            id="location"
-                            name="location" 
+                            id="score"
+                            name="score" 
                             type="text"
                             class="border p-2 rounded w-full"
                         />
                     </div>
-                    <div class="block col-span-full">
-                        <label for="description" class="block mb-2 font-semibold">Company Description</label>
+                    <div class="block">
+                        <label for="studyType" class="block mb-2 font-semibold">Level of Education</label>
                         <input
-                            id="description"
-                            name="description"
+                            id="studyType"
+                            name="studyType"
                             type="text"
                             class="border p-2 rounded w-full"
-                            placeholder="Short description of the company"
+                            placeholder="Bachelors, Masters, etc."
                         />
                     </div>
                     <div class="block">
-                        <label for="url" class="block mb-2 font-semibold">Company URL</label>
+                        <label for="area" class="block mb-2 font-semibold">Area/Major</label>
                         <input
-                            id="url"
-                            name="url"
-                            type="url"
-                            class="border p-2 rounded w-full"
-                            placeholder="Company Homepage URL"
-                        />
-                    </div>
-                    <div class="block">
-                        <label for="position" class="block mb-2 font-semibold">Position</label>
-                        <input
-                            id="position"
-                            name="position" 
+                            id="area"
+                            name="area"
                             type="text"
                             class="border p-2 rounded w-full"
                         />
@@ -233,26 +236,27 @@
                         />
                     </div>
                     <div class="block col-span-full">
-                        <label for="summary" class="block mb-2 font-semibold">Summary</label>
-                        <textarea
-                            id="summary"
-                            name="summary"
+                        <label for="url" class="block mb-2 font-semibold">Institution URL</label>
+                        <input
+                            id="url"
+                            name="url"
+                            type="url"
                             class="border p-2 rounded w-full"
-                            rows="5"
-                        ></textarea>
+                            placeholder="Institution Homepage URL"
+                        />
                     </div>
-                    <div id="highlights" class="block col-span-full">
-                        <label for="highlights" class="block font-semibold">Highlights</label>
+                    <div id="courses" class="block col-span-full">
+                        <label for="courses" class="block font-semibold">Courses</label>
                         <button
-                            id="addHighlightButton"
+                            id="addCourseButton"
                             type="button"
                             class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
                             onclick="
                                 $(this).before(
                                     '<div class=\'flex justify-between items-center gap-4\'>' +
                                         '<input' +
-                                            ' id=\'highlight_new_' + new_highlight_index + '\'' + 
-                                            ' name=\'highlight_new_' + new_highlight_index + '\'' + 
+                                            ' id=\'course_new_' + new_course_index + '\'' + 
+                                            ' name=\'course_new_' + new_course_index + '\'' + 
                                             ' type=\'text\' class=\'border p-2 rounded w-full\' />' +
                                         '<button class=\'text-red-500 hover:text-red-700 flex items-center\' onclick=\'$(this).parent().remove();\'>' +
                                             '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' class=\'size-6\'>' +
@@ -261,10 +265,10 @@
                                         '</button>' +
                                     '</div>'
                                 );
-                                new_highlight_index++;
+                                new_course_index++;
                             "
                         >
-                            New Highlight
+                            New Course
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
