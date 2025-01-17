@@ -128,12 +128,18 @@ async def update_resume(resume_id: str, update_form: Annotated[UpdateResumeForm,
 
     if 'resume' in update_form:
         update_form["resume"] = json.loads(update_form["resume"])
-        await ResumeService().update_resume(db, UpdateResume(id=resume_id, **update_form))
-        return Response(
-            headers={
-                "HX-Redirect": f"/resume/{resume_id}/edit"
-            },
-            status_code=status.HTTP_308_PERMANENT_REDIRECT
+        resume = await ResumeService().update_resume(db, UpdateResume(id=resume_id, **update_form))
+
+        return HTMLResponse(
+            content=f'''
+                <object
+                    id="resumePdfPreview"
+                    data="/resume/{resume.id}/pdf"
+                    type="application/pdf"
+                    class="bg-white w-full h-full shadow-lg rounded-lg"
+                ></object>
+            ''',
+            status_code=200
         )
 
     resume = await ResumeService().update_resume(db, UpdateResume(id=resume_id, **update_form))

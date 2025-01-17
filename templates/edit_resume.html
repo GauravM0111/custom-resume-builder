@@ -12,7 +12,7 @@
 <body>
     {% include "navbar.html" %}
 
-    <div class="grid grid-cols-2 p-4 gap-1">
+    <div class="grid grid-cols-2 p-4 gap-1 min-h-svh">
         <div class="bg-white p-8 w-full shadow-lg rounded-lg">
             <input
                 name="job_title"
@@ -23,16 +23,61 @@
                 hx-trigger="keyup changed delay:1s"
                 value="{{ resume.job_title }}"
             >
-    
-            {% include "edit_resume_personal_info.html" %}
-            <hr class="my-8">
-            {% include "edit_resume_work.html" %}
-            <hr class="my-8">
-            {% include "edit_resume_education.html" %}
-            <hr class="my-8">
-            {% include "edit_resume_volunteer.html" %}
+              
+                <section class="grid grid-cols-1 gap-y-3 divide-y">
+                  <details class="group py-1 text-lg">
+                    <summary class="flex cursor-pointer flex-row items-center justify-between py-1 font-semibold text-gray-800 marker:[font-size:0px]">
+                      Personal Information
+                      <svg class="h-6 w-6 rotate-0 transform text-gray-400 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </summary>
+                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                        {% include "edit_resume_personal_info.html" %}
+                    </div>
+                  </details>
+              
+                  <details class="group py-1 text-lg">
+                    <summary class="flex cursor-pointer flex-row items-center justify-between py-1 font-semibold text-gray-800 marker:[font-size:0px]">
+                      Work Experience
+                      <svg class="h-6 w-6 rotate-0 transform text-gray-400 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </summary>
+                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                      {% include "edit_resume_work.html" %}
+                    </div>
+                  </details>
+              
+                  <details class="group py-1 text-lg">
+                    <summary class="flex cursor-pointer flex-row items-center justify-between py-1 font-semibold text-gray-800 marker:[font-size:0px]">
+                      Education
+                      <svg class="h-6 w-6 rotate-0 transform text-gray-400 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </summary>
+                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                      {% include "edit_resume_education.html" %}
+                    </div>
+                  </details>
+
+                  <details class="group py-1 text-lg">
+                    <summary class="flex cursor-pointer flex-row items-center justify-between py-1 font-semibold text-gray-800 marker:[font-size:0px]">
+                      Volunteer Experience
+                      <svg class="h-6 w-6 rotate-0 transform text-gray-400 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </summary>
+                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                      {% include "edit_resume_volunteer.html" %}
+                    </div>
+                  </details>
+                </section>
+              
+
         </div>
         <object
+            id="resumePdfPreview"
             data="/resume/{{resume.id}}/pdf"
             type="application/pdf"
             class="bg-white w-full h-full shadow-lg rounded-lg"
