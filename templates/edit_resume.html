@@ -14,17 +14,48 @@
 
     <div class="grid grid-cols-2 p-4 gap-1 min-h-svh">
         <div class="bg-white p-8 w-full shadow-lg rounded-lg">
-            <input
-                name="job_title"
-                class="text-3xl font-bold text-gray-800 mb-6"
-                hx-patch="/resume/{{resume.id}}"
-                hx-target="this"
-                hx-swap="textContent"
-                hx-trigger="keyup changed delay:1s"
-                value="{{ resume.job_title }}"
-            >
+            <div class="flex justify-between items-center mb-4">
+              <input
+                  name="job_title"
+                  class="text-3xl font-bold text-gray-800 mb-6"
+                  hx-patch="/resume/{{resume.id}}"
+                  hx-target="this"
+                  hx-swap="textContent"
+                  hx-trigger="keyup changed delay:1s"
+                  value="{{ resume.job_title }}"
+              >
+
+              <div class="inline-flex items-center gap-2">
+                <div id="spinner" class="htmx-indicator pl-2" role="status">
+                    <svg aria-hidden="true" class="w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
+                </div>
+                <button 
+                  id="resumeSaveButton"
+                  class="inline-flex items-center px-3 py-2 gap-1 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 [&>*]:px-0.5"
+                  type="submit"
+                  form="resumeEditor"
+                >
+                  Save
+                  <svg id='Save_24' width='24' height='24' class="size-6" viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+                    <g transform="matrix(0.91 0 0 0.91 12 12)" >
+                    <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" translate(-15, -15)" d="M 6 4 C 4.895 4 4 4.895 4 6 L 4 24 C 4 25.105 4.895 26 6 26 L 24 26 C 25.105 26 26 25.105 26 24 L 26 8 L 22 4 L 20 4 L 20 10 C 20 10.552 19.552 11 19 11 L 10 11 C 9.448 11 9 10.552 9 10 L 9 4 L 6 4 z M 16 4 L 16 9 L 18 9 L 18 4 L 16 4 z M 10 16 L 20 16 C 21.105 16 22 16.895 22 18 L 22 24 L 8 24 L 8 18 C 8 16.895 8.895 16 10 16 z" stroke-linecap="round" />
+                    </g>
+                    </svg>
+                </button>
+              </div>
+            </div>
+            
               
-                <section class="grid grid-cols-1 gap-y-3 divide-y">
+                <form 
+                  id="resumeEditor" 
+                  class="grid grid-cols-1 gap-y-3 divide-y"
+                  hx-patch="/resume/{{resume.id}}"
+                  hx-indicator="#spinner"
+                  hx-disabled-elt="#resumeSaveButton"
+                  hx-target="#resumePdfPreview"
+                  hx-swap="outerHTML"
+                >
+
                   <details class="group py-1 text-lg">
                     <summary class="flex cursor-pointer flex-row items-center justify-between py-1 font-semibold text-gray-800 marker:[font-size:0px]">
                       Personal Information
@@ -32,9 +63,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </summary>
-                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                        {% include "edit_resume_personal_info.html" %}
-                    </div>
+                    {% include "edit_resume_personal_info.html" %}
                   </details>
               
                   <details class="group py-1 text-lg">
@@ -44,9 +73,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </summary>
-                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                      {% include "edit_resume_work.html" %}
-                    </div>
+                    {% include "edit_resume_work.html" %}
                   </details>
               
                   <details class="group py-1 text-lg">
@@ -56,9 +83,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </summary>
-                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                      {% include "edit_resume_education.html" %}
-                    </div>
+                    {% include "edit_resume_education.html" %}
                   </details>
 
                   <details class="group py-1 text-lg">
@@ -68,12 +93,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </summary>
-                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                      {% include "edit_resume_volunteer.html" %}
-                    </div>
+                    {% include "edit_resume_volunteer.html" %}
                   </details>
                 </section>
-              
+
 
         </div>
         <object
@@ -83,6 +106,30 @@
             class="bg-white w-full h-full shadow-lg rounded-lg"
         ></object>
     </div>
+
+    <script>
+        $('#resumeEditor').on('htmx:beforeRequest', function(evt) {
+            let resume = {{resume.resume | tojson}};
+
+            updateResumePersonalInfo(resume);
+            updateResumeWorkInfo(resume);
+            updateResumeEducation(resume);
+            updateResumeVolunteerExperience(resume);
+
+            // Have to clear object instead of setting to new one because
+            // htmx holds a reference to the object and will not update it
+            // if we just set it to a new object
+            Object.keys(evt.detail.requestConfig.parameters).forEach(
+                key => delete evt.detail.requestConfig.parameters[key]
+            );
+            evt.detail.requestConfig.parameters.resume = JSON.stringify(resume);
+        });
+
+        $('#resumeEditor').on('htmx:afterRequest', function(evt) {
+            // minimize all accordion sections
+            $(this).find("details").prop('open', false);
+        });
+    </script>
 
 
 </body>
