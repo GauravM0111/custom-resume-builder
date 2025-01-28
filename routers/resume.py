@@ -109,7 +109,7 @@ async def edit_resume(resume_id: str, request: Request, db: Session = Depends(ge
         raise HTTPException(status_code=403, detail="Forbidden")
 
     return TEMPLATES.TemplateResponse(
-        "edit_resume.html",
+        "edit_resume/index.html",
         {
             "request": request,
             "resume": resume,

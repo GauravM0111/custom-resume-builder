@@ -6,7 +6,7 @@
                 id="addEduButton"
                 type="button"
                 class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
-                onclick="$(this).before(renderBlankEduEntry(`new_${new_edu_index}`));new_edu_index++;"
+                onclick="$(this).before(renderEduEntry(`new_${new_edu_index}`));new_edu_index++;"
             >
                 New Education
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -20,19 +20,12 @@
         let new_edu_index = 0;
 
         {% for education in resume.resume.education %}
-        $('#eduInfoEditor').find('#addEduButton').before(renderBlankEduEntry({{loop.index0}}));
-        
-        $('#edu_{{loop.index0}}').find('input#institution').val('{{education.institution if education.institution else ''}}');
-        $('#edu_{{loop.index0}}').find('input#score').val('{{education.score if education.score else ''}}');
-        $('#edu_{{loop.index0}}').find('input#studyType').val('{{education.studyType if education.studyType else ''}}');
-        $('#edu_{{loop.index0}}').find('input#area').val('{{education.area if education.area else ''}}');
-        $('#edu_{{loop.index0}}').find('input#startDate').val('{{education.startDate if education.startDate else ''}}');
-        $('#edu_{{loop.index0}}').find('input#endDate').val('{{education.endDate if education.endDate else ''}}');
-        $('#edu_{{loop.index0}}').find('input#url').val('{{education.url if education.url else ''}}');
+        $('#eduInfoEditor').find('#addEduButton').before(renderEduEntry({{loop.index0}}, {{education | tojson}}));
 
         {% for course in education.courses %}
-        renderCourseEntry('edu_{{loop.index0}}', 'course_{{loop.index0}}', '{{course}}');
+        $('#edu_{{loop.index0}}').find('#addCourseButton').before(renderCourseEntry('course_{{loop.index0}}', '{{course}}'));
         {% endfor %}
+
         {% endfor %}
 
 
@@ -74,7 +67,7 @@
             resume.education = edu;
         }
 
-        function renderBlankEduEntry(index) {
+        function renderEduEntry(index, eduData) {
             return (
                 `<div class="grid grid-cols-2 border p-2 rounded gap-4 my-4" id="edu_${index}">
                     <div class="block">
@@ -83,6 +76,7 @@
                             id="institution"
                             name="institution"
                             type="text"
+                            value="${eduData?.institution ?? ""}"
                             class="border p-2 rounded w-full"
                         />
                     </div>
@@ -102,6 +96,7 @@
                             id="score"
                             name="score" 
                             type="text"
+                            value="${eduData?.score ?? ""}"
                             class="border p-2 rounded w-full"
                         />
                     </div>
@@ -111,6 +106,7 @@
                             id="studyType"
                             name="studyType"
                             type="text"
+                            value="${eduData?.studyType ?? ""}"
                             class="border p-2 rounded w-full"
                             placeholder="Bachelors, Masters, etc."
                         />
@@ -121,6 +117,7 @@
                             id="area"
                             name="area"
                             type="text"
+                            value="${eduData?.area ?? ""}"
                             class="border p-2 rounded w-full"
                         />
                     </div>
@@ -130,6 +127,7 @@
                             id="startDate"
                             name="startDate" 
                             type="text"
+                            value="${eduData?.startDate ?? ""}"
                             class="border p-2 rounded w-full"
                         />
                     </div>
@@ -139,6 +137,7 @@
                             id="endDate"
                             name="endDate" 
                             type="text"
+                            value="${eduData?.endDate ?? ""}"
                             class="border p-2 rounded w-full"
                         />
                     </div>
@@ -148,6 +147,7 @@
                             id="url"
                             name="url"
                             type="url"
+                            value="${eduData?.url ?? ""}"
                             class="border p-2 rounded w-full"
                             placeholder="Institution Homepage URL"
                         />

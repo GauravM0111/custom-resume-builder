@@ -251,7 +251,7 @@ The output should be a JSON object structured as follows, with fields strictly o
         "...more roles..."
       ],
       "entity": "Specify the relevant company/entity affiliations e.g. 'greenpeace', 'corporationXYZ'",
-      "type": "e.g. 'volunteering', 'presentation', 'talk', 'application', 'conference't"
+      "type": "e.g. 'volunteering', 'presentation', 'talk', 'application', 'conference'"
     },
     "...more projects..."
   ]

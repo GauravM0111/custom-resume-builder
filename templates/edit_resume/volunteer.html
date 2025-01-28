@@ -1,12 +1,12 @@
         <section
-            id="workInfoEditor"
+            id="volunteerInfoEditor"
             class="gap-6 text-gray-700 p-2"
         >
             <button
-                id="addWorkButton"
+                id="addVolunteerButton"
                 type="button"
                 class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
-                onclick="$(this).before(renderBlankWorkEntry(`new_${new_work_index}`));new_work_index++;"
+                onclick="$(this).before(renderBlankVolunteerEntry(`new_${new_volunteer_index}`));new_volunteer_index++;"
             >
                 New Experience
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -16,63 +16,59 @@
         </section>
     
     <script>
-        let new_highlight_index=0;
-        let new_work_index = 0;
+        let new_vol_highlight_index=0;
+        let new_volunteer_index = 0;
 
-        {% for work in resume.resume.work %}
-        $('#workInfoEditor').find('#addWorkButton').before(renderBlankWorkEntry({{loop.index0}}));
+        {% for volunteer in resume.resume.volunteer %}
+        $('#volunteerInfoEditor').find('#addVolunteerButton').before(renderBlankVolunteerEntry({{loop.index0}}));
         
-        $('#work_{{loop.index0}}').find('input#name').val('{{work.name if work.name else ''}}');
-        $('#work_{{loop.index0}}').find('input#location').val('{{work.location if work.location else ''}}');
-        $('#work_{{loop.index0}}').find('input#description').val('{{work.description if work.description else ''}}');
-        $('#work_{{loop.index0}}').find('input#url').val('{{work.url if work.url else ''}}');
-        $('#work_{{loop.index0}}').find('input#position').val('{{work.position if work.position else ''}}');
-        $('#work_{{loop.index0}}').find('input#startDate').val('{{work.startDate if work.startDate else ''}}');
-        $('#work_{{loop.index0}}').find('input#endDate').val('{{work.endDate if work.endDate else ''}}');
-        $('#work_{{loop.index0}}').find('input#summary').val('{{work.summary if work.summary else ''}}');
+        $('#volunteer_{{loop.index0}}').find('input#organization').val('{{volunteer.organization if volunteer.organization else ''}}');
+        $('#volunteer_{{loop.index0}}').find('input#url').val('{{volunteer.url if volunteer.url else ''}}');
+        $('#volunteer_{{loop.index0}}').find('input#position').val('{{volunteer.position if volunteer.position else ''}}');
+        $('#volunteer_{{loop.index0}}').find('input#startDate').val('{{volunteer.startDate if volunteer.startDate else ''}}');
+        $('#volunteer_{{loop.index0}}').find('input#endDate').val('{{volunteer.endDate if volunteer.endDate else ''}}');
+        $('#volunteer_{{loop.index0}}').find('input#summary').val('{{volunteer.summary if volunteer.summary else ''}}');
 
-        {% for highlight in work.highlights %}
-        renderHighlightEntry('work_{{loop.index0}}', 'highlight_{{loop.index0}}', '{{highlight}}');
+        {% for highlight in volunteer.highlights %}
+        renderHighlightEntry('highlight_{{loop.index0}}', '{{highlight}}');
         {% endfor %}
         {% endfor %}
 
 
         // Listeners
 
-        function updateResumeWorkInfo(resume) {
-            let work = [];
+        function updateResumeVolunteerExperience(resume) {
+            let volunteer = [];
 
-            $('#workInfoEditor').find('div[id^="work_"]').each(function() {
-                let work_obj = { "highlights": [] };
+            $('#volunteerInfoEditor').find('div[id^="volunteer_"]').each(function() {
+                let volunteer_obj = { "highlights": [] };
                 let empty = true;
-                
+
                 $(this).find('input').each(function() {
                     if ($(this).val() == "") {
                         if ($(this).attr('name').startsWith('highlight_')) {
                             $(this).parent().remove();
                         } else {
-                            work_obj[$(this).attr('name')] = "";
+                            volunteer_obj[$(this).attr('name')] = "";
                         }
-
                         return;
                     }
 
                     if ($(this).attr('name').startsWith('highlight_')) {
-                        work_obj.highlights.push($(this).val());
+                        volunteer_obj.highlights.push($(this).val());
                     } else {
-                        work_obj[$(this).attr('name')] = $(this).val();
+                        volunteer_obj[$(this).attr('name')] = $(this).val();
                     }
-
                     empty = false;
                 });
 
                 $(this).find('textarea').each(function() {
                     if ($(this).val() == "") {
-                        work_obj[$(this).attr('name')] = "";
+                        volunteer_obj[$(this).attr('name')] = "";
                         return;
                     }
 
-                    work_obj[$(this).attr('name')] = $(this).val();
+                    volunteer_obj[$(this).attr('name')] = $(this).val();
                     empty = false;
                 });
 
@@ -81,27 +77,27 @@
                     return;
                 }
 
-                work.push(work_obj);
+                volunteer.push(volunteer_obj);
             });
 
-            resume.work = work;
+            resume.volunteer = volunteer;
         }
 
-        function renderBlankWorkEntry(index) {
+        function renderBlankVolunteerEntry(index) {
             return (
-                `<div class="grid grid-cols-2 border p-2 rounded gap-4 my-4" id="work_${index}">
+                `<div class="grid grid-cols-2 border rounded gap-4 my-4 p-2" id="volunteer_${index}">
                     <div class="block">
-                        <label for="name" class="block mb-2 font-semibold">Company Name</label>
+                        <label for="organization" class="block mb-2 font-semibold">Organization Name</label>
                         <input
-                            id="name"
-                            name="name"
+                            id="organization"
+                            name="organization"
                             type="text"
                             class="border p-2 rounded w-full"
                         />
                     </div>
                     <div class="block">
                         <div class="flex justify-between items-center">
-                            <label for="location" class="block mb-2 font-semibold">Company Location</label>
+                            <label for="position" class="block mb-2 font-semibold">Position</label>
                             <button
                                 class="text-red-500 hover:text-red-700 flex items-center"
                                 onclick="$(this).parent().parent().parent().remove();"
@@ -111,35 +107,6 @@
                                 </svg>
                             </button>
                         </div>
-                        <input
-                            id="location"
-                            name="location" 
-                            type="text"
-                            class="border p-2 rounded w-full"
-                        />
-                    </div>
-                    <div class="block col-span-full">
-                        <label for="description" class="block mb-2 font-semibold">Company Description</label>
-                        <input
-                            id="description"
-                            name="description"
-                            type="text"
-                            class="border p-2 rounded w-full"
-                            placeholder="Short description of the company"
-                        />
-                    </div>
-                    <div class="block">
-                        <label for="url" class="block mb-2 font-semibold">Company URL</label>
-                        <input
-                            id="url"
-                            name="url"
-                            type="url"
-                            class="border p-2 rounded w-full"
-                            placeholder="Company Homepage URL"
-                        />
-                    </div>
-                    <div class="block">
-                        <label for="position" class="block mb-2 font-semibold">Position</label>
                         <input
                             id="position"
                             name="position" 
@@ -166,6 +133,16 @@
                         />
                     </div>
                     <div class="block col-span-full">
+                        <label for="url" class="block mb-2 font-semibold">Organization URL</label>
+                        <input
+                            id="url"
+                            name="url"
+                            type="url"
+                            class="border p-2 rounded w-full"
+                            placeholder="Organization Homepage URL"
+                        />
+                    </div>
+                    <div class="block col-span-full">
                         <label for="summary" class="block mb-2 font-semibold">Summary</label>
                         <textarea
                             id="summary"
@@ -180,7 +157,7 @@
                             id="addHighlightButton"
                             type="button"
                             class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
-                            onclick="$(this).before(renderHighlightEntry('highlight_new_${new_highlight_index}', ''));new_highlight_index++;"
+                            onclick="$(this).before(renderHighlightEntry('highlight_new_${new_vol_highlight_index}', ''));new_vol_highlight_index++;"
                         >
                             New Highlight
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
