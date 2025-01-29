@@ -2,19 +2,18 @@ import jsonschema
 import jsonschema.exceptions
 import requests
 from models.users import User
-from settings.settings import OPENAI_API_KEY, OPENAI_ORGANIZATION_ID, RESUME_SCHEMA_URL
-from langchain_openai import ChatOpenAI
+from settings.settings import TOGETHER_API_KEY, RESUME_SCHEMA_URL
+from langchain_together import ChatTogether
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langchain_core.output_parsers import JsonOutputParser
 
 
 class LLMService:
     def __init__(self):
-        self.llm = ChatOpenAI(
-            api_key=OPENAI_API_KEY,
-            organization=OPENAI_ORGANIZATION_ID,
-            model="gpt-4o-mini"
-          ).bind(response_format={"type": "json_object"})
+        self.llm = ChatTogether(
+            api_key=TOGETHER_API_KEY,
+            model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+        ).bind(response_format={"type": "json_object"})
         self.messages = [SystemMessage(content=SYSTEM_PROMPT)]
         self.schema = requests.get(RESUME_SCHEMA_URL).json()
 
