@@ -1,16 +1,17 @@
 <section
-    id="workInfoEditor"
+    id="volunteerInfoEditor"
     class="gap-6 text-gray-700 p-2"
 >
-    {% import 'edit_resume/work/macros.html' as macros %}
+    {% import 'edit_resume/volunteer/macros.html' as macros %}
 
-    {% for work_data in resume.resume.work %}
-    {{ macros.render_entry(data=work_data) }}
+    {% for vol_data in resume.resume.volunteer %}
+    {{ macros.render_entry(data=vol_data) }}
     {% endfor %}
     <button
+        id="addVolunteerButton"
         type="button"
         class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
-        onclick="$(this).before(renderBlankWorkEntry())"
+        onclick="$(this).before(renderBlankVolunteerEntry())"
     >
         New Experience
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -20,40 +21,38 @@
 </section>
 
 <script>
-    function updateResumeWorkInfo(resume) {
-        let work = [];
+    function updateResumeVolunteerExperience(resume) {
+        let volunteer = [];
 
-        $('#workInfoEditor').find('div[data-id="work"]').each(function() {
-            let work_obj = { "highlights": [] };
+        $("#volunteerInfoEditor").find('div[data-id="volunteer"]').each(function() {
+            let volunteer_obj = { "highlights": [] };
             let empty = true;
-            
-            $(this).find('input').each(function() {
+
+            $(this).find("input").each(function() {
                 if ($(this).val() == "") {
-                    if ($(this).attr('name') == 'highlight') {
+                    if ($(this).attr("name") == "highlight") {
                         $(this).parent().remove();
                     } else {
-                        work_obj[$(this).attr('name')] = "";
+                        volunteer_obj[$(this).attr("name")] = "";
                     }
-
                     return;
                 }
 
-                if ($(this).attr('name') == 'highlight') {
-                    work_obj.highlights.push($(this).val());
+                if ($(this).attr("name") == "highlight") {
+                    volunteer_obj.highlights.push($(this).val());
                 } else {
-                    work_obj[$(this).attr('name')] = $(this).val();
+                    volunteer_obj[$(this).attr("name")] = $(this).val();
                 }
-
                 empty = false;
             });
 
-            $(this).find('textarea').each(function() {
+            $(this).find("textarea").each(function() {
                 if ($(this).val() == "") {
-                    work_obj[$(this).attr('name')] = "";
+                    volunteer_obj[$(this).attr("name")] = "";
                     return;
                 }
 
-                work_obj[$(this).attr('name')] = $(this).val();
+                volunteer_obj[$(this).attr("name")] = $(this).val();
                 empty = false;
             });
 
@@ -62,17 +61,17 @@
                 return;
             }
 
-            work.push(work_obj);
+            volunteer.push(volunteer_obj);
         });
 
-        resume.work = work;
+        resume.volunteer = volunteer;
     }
 
-    function renderBlankWorkEntry() {
+    function renderBlankVolunteerEntry() {
         return (`{{ macros.render_entry(data={'highlights': []}) }}`);
     }
 
-    function renderBlankWorkHighlight() {
+    function renderBlankVolunteerHighlight() {
         return (`{{ macros.render_highlight(value='') }}`);
     }
 </script>

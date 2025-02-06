@@ -1,0 +1,67 @@
+<section 
+    id="eduInfoEditor"
+    class="gap-6 text-gray-700 p-2"
+>
+    {% import 'edit_resume/education/macros.html' as macros %}
+
+    {% for edu_data in resume.resume.education %}
+    {{ macros.render_entry(data=edu_data) }}
+    {% endfor %}
+    <button
+        id="addEduButton"
+        type="button"
+        class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
+        onclick="$(this).before(renderBlankEducationEntry())"
+    >
+        New Education
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+    </button>
+</section>
+
+<script>
+    function updateResumeEducation(resume) {
+        let edu = [];
+
+        $("#eduInfoEditor").find('div[data-id="edu"]').each(function() {
+            let edu_obj = { "courses": [] };
+            let empty = true;
+
+            $(this).find("input").each(function() {
+                if ($(this).val() == "") {
+                    if ($(this).attr("name") == "course") {
+                        $(this).parent().remove();
+                    } else {
+                        edu_obj[$(this).attr("name")] = "";
+                    }
+                    return;
+                }
+
+                if ($(this).attr("name") == "course") {
+                    edu_obj.courses.push($(this).val());
+                } else {
+                    edu_obj[$(this).attr("name")] = $(this).val();
+                }
+                empty = false;
+            });
+
+            if (empty) {
+                $(this).remove();
+                return;
+            }
+
+            edu.push(edu_obj);
+        });
+
+        resume.education = edu;
+    }
+
+    function renderBlankEducationEntry() {
+        return (`{{ macros.render_entry(data={'courses': []}) }}`);
+    }
+
+    function renderBlankEducationCourse() {
+        return (`{{ macros.render_course(value='') }}`);
+    }
+</script>

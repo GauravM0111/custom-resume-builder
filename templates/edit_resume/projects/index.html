@@ -1,0 +1,91 @@
+<section
+    id="projectInfoEditor"
+    class="gap-6 text-gray-700 p-2"
+>
+    {% import 'edit_resume/projects/macros.html' as macros %}
+
+    {% for project in resume.resume.projects %}
+    {{ macros.render_entry(data=project) }}
+    {% endfor %}
+    <button
+        id="addProjectButton"
+        type="button"
+        class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
+        onclick="$(this).before(renderBlankProjectEntry())"
+    >
+        New Project
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+    </button>
+</section>
+
+<script>
+    function updateResumeProjectInfo(resume) {
+        let projects = [];
+
+        $("#projectInfoEditor").find('div[data-id="project"]').each(function() {
+            let proj_obj = { 
+                "highlights": [],
+                "keywords": [],
+                "roles": []
+            };
+            let empty = true;
+
+            $(this).find("input").each(function() {
+                if ($(this).val() == "") {
+                    if ($(this).attr("name") == "highlight"
+                        || $(this).attr("name") == "keyword"
+                        || $(this).attr("name") == "role"
+                    ) {
+                        $(this).parent().remove();
+                    } else {
+                        proj_obj[$(this).attr("name")] = "";
+                    }
+
+                    return;
+                }
+
+                if ($(this).attr("name") == "highlight") {
+                    proj_obj.highlights.push($(this).val());
+                }
+                else if ($(this).attr("name") == "keyword") {
+                    proj_obj.keywords.push($(this).val());
+                }
+                else if ($(this).attr("name") == "role") {
+                    proj_obj.roles.push($(this).val());
+                }
+                else {
+                    proj_obj[$(this).attr("name")] = $(this).val();
+                }
+
+                empty = false;
+            });
+
+            if (empty) {
+                $(this).remove();
+                return;
+            }
+
+            projects.push(proj_obj);
+        });
+
+        resume.projects = projects;
+    }
+    
+    function renderBlankProjectEntry() {
+        return (`{{ macros.render_entry(data={'highlights': [], 'keywords': [], 'roles': []}) }}`);
+    }
+
+    function renderBlankProjectHighlight() {
+        return (`{{ macros.render_highlight(value='') }}`);
+    }
+
+    function renderBlankProjectKeyWord() {
+        return (`{{ macros.render_keyword(value='') }}`);
+    }
+
+    function renderBlankProjectRole() {
+        return (`{{ macros.render_role(value='') }}`);
+    }
+</script>

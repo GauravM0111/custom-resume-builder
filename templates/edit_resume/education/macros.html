@@ -1,17 +1,17 @@
 {% macro render_entry(data) -%}
-<div class="grid grid-cols-2 border p-2 rounded gap-4 my-4" data-id="work">
+<div class="grid grid-cols-2 border p-2 rounded gap-4 my-4" data-id="edu">
     <div class="block">
-        <label for="name" class="block mb-2 font-semibold">Company Name</label>
+        <label for="institution" class="block mb-2 font-semibold">Institution Name</label>
         <input
-            name="name"
+            name="institution"
             type="text"
-            value="{{data.name if data and data.name else ''}}"
+            value="{{ data.institution if data and data.institution else '' }}"
             class="border p-2 rounded w-full"
         />
     </div>
     <div class="block">
         <div class="flex justify-between items-center">
-            <label for="location" class="block mb-2 font-semibold">Company Location</label>
+            <label for="score" class="block mb-2 font-semibold">Grade</label>
             <button
                 class="text-red-500 hover:text-red-700 flex items-center"
                 onclick="$(this).parent().parent().parent().remove();"
@@ -22,38 +22,28 @@
             </button>
         </div>
         <input
-            name="location" 
+            name="score"
             type="text"
-            value="{{data.location if data and data.location else ''}}"
+            value="{{ data.score if data and data.score else '' }}"
             class="border p-2 rounded w-full"
-        />
-    </div>
-    <div class="block col-span-full">
-        <label for="description" class="block mb-2 font-semibold">Company Description</label>
-        <input
-            name="description"
-            type="text"
-            value="{{data.description if data and data.description else ''}}"
-            class="border p-2 rounded w-full"
-            placeholder="Short description of the company"
         />
     </div>
     <div class="block">
-        <label for="url" class="block mb-2 font-semibold">Company URL</label>
+        <label for="studyType" class="block mb-2 font-semibold">Level of Education</label>
         <input
-            name="url"
-            type="url"
-            value="{{data.url if data and data.url else ''}}"
+            name="studyType"
+            type="text"
+            value="{{ data.studyType if data and data.studyType else '' }}"
             class="border p-2 rounded w-full"
-            placeholder="Company Homepage URL"
+            placeholder="Bachelors, Masters, etc."
         />
     </div>
     <div class="block">
-        <label for="position" class="block mb-2 font-semibold">Position</label>
+        <label for="area" class="block mb-2 font-semibold">Area/Major</label>
         <input
-            name="position" 
+            name="area"
             type="text"
-            value="{{data.position if data and data.position else ''}}"
+            value="{{ data.area if data and data.area else '' }}"
             class="border p-2 rounded w-full"
         />
     </div>
@@ -62,7 +52,7 @@
         <input
             name="startDate" 
             type="text"
-            value="{{data.startDate if data and data.startDate else ''}}"
+            value="{{ data.startDate if data and data.startDate else '' }}"
             class="border p-2 rounded w-full"
         />
     </div>
@@ -71,29 +61,32 @@
         <input
             name="endDate" 
             type="text"
-            value="{{data.endDate if data and data.endDate else ''}}"
+            value="{{ data.endDate if data and data.endDate else '' }}"
             class="border p-2 rounded w-full"
         />
     </div>
     <div class="block col-span-full">
-        <label for="summary" class="block mb-2 font-semibold">Summary</label>
-        <textarea
-            name="summary"
+        <label for="url" class="block mb-2 font-semibold">Institution URL</label>
+        <input
+            name="url"
+            type="url"
+            value="{{ data.url if data and data.url else '' }}"
             class="border p-2 rounded w-full"
-            rows="5"
-        >{{data.summary if data.summary else ''}}</textarea>
+            placeholder="Institution Homepage URL"
+        />
     </div>
-    <div data-id="highlights" class="block col-span-full">
-        <label for="highlights" class="block font-semibold">Highlights</label>
-        {% for highlight in data.highlights %}
-        {{ render_highlight(highlight) }}
+    <div data-id="courses" class="block col-span-full">
+        <label for="courses" class="block font-semibold">Courses</label>
+        {% for course in data.courses %}
+        {{ render_course(course) }}
         {% endfor %}
         <button
+            id="addCourseButton"
             type="button"
             class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
-            onclick="$(this).before(renderBlankWorkHighlight())"
+            onclick="$(this).before(renderBlankEducationCourse())"
         >
-            New Highlight
+            New Course
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
@@ -102,10 +95,10 @@
 </div>
 {%- endmacro -%}
 
-{% macro render_highlight(value) -%}
+{% macro render_course(value) -%}
 <div class="flex justify-between items-center gap-4">
     <input
-        name="highlight"
+        name="course"
         value="{{value}}"
         type="text"
         class="border p-2 rounded w-full"

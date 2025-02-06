@@ -1,0 +1,203 @@
+<section 
+    id="personalInfoEditor"
+    class="grid grid-cols-2 gap-6 text-gray-700 mb-6 border rounded p-2"
+>
+    <div class="w-full">
+        <label for="name" class="block mb-2 font-semibold">Name</label>
+        <input
+            name="name"
+            type="text"
+            value="{{resume.resume.basics.name if resume.resume.basics.name else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full">
+        <label for="label" class="block mb-2 font-semibold">Professional Title</label>
+        <input
+            name="label"
+            type="text"
+            value="{{resume.resume.basics.label if resume.resume.basics.label else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full">
+        <label for="email" class="block mb-2 font-semibold">Email Address</label>
+        <input
+            name="email"
+            type="email"
+            value="{{resume.resume.basics.email if resume.resume.basics.email else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full">
+        <label for="phone" class="block mb-2 font-semibold">Phone Number</label>
+        <input
+            name="phone"
+            type="tel"
+            value="{{resume.resume.basics.phone if resume.resume.basics.phone else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full">
+        <label for="url" class="block mb-2 font-semibold">Website URL</label>
+        <input
+            name="url"
+            type="url"
+            value="{{resume.resume.basics.url if resume.resume.basics.url else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full invisible"></div>
+    <div class="w-full col-span-full">
+        <label class="block mt-2 font-semibold mb-2">Location</label>
+        <label for="location_address1" class="block mb-2 font-semibold">Address Line 1</label>
+        <input
+            name="location_address1"
+            type="text"
+            value="{{resume.resume.basics.location.address.split('\n')[0] if resume.resume.basics.location.address else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full col-span-full">
+        <label for="location_address2" class="block mb-2 font-semibold">Address Line 2</label>
+        <input
+            name="location_address2"
+            type="text"
+            value="{{resume.resume.basics.location.address.split('\n')[1] if resume.resume.basics.location.address else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full">
+        <label for="location_city" class="block mb-2 font-semibold">City</label>
+        <input
+            name="location_city"
+            type="text"
+            value="{{resume.resume.basics.location.city if resume.resume.basics.location.city else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full">
+        <label for="location_countryCode" class="block mb-2 font-semibold">Country Code</label>
+        <input
+            name="location_countryCode"
+            type="text"
+            value="{{resume.resume.basics.location.countryCode if resume.resume.basics.location.countryCode else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full">
+        <label for="location_postalCode" class="block mb-2 font-semibold">Postal Code</label>
+        <input
+            name="location_postalCode"
+            type="text"
+            value="{{resume.resume.basics.location.postalCode if resume.resume.basics.location.postalCode else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full">
+        <label for="location_region" class="block mb-2 font-semibold">State/Region</label>
+        <input
+            name="location_region"
+            type="text"
+            value="{{resume.resume.basics.location.region if resume.resume.basics.location.region else ''}}"
+            class="border p-2 rounded w-full"
+        />
+    </div>
+    <div class="w-full invisible"></div>
+    <div class="w-full col-span-full">
+        <label for="summary" class="block mb-2 font-semibold">Professional Summary</label>
+        <textarea
+            name="summary"
+            class="border p-2 rounded w-full"
+            rows="5"
+        >{{resume.resume.basics.summary if resume.resume.basics.summary else ''}}</textarea>
+    </div>
+    <div class="w-full invisible"></div>
+    <div data-id="profiles" class="col-span-full w-full">
+        <label class="block font-semibold mb-2">Profiles</label>
+        {% import 'edit_resume/personal_info/macros.html' as macros %}
+
+        {% for profile in resume.resume.basics.profiles %}
+        {{ macros.render_profile(data=profile) }}
+        {% endfor %}
+        <button
+            id="addProfileButton"
+            type="button"
+            class="mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
+            onclick="$(this).before(renderBlankPersonalInfoProfile())"
+        >
+            New Social Profile
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+        </button>
+    </div>
+</section>
+
+<script>
+    function updateResumePersonalInfo(resume) {
+        let profiles = [];
+        let locationData = {};
+        let address = "";
+        let address2 = "";
+
+        $("#personalInfoEditor").children().each(function() {
+            if ($(this).attr("data-id") && $(this).attr("data-id") == "profiles") {
+                $(this).children("div").each(function() {
+                    let profileObj = {};
+                    let empty = true;
+
+                    $(this).find("input").each(function() {
+                        if ($(this).val() == "") {
+                            profileObj[$(this).attr("name")] = "";
+                            return;
+                        }
+
+                        profileObj[$(this).attr("name")] = $(this).val();
+                        empty = false;
+                    })
+
+                    if (empty) {
+                        $(this).remove();
+                        return;
+                    }
+
+                    profiles.push(profileObj);
+                });
+            }
+
+            else {
+                $(this).find("input").each(function() {
+                    name = $(this).attr("name");
+
+                    if (name.startsWith("location_")) {
+                        if (name == "location_address1") {
+                            address = $(this).val();
+                        }
+                        else if (name == "location_address2"){
+                            address2 = $(this).val();
+                        }
+                        else {
+                            locationData[name] = $(this).val();
+                        }
+                    }
+                    else {
+                        resume.basics[name] = $(this).val();
+                    }
+                });
+            }
+        });
+
+        if (address2 != "") {
+            address += '\n' + address2;
+        }
+        locationData.address = address;
+
+        resume.basics.location = locationData;
+        resume.basics.profiles = profiles;
+    }
+
+    function renderBlankPersonalInfoProfile() {
+        return (`{{ macros.render_profile(data={}) }}`);
+    }
+</script>

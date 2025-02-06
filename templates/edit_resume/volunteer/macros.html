@@ -1,17 +1,17 @@
 {% macro render_entry(data) -%}
-<div class="grid grid-cols-2 border p-2 rounded gap-4 my-4" data-id="work">
+<div class="grid grid-cols-2 border rounded gap-4 my-4 p-2" data-id="volunteer">
     <div class="block">
-        <label for="name" class="block mb-2 font-semibold">Company Name</label>
+        <label for="organization" class="block mb-2 font-semibold">Organization Name</label>
         <input
-            name="name"
+            name="organization"
             type="text"
-            value="{{data.name if data and data.name else ''}}"
+            value="{{data.organization if data and data.organization else ''}}"
             class="border p-2 rounded w-full"
         />
     </div>
     <div class="block">
         <div class="flex justify-between items-center">
-            <label for="location" class="block mb-2 font-semibold">Company Location</label>
+            <label for="position" class="block mb-2 font-semibold">Position</label>
             <button
                 class="text-red-500 hover:text-red-700 flex items-center"
                 onclick="$(this).parent().parent().parent().remove();"
@@ -21,35 +21,6 @@
                 </svg>
             </button>
         </div>
-        <input
-            name="location" 
-            type="text"
-            value="{{data.location if data and data.location else ''}}"
-            class="border p-2 rounded w-full"
-        />
-    </div>
-    <div class="block col-span-full">
-        <label for="description" class="block mb-2 font-semibold">Company Description</label>
-        <input
-            name="description"
-            type="text"
-            value="{{data.description if data and data.description else ''}}"
-            class="border p-2 rounded w-full"
-            placeholder="Short description of the company"
-        />
-    </div>
-    <div class="block">
-        <label for="url" class="block mb-2 font-semibold">Company URL</label>
-        <input
-            name="url"
-            type="url"
-            value="{{data.url if data and data.url else ''}}"
-            class="border p-2 rounded w-full"
-            placeholder="Company Homepage URL"
-        />
-    </div>
-    <div class="block">
-        <label for="position" class="block mb-2 font-semibold">Position</label>
         <input
             name="position" 
             type="text"
@@ -76,6 +47,16 @@
         />
     </div>
     <div class="block col-span-full">
+        <label for="url" class="block mb-2 font-semibold">Organization URL</label>
+        <input
+            name="url"
+            type="url"
+            value="{{data.url if data and data.url else ''}}"
+            class="border p-2 rounded w-full"
+            placeholder="Organization Homepage URL"
+        />
+    </div>
+    <div class="block col-span-full">
         <label for="summary" class="block mb-2 font-semibold">Summary</label>
         <textarea
             name="summary"
@@ -89,9 +70,10 @@
         {{ render_highlight(highlight) }}
         {% endfor %}
         <button
+            id="addHighlightButton"
             type="button"
             class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
-            onclick="$(this).before(renderBlankWorkHighlight())"
+            onclick="$(this).before(renderBlankVolunteerHighlight())"
         >
             New Highlight
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

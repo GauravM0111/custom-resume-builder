@@ -3,25 +3,52 @@ import jsonschema.exceptions
 import requests
 from models.users import User
 from settings.settings import TOGETHER_API_KEY, RESUME_SCHEMA_URL
-from langchain_together import ChatTogether
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
-from langchain_core.output_parsers import JsonOutputParser
+from together import Together
+import json
+import traceback
+from enum import Enum
+
+
+class BaseMessage:
+    def __init__(self, content: str):
+        self.content = content
+
+    def serialize(self) -> dict:
+        pass
+
+class SystemMessage(BaseMessage):
+    def serialize(self) -> dict:
+        return {
+            "role": "system",
+            "content": self.content,
+        }
+
+class HumanMessage(BaseMessage):
+    def serialize(self) -> dict:
+        return {
+            "role": "user",
+            "content": self.content,
+        }
+
+class AIMessage(BaseMessage):
+    def serialize(self) -> dict:
+        return {
+            "role": "assistant",
+            "content": self.content,
+        }
+
+
+class LLMModel(Enum):
+    LLAMA_33_70B = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+    DEEPSEEK_V3 = "deepseek-ai/DeepSeek-V3"
 
 
 class LLMService:
-    def __init__(self):
-        self.llm = ChatTogether(
-            api_key=TOGETHER_API_KEY,
-            model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
-        ).bind(response_format={"type": "json_object"})
-        self.messages = [SystemMessage(content=SYSTEM_PROMPT)]
-        self.schema = requests.get(RESUME_SCHEMA_URL).json()
-
-
-    async def invoke_model(self) -> dict:
-        response = self.llm.invoke(self.messages)
-        self.messages.append(AIMessage(content=response.content))
-        return JsonOutputParser().parse(response.content)
+    def __init__(self, model: LLMModel = LLMModel.LLAMA_33_70B):
+        self.model = model
+        self.client = Together(api_key=TOGETHER_API_KEY)
+        self.messages: list[BaseMessage] = [SystemMessage(content=SYSTEM_PROMPT)]
+        self.schema: dict = requests.get(RESUME_SCHEMA_URL).json()
 
 
     async def generate_resume(self, user: User, job_description: str) -> dict:
@@ -38,11 +65,35 @@ class LLMService:
         try:
             jsonschema.validate(instance=resume, schema=self.schema)
         except jsonschema.exceptions.ValidationError as e:
+            print(f"JSON Schema Validation Failed: {e}")
+            print("Regenerating response from LLM...")
+
             self.messages.append(HumanMessage(content=f"There was an error validating the resume. Please correct the errors and return the resume in valid JSON format.\n\nError: {e}"))
             response = await self.invoke_model()
             return await self.format_resume(resume=response)
 
         return resume
+
+
+    async def invoke_model(self) -> dict:
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model.value,
+                messages=[message.serialize() for message in self.messages]
+            )
+        except Exception as e:
+            traceback.print_exception(e)
+            raise e
+
+        response = response.choices[0].message.content
+        self.messages.append(AIMessage(content=response))
+        return self.extract_json(response)
+
+
+    def extract_json(self, llm_response: str) -> dict:
+        start = llm_response.find("```json") + len("```json")
+        end = llm_response.rfind("```")
+        return json.loads(llm_response[start:end])
 
 
 SYSTEM_PROMPT = """
@@ -280,7 +331,7 @@ The output should be a JSON object structured as follows, with fields strictly o
 
 - **Accuracy:** Use only information provided in the user's profile; do not invent or assume details.
 - **Relevance:** Include only experiences, skills, and accomplishments that strongly align with the job description. Prioritize impactful achievements.
-- **Customization:** Tailor descriptions for maximum alignment with the job, rephrasing to highlight relevant achievements and industry language where appropriate.
+- **Customization:** Tailor descriptions for maximum alignment with the job, rephrasing to highlight relevant achievements and industry language where appropriate to capture recruiter and Automated Tracking System (ATS) attention effectively.
 - **Completeness:** Populate all relevant sections with available information, while omitting sections that lack corresponding content.
 - **Schema Compliance:** Ensure the JSON structure strictly follows the provided schema, avoiding validation issues.
 """

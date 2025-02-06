@@ -1,6 +1,7 @@
 import json
 from typing import Annotated, Optional
 import io
+import traceback
 
 from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response, status
 from fastapi.responses import RedirectResponse, HTMLResponse, StreamingResponse
@@ -64,8 +65,10 @@ async def generate_resume(job_details: Annotated[JobDetails, Form()], request: R
     try:
         resume = await LLMService().generate_resume(user, job_details.description)
     except ValueError as e:
+        traceback.print_exception(e)
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
+        traceback.print_exception(e)
         raise HTTPException(status_code=500, detail=str(e))
 
     resume = await ResumeService().save_resume(
