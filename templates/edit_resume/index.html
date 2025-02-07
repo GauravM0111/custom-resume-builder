@@ -115,6 +115,26 @@
                     </summary>
                     {% include "edit_resume/skills/index.html" %}
                   </details>
+
+                  <details name="accordion" class="group py-1 text-lg">
+                    <summary class="flex cursor-pointer flex-row items-center justify-between py-1 font-semibold text-gray-800 marker:[font-size:0px]">
+                      Languages
+                      <svg class="h-6 w-6 rotate-0 transform text-gray-400 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </summary>
+                    {% include "edit_resume/languages/index.html" %}
+                  </details>
+
+                  <details name="accordion" class="group py-1 text-lg">
+                    <summary class="flex cursor-pointer flex-row items-center justify-between py-1 font-semibold text-gray-800 marker:[font-size:0px]">
+                      Awards
+                      <svg class="h-6 w-6 rotate-0 transform text-gray-400 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </summary>
+                    {% include "edit_resume/awards/index.html" %}
+                  </details>
                 </section>
 
 
@@ -137,6 +157,8 @@
             updateResumeVolunteerExperience(resume);
             updateResumeProjectInfo(resume);
             updateResumeSkillsInfo(resume);
+            updateResumeLanguagesInfo(resume);
+            updateResumeAwardInfo(resume);
 
             // Have to clear object instead of setting to new one because
             // htmx holds a reference to the object and will not update it

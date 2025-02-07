@@ -28,7 +28,7 @@
             let volunteer_obj = { "highlights": [] };
             let empty = true;
 
-            $(this).find("input").each(function() {
+            $(this).find("input,textarea").each(function() {
                 if ($(this).val() == "") {
                     if ($(this).attr("name") == "highlight") {
                         $(this).parent().remove();
@@ -43,16 +43,6 @@
                 } else {
                     volunteer_obj[$(this).attr("name")] = $(this).val();
                 }
-                empty = false;
-            });
-
-            $(this).find("textarea").each(function() {
-                if ($(this).val() == "") {
-                    volunteer_obj[$(this).attr("name")] = "";
-                    return;
-                }
-
-                volunteer_obj[$(this).attr("name")] = $(this).val();
                 empty = false;
             });
 

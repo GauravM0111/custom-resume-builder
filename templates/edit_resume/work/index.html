@@ -27,14 +27,13 @@
             let work_obj = { "highlights": [] };
             let empty = true;
             
-            $(this).find('input').each(function() {
+            $(this).find('input,textarea').each(function() {
                 if ($(this).val() == "") {
                     if ($(this).attr('name') == 'highlight') {
                         $(this).parent().remove();
                     } else {
                         work_obj[$(this).attr('name')] = "";
                     }
-
                     return;
                 }
 
@@ -44,16 +43,6 @@
                     work_obj[$(this).attr('name')] = $(this).val();
                 }
 
-                empty = false;
-            });
-
-            $(this).find('textarea').each(function() {
-                if ($(this).val() == "") {
-                    work_obj[$(this).attr('name')] = "";
-                    return;
-                }
-
-                work_obj[$(this).attr('name')] = $(this).val();
                 empty = false;
             });
 
