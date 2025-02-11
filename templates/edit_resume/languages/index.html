@@ -45,7 +45,11 @@
             languages.push(lang_obj);
         });
 
-        resume.languages = languages;
+        if (languages.length == 0) {
+            delete resume.languages;
+        } else {
+            resume.languages = languages;
+        }
     }
 
     function renderBlankLanguageEntry() {

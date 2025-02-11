@@ -8,8 +8,14 @@ from models.resumes import CreateResume, Resume, UpdateResume
 from playwright.async_api import async_playwright
 import boto3
 from settings.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_THUMBNAILS_BUCKET
+from enum import Enum
 
-AVAILABLE_THEMES = ["jsonresume-theme-even"]
+
+class Theme(Enum):
+    EVEN = "jsonresume-theme-even"
+    STRAIGHTFORWARD = "jsonresume-theme-straightforward"
+    MODERN = "jsonresume-theme-modern-extended"
+    CORA = "jsonresume-theme-cora"
 
 
 class ResumeService:
@@ -17,10 +23,7 @@ class ResumeService:
         pass
 
 
-    async def render_resume(self, resume: Resume, theme: str = "jsonresume-theme-even") -> str:
-        if theme not in AVAILABLE_THEMES:
-            raise ValueError(f"Theme {theme} is not available")
-
+    async def render_resume(self, resume: Resume, theme: Theme = Theme.CORA) -> str:
         input_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
         output_file = tempfile.NamedTemporaryFile(mode='r', suffix='.html', delete=False)
 
@@ -29,7 +32,7 @@ class ResumeService:
 
         try:
             subprocess.run(
-                ["npx", "resumed", "--theme", theme, "--output", output_file.name, input_file.name],
+                ["npx", "resumed", "--theme", theme.value, "--output", output_file.name, input_file.name],
                 capture_output=True,
                 check=True
             )

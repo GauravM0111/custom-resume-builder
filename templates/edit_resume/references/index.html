@@ -45,7 +45,11 @@
             references.push(ref_obj);
         });
 
-        resume.references = references;
+        if (references.length == 0) {
+            delete resume.references;
+        } else {
+            resume.references = references;
+        }
     }
 
     function renderBlankReferenceEntry() {

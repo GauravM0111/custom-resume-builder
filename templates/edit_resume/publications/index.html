@@ -43,9 +43,13 @@
             }
 
             publications.push(pub_obj);
-       });
+        });
 
-       resume.publications = publications;
+        if (publications.length == 0) {
+            delete resume.publications;
+        } else {
+            resume.publications = publications;
+        }
     }
 
     function renderBlankPublicationEntry() {

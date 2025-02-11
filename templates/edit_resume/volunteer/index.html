@@ -51,10 +51,18 @@
                 return;
             }
 
+            if (volunteer_obj.highlights.length == 0) {
+                delete volunteer_obj.highlights;
+            }
+
             volunteer.push(volunteer_obj);
         });
 
-        resume.volunteer = volunteer;
+        if (volunteer.length == 0) {
+            delete resume.volunteer;
+        } else {
+            resume.volunteer = volunteer;
+        }
     }
 
     function renderBlankVolunteerEntry() {

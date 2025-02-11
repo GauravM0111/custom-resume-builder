@@ -50,11 +50,18 @@
                 $(this).remove();
                 return;
             }
+            if (edu_obj.courses.length == 0) {
+                delete edu_obj.courses;
+            }
 
             edu.push(edu_obj);
         });
 
-        resume.education = edu;
+        if (edu.length == 0) {
+            delete resume.education;
+        } else {
+            resume.education = edu;
+        }
     }
 
     function renderBlankEducationEntry() {

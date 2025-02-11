@@ -192,9 +192,13 @@
             address += '\n' + address2;
         }
         locationData.address = address;
-
         resume.basics.location = locationData;
-        resume.basics.profiles = profiles;
+
+        if (profiles.length == 0) {
+            delete resume.basics.profiles;
+        } else {
+            resume.basics.profiles = profiles;
+        }
     }
 
     function renderBlankPersonalInfoProfile() {

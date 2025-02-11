@@ -3,6 +3,9 @@
   "type": "module",
   "dependencies": {
     "jsonresume-theme-even": "^0.17.0",
+    "jsonresume-theme-straightforward": "^0.2.0",
+    "jsonresume-theme-modern-extended": "^0.1.1",
+    "jsonresume-theme-cora": "^0.1.1",
     "resumed": "^3.0.0"
   },
   "devDependencies": {

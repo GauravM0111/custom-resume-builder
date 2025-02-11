@@ -52,10 +52,18 @@
                 return;
             }
 
+            if (skill_obj.keywords.length == 0) {
+                delete skill_obj.keywords;
+            }
+
             skills.push(skill_obj);
         });
 
-        resume.skills = skills;
+        if (skills.length == 0) {
+            delete resume.skills;
+        } else {
+            resume.skills = skills;
+        }
     }
 
     function renderBlankSkillEntry() {

@@ -51,10 +51,18 @@
                 return;
             }
 
+            if (work_obj.highlights.length == 0) {
+                delete work_obj.highlights;
+            }
+
             work.push(work_obj);
         });
 
-        resume.work = work;
+        if (work.length == 0) {
+            delete resume.work;
+        } else {
+            resume.work = work;
+        }
     }
 
     function renderBlankWorkEntry() {

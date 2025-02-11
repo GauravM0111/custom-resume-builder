@@ -52,10 +52,18 @@
                 return;
             }
 
+            if (int_obj.keywords.length == 0) {
+                delete int_obj.keywords;
+            }
+
             interests.push(int_obj);
         });
 
-        resume.interests = interests;
+        if (interests.length == 0) {
+            delete resume.interests;
+        } else {
+            resume.interests = interests;
+        }
     }
 
     function renderBlankInterestEntry() {

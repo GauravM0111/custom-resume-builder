@@ -43,9 +43,13 @@
             }
 
             awards.push(award_obj);
-       });
+        });
 
-       resume.awards = awards;
+        if (awards.length == 0) {
+            delete resume.awards;
+        } else {
+            resume.awards = awards;
+        }
     }
 
     function renderBlankAwardEntry() {

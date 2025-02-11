@@ -67,10 +67,24 @@
                 return;
             }
 
+            if (proj_obj.highlights.length == 0) {
+                delete proj_obj.highlights;
+            }
+            if (proj_obj.keywords.length == 0) {
+                delete proj_obj.keywords;
+            }
+            if (proj_obj.roles.length == 0) {
+                delete proj_obj.roles;
+            }
+
             projects.push(proj_obj);
         });
 
-        resume.projects = projects;
+        if (projects.length == 0) {
+            delete resume.projects;
+        } else {
+            resume.projects = projects;
+        }
     }
     
     function renderBlankProjectEntry() {
