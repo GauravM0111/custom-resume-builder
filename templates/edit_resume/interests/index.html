@@ -1,0 +1,68 @@
+<section
+    id="interestInfoEditor"
+    class="gap-6 text-gray-700 p-2"
+>
+    {% import 'edit_resume/interests/macros.html' as macros %}
+
+    {% for interest in resume.resume.interests %}
+    {{ macros.render_entry(data=interest) }}
+    {% endfor %}
+    <button
+        type="button"
+        class="col-span-full mx-auto px-4 py-2 text-blue-500 hover:text-blue-700 flex items-center justify-between gap-2 bg-gray-100 hover:bg-gray-300 rounded-lg"
+        onclick="$(this).before(renderBlankInterestEntry())"
+    >
+        New Interest
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+    </button>
+</section>
+
+<script>
+    function updateResumeInterestsInfo(resume) {
+        let interests = [];
+
+        $('#interestInfoEditor').find('div[data-id="interest"]').each(function() {
+            let int_obj = { "keywords": [] };
+            let empty = true;
+
+            $(this).find('input').each(function() {
+                if ($(this).val() == "") {
+                    if ($(this).attr('name') == 'keyword') {
+                        $(this).parent().remove();
+                    } else {
+                        int_obj[$(this).attr('name')] = "";
+                    }
+
+                    return;
+                }
+
+                if ($(this).attr('name') == 'keyword') {
+                    int_obj.keywords.push($(this).val());
+                } else {
+                    int_obj[$(this).attr('name')] = $(this).val();
+                }
+
+                empty = false;
+            });
+
+            if (empty) {
+                $(this).remove();
+                return;
+            }
+
+            interests.push(int_obj);
+        });
+
+        resume.interests = interests;
+    }
+
+    function renderBlankInterestEntry() {
+        return (`{{ macros.render_entry(data={'keywords': []}) }}`);
+    }
+
+    function renderBlankInterestKeyword() {
+        return (`{{ macros.render_keyword(value='') }}`);
+    }
+</script>
