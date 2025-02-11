@@ -23,7 +23,7 @@ class ResumeService:
         pass
 
 
-    async def render_resume(self, resume: Resume, theme: Theme = Theme.CORA) -> str:
+    async def render_resume(self, resume: Resume, theme: Theme = Theme.EVEN) -> str:
         input_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
         output_file = tempfile.NamedTemporaryFile(mode='r', suffix='.html', delete=False)
 
