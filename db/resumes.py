@@ -2,7 +2,7 @@ from uuid import uuid4
 from sqlalchemy.orm import Session, Mapped, mapped_column
 from sqlalchemy import JSON, ForeignKey
 from datetime import datetime
-from models.resumes import Resume, CreateResume, UpdateResume
+from models.resumes import Resume, CreateResume, UpdateResume, Theme
 
 from .core import Base
 
@@ -15,6 +15,7 @@ class DBResume(Base):
     job_title: Mapped[str] = mapped_column(nullable=False)
     job_description: Mapped[str] = mapped_column(nullable=False)
     resume: Mapped[dict] = mapped_column(JSON, nullable=False)
+    theme: Mapped[Theme] = mapped_column(nullable=False)
     created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now)
 
 
@@ -33,12 +34,8 @@ def create_resume(resume: CreateResume, session: Session) -> Resume:
 def update_resume(resume: UpdateResume, session: Session) -> Resume:
     db_resume = session.query(DBResume).filter(DBResume.id == resume.id).first()
 
-    if resume.job_title:
-        db_resume.job_title = resume.job_title
-    if resume.job_description:
-        db_resume.job_description = resume.job_description
-    if resume.resume:
-        db_resume.resume = resume.resume
+    for k, v in resume.model_dump(exclude="id", exclude_none=True).items():
+        setattr(db_resume, k, v)
 
     try:
         session.commit()

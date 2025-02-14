@@ -23,7 +23,7 @@ class ResumeService:
         pass
 
 
-    async def render_resume(self, resume: Resume, theme: Theme = Theme.EVEN) -> str:
+    async def render_resume(self, resume: Resume) -> str:
         input_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
         output_file = tempfile.NamedTemporaryFile(mode='r', suffix='.html', delete=False)
 
@@ -32,7 +32,7 @@ class ResumeService:
 
         try:
             subprocess.run(
-                ["npx", "resumed", "--theme", theme.value, "--output", output_file.name, input_file.name],
+                ["npx", "resumed", "--theme", resume.theme.value, "--output", output_file.name, input_file.name],
                 capture_output=True,
                 check=True
             )

@@ -11,7 +11,7 @@ from auth.auth import login_user_in_response
 from db.core import get_db
 from db.users import get_user_profile, update_user
 from db.resumes import get_resume
-from models.resumes import CreateResume, JobDetails, UpdateResume, UpdateResumeForm
+from models.resumes import CreateResume, JobDetails, UpdateResume, UpdateResumeForm, Theme
 from models.users import User, UserUpdate
 from services.llm_service import LLMService
 from services.profile_service import ProfileService
@@ -116,6 +116,7 @@ async def edit_resume(resume_id: str, request: Request, db: Session = Depends(ge
         {
             "request": request,
             "resume": resume,
+            "themes": [theme.name for theme in Theme],
             "user": request.state.user,
             "storage_public_access_url": STORAGE_PUBLIC_ACCESS_URL
         }
@@ -129,24 +130,28 @@ async def update_resume(resume_id: str, update_form: Annotated[UpdateResumeForm,
     if len(update_form) == 0:
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
-    if 'resume' in update_form:
-        update_form["resume"] = json.loads(update_form["resume"])
+    if 'resume' not in update_form and 'theme' not in update_form:
         resume = await ResumeService().update_resume(db, UpdateResume(id=resume_id, **update_form))
-
-        return HTMLResponse(
-            content=f'''
-                <object
-                    id="resumePdfPreview"
-                    data="/resume/{resume.id}/pdf"
-                    type="application/pdf"
-                    class="bg-white w-full h-full shadow-lg rounded-lg"
-                ></object>
-            ''',
-            status_code=200
+        return Response(
+            content=resume.job_title,
+            status_code=status.HTTP_200_OK
         )
 
+    if 'resume' in update_form:
+        update_form["resume"] = json.loads(update_form["resume"])
+    if 'theme' in update_form:
+        update_form["theme"] = Theme[update_form["theme"]]
+
     resume = await ResumeService().update_resume(db, UpdateResume(id=resume_id, **update_form))
-    return Response(
-        content=resume.job_title,
-        status_code=status.HTTP_200_OK
+
+    return HTMLResponse(
+        content=f'''
+            <object
+                id="resumePdfPreview"
+                data="/resume/{resume.id}/pdf"
+                type="application/pdf"
+                class="bg-white w-full h-full shadow-lg rounded-lg"
+            ></object>
+        ''',
+        status_code=200
     )

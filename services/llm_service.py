@@ -44,7 +44,7 @@ class LLMModel(Enum):
 
 
 class LLMService:
-    def __init__(self, model: LLMModel = LLMModel.LLAMA_33_70B):
+    def __init__(self, model: LLMModel = LLMModel.DEEPSEEK_V3):
         self.model = model
         self.client = Together(api_key=TOGETHER_API_KEY)
         self.messages: list[BaseMessage] = [SystemMessage(content=SYSTEM_PROMPT)]
