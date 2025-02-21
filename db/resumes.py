@@ -55,3 +55,15 @@ def get_resume(resume_id: str, session: Session) -> Resume:
 def get_user_resumes(user_id: str, session: Session) -> list[Resume]:
     db_resumes = session.query(DBResume).filter(DBResume.user_id == user_id).all()
     return [Resume(**db_resume.__dict__) for db_resume in db_resumes]
+
+
+def delete_resume(resume_id: str, session: Session) -> bool:
+    resume_deleted = session.query(DBResume).filter(DBResume.id == resume_id).delete()
+
+    try:
+        session.commit()
+    except Exception as e:
+        session.rollback()
+        raise e
+
+    return resume_deleted > 0

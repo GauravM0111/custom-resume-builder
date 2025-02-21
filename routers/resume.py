@@ -10,8 +10,8 @@ from sqlalchemy.orm import Session
 from auth.auth import login_user_in_response
 from db.core import get_db
 from db.users import get_user_profile, update_user
-from db.resumes import get_resume
-from models.resumes import CreateResume, JobDetails, UpdateResume, UpdateResumeForm, Theme
+from db.resumes import get_resume, delete_resume as delete_resume_db
+from models.resumes import CreateResume, JobDetails, UpdateResume, UpdateResumeForm, Theme, Resume
 from models.users import User, UserUpdate
 from services.llm_service import LLMService
 from services.profile_service import ProfileService
@@ -56,7 +56,7 @@ async def generate_resume_page(request: Request):
 @router.post("/generate")
 async def generate_resume(job_details: Annotated[JobDetails, Form()], request: Request, db: Session = Depends(get_db)):
     if not request.state.user:
-        raise HTTPException(status_code=403, detail="Forbidden")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to access resume")
     
     user = dict(request.state.user).copy()
     user["profile"] = get_user_profile(request.state.user["id"], db)
@@ -86,9 +86,16 @@ async def generate_resume(job_details: Annotated[JobDetails, Form()], request: R
     return response
 
 
+def current_user_has_access(request: Request, resume: Resume):
+    return request.state.user and resume.user_id == request.state.user["id"]
+
+
 @router.get("/{resume_id}/pdf")
-async def resume_pdf(resume_id: str, download: bool = False, db: Session = Depends(get_db)):
+async def resume_pdf(resume_id: str, request: Request, download: bool = False, db: Session = Depends(get_db)):
     resume = get_resume(resume_id, db)
+
+    if not current_user_has_access(request, resume):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to access resume")
 
     pdf_bytes, _ = await ResumeService().generate_pdf_and_img(resume)
 
@@ -108,8 +115,8 @@ async def resume_pdf(resume_id: str, download: bool = False, db: Session = Depen
 async def edit_resume(resume_id: str, request: Request, db: Session = Depends(get_db)):
     resume = get_resume(resume_id, db)
 
-    if not request.state.user or resume.user_id != request.state.user["id"]:
-        raise HTTPException(status_code=403, detail="Forbidden")
+    if not current_user_has_access(request, resume):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to access resume")
 
     return TEMPLATES.TemplateResponse(
         "edit_resume/index.html",
@@ -124,7 +131,12 @@ async def edit_resume(resume_id: str, request: Request, db: Session = Depends(ge
 
 
 @router.patch("/{resume_id}")
-async def update_resume(resume_id: str, update_form: Annotated[UpdateResumeForm, Form()], db: Session = Depends(get_db)):
+async def update_resume(resume_id: str, request: Request, update_form: Annotated[UpdateResumeForm, Form()], db: Session = Depends(get_db)):
+    resume = get_resume(resume_id, db)
+
+    if not current_user_has_access(request, resume):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to access resume")
+
     update_form = update_form.model_dump(exclude_none=True)
 
     if len(update_form) == 0:
@@ -155,3 +167,18 @@ async def update_resume(resume_id: str, update_form: Annotated[UpdateResumeForm,
         ''',
         status_code=200
     )
+
+
+@router.delete("/{resume_id}")
+async def delete_resume(resume_id: str, request: Request, db: Session = Depends(get_db)):
+    resume = get_resume(resume_id, db)
+
+    if not current_user_has_access(request, resume):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to access resume")
+
+    if not delete_resume_db(resume_id, db):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Resume doesn't exist")
+
+    response = Response(status_code=status.HTTP_204_NO_CONTENT)
+    response.headers["HX-Redirect"] = "/"
+    return response
