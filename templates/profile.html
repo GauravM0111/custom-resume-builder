@@ -11,9 +11,10 @@
     {% include "navbar.html" %}
     <div class="content">
         <h1>Profile page</h1>
-        {% if not user or notuser.is_guest %}
+        {% if user and not user.is_guest %}
             <p>Hello, {{ user.name }}</p>
         {% endif %}
+        <p>{{ user.profile_id }}</p>
     </div>
 </body>
 </html>

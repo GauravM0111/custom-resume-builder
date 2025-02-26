@@ -7,6 +7,8 @@ from together import Together
 import json
 import traceback
 from enum import Enum
+from db.profiles import get_profile
+from sqlalchemy.orm import Session
 
 
 class BaseMessage:
@@ -51,11 +53,13 @@ class LLMService:
         self.schema: dict = requests.get(RESUME_SCHEMA_URL).json()
 
 
-    async def generate_resume(self, user: User, job_description: str) -> dict:
-        if not user.profile:
+    async def generate_resume(self, user: User, job_description: str, db: Session) -> dict:
+        if not user.profile_id:
             raise ValueError("User profile is required")
 
-        self.messages.append(HumanMessage(content=f"User Profile: {user.profile}\n\nJob Description: {job_description}"))
+        user_profile = get_profile(user.profile_id, db)
+        self.messages.append(HumanMessage(content=f"User Profile: {user_profile}\n\nJob Description: {job_description}"))
+
         response = await self.invoke_model()
 
         return await self.format_resume(response)
@@ -86,6 +90,10 @@ class LLMService:
             raise e
 
         response = response.choices[0].message.content
+
+        if not response:
+            raise Exception("LLM did not respond")
+        
         self.messages.append(AIMessage(content=response))
         return self.extract_json(response)
 

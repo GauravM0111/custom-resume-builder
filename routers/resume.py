@@ -9,12 +9,13 @@ from sqlalchemy.orm import Session
 
 from auth.auth import login_user_in_response
 from db.core import get_db
-from db.users import get_user_profile, update_user
+from db.users import update_user
 from db.resumes import get_resume, delete_resume as delete_resume_db
+from db.profiles import get_profile as get_profile_db
 from models.resumes import CreateResume, JobDetails, UpdateResume, UpdateResumeForm, Theme, Resume
 from models.users import User, UserUpdate
 from services.llm_service import LLMService
-from services.profile_service import ProfileService
+from services.profile_service import ProfileService, Profile
 from services.resume_service import ResumeService
 from services.user_service import UserService
 from settings.settings import STORAGE_PUBLIC_ACCESS_URL, TEMPLATES
@@ -31,14 +32,14 @@ async def import_profile_page(request: Request, redirect: Optional[str] = None):
 @router.post("/import-profile")
 async def import_profile(linkedin_url: Annotated[str, Form()], request: Request, redirect: Optional[str] = None, db: Session = Depends(get_db)):
     response = Response(status_code=200)
-    profile_data = ProfileService().get_linkedin_profile(linkedin_url)
+    profile: Profile = ProfileService().create_profile_from_linkedin_url(linkedin_url, db)
 
     if request.state.user:
-        user = update_user(UserUpdate(id=request.state.user["id"], profile=profile_data), db)
+        user = update_user(UserUpdate(id=request.state.user["id"], profile_id=profile.id), db)
         response.delete_cookie(key="identity_jwt")  # since profile is imported, we need to update the jwt
     else:
         user = UserService().create_guest_user(db)
-        user = update_user(UserUpdate(id=user.id, profile=profile_data), db)
+        user = update_user(UserUpdate(id=user.id, profile_id=profile.id), db)
         response = await login_user_in_response(response, user)
 
     response.headers["HX-Redirect"] = redirect or "/"
@@ -47,7 +48,7 @@ async def import_profile(linkedin_url: Annotated[str, Form()], request: Request,
 
 @router.get("/generate")
 async def generate_resume_page(request: Request):
-    if not request.state.user or not request.state.user["profile"]:
+    if not request.state.user or not request.state.user["profile_id"]:
         return RedirectResponse(url="/resume/import-profile?redirect=/resume/generate")
 
     return TEMPLATES.TemplateResponse("generate_resume.html", {"request": request, "user": request.state.user})
@@ -57,13 +58,9 @@ async def generate_resume_page(request: Request):
 async def generate_resume(job_details: Annotated[JobDetails, Form()], request: Request, db: Session = Depends(get_db)):
     if not request.state.user:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to access resume")
-    
-    user = dict(request.state.user).copy()
-    user["profile"] = get_user_profile(request.state.user["id"], db)
-    user = User(**user)
 
     try:
-        resume = await LLMService().generate_resume(user, job_details.description)
+        resume = await LLMService().generate_resume(User(**request.state.user), job_details.description, db)
     except ValueError as e:
         traceback.print_exception(e)
         raise HTTPException(status_code=400, detail=str(e))
@@ -75,7 +72,7 @@ async def generate_resume(job_details: Annotated[JobDetails, Form()], request: R
         db=db,
         create_resume_object=CreateResume(
             resume=resume,
-            user_id=user.id,
+            user_id=request.state.user["id"],
             job_title=job_details.title,
             job_description=job_details.description
         )

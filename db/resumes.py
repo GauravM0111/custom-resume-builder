@@ -4,7 +4,7 @@ from sqlalchemy import JSON, ForeignKey
 from datetime import datetime
 from models.resumes import Resume, CreateResume, UpdateResume, Theme
 
-from .core import Base
+from .core import Base, NotFoundError
 
 
 class DBResume(Base):
@@ -34,6 +34,9 @@ def create_resume(resume: CreateResume, session: Session) -> Resume:
 def update_resume(resume: UpdateResume, session: Session) -> Resume:
     db_resume = session.query(DBResume).filter(DBResume.id == resume.id).first()
 
+    if not db_resume:
+        raise NotFoundError(f"Resume with id {resume.id} not found")
+
     for k, v in resume.model_dump(exclude="id", exclude_none=True).items():
         setattr(db_resume, k, v)
 
@@ -49,6 +52,10 @@ def update_resume(resume: UpdateResume, session: Session) -> Resume:
 
 def get_resume(resume_id: str, session: Session) -> Resume:
     db_resume = session.query(DBResume).filter(DBResume.id == resume_id).first()
+
+    if not db_resume:
+        raise NotFoundError(f"Resume with id {resume_id} not found")
+
     return Resume(**db_resume.__dict__)
 
 

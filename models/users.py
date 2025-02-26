@@ -9,14 +9,14 @@ class User(BaseModel):
     is_guest: bool
     name: str | None = None
     picture: str | None = None
-    profile: dict | None = None
+    profile_id: str | None = None
 
 class UserCreate(BaseModel):
     email: str
     is_guest: bool = False
     name: str | None = None
     picture: str | None = None
-    profile: dict | None = None
+    profile_id: str | None = None
 
 class UserUpdate(BaseModel):
     id: str
@@ -24,4 +24,4 @@ class UserUpdate(BaseModel):
     is_guest: bool | None = None
     name: str | None = None
     picture: str | None = None
-    profile: dict | None = None
+    profile_id: str | None = None

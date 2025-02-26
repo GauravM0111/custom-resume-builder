@@ -16,7 +16,7 @@ class UserService:
             "name": user.name,
             "created_at": user.created_at.isoformat(),
             "picture": user.picture,
-            "profile": True if user.profile else False,
+            "profile_id": user.profile_id,
             "is_guest": user.is_guest
         }
 

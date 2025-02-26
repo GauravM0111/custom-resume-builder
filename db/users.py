@@ -1,9 +1,11 @@
 from datetime import datetime
-from sqlalchemy.orm import Session, Mapped, mapped_column
-from sqlalchemy import JSON
+from sqlalchemy.orm import Session, Mapped, mapped_column, joinedload, relationship
+from sqlalchemy import ForeignKey, select
 from .core import NotFoundError, Base
+from .profiles import get_profile
 from uuid import uuid4
 from models.users import User, UserCreate, UserUpdate
+from models.profiles import Profile
 
 
 class DBUser(Base):
@@ -15,7 +17,8 @@ class DBUser(Base):
     is_guest: Mapped[bool] = mapped_column(nullable=False, default=False)
     name: Mapped[str] = mapped_column(nullable=True)
     picture: Mapped[str] = mapped_column(nullable=True)
-    profile: Mapped[dict] = mapped_column(JSON, nullable=True)
+    profile_id: Mapped[str] = mapped_column(ForeignKey("Profiles.id"), index=True)
+
 
 def get_user_by_email(email: str, session: Session) -> User:
     user = session.query(DBUser).filter(DBUser.email == email).first()
@@ -52,13 +55,6 @@ def update_user(user: UserUpdate, session: Session) -> User:
     session.commit()
     session.refresh(db_user)
     return User(**db_user.__dict__)
-
-
-def get_user_profile(user_id: str, session: Session) -> dict:
-    db_user = session.query(DBUser).filter(DBUser.id == user_id).first()
-    if not db_user:
-        raise NotFoundError(f"User with id {user_id} not found")
-    return db_user.profile
 
 
 def delete_user(user_id: str, session: Session) -> None:
