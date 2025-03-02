@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from datetime import datetime
+
+from pydantic import BaseModel
 
 
 class User(BaseModel):
@@ -11,12 +12,14 @@ class User(BaseModel):
     picture: str | None = None
     profile_id: str | None = None
 
+
 class UserCreate(BaseModel):
     email: str
     is_guest: bool = False
     name: str | None = None
     picture: str | None = None
     profile_id: str | None = None
+
 
 class UserUpdate(BaseModel):
     id: str

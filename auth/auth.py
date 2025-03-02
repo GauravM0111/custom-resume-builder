@@ -1,9 +1,14 @@
 from fastapi import Request, Response
 
+from auth.jwt_service import (
+    generate_jwt,
+    get_identity_jwt_cookie_config,
+    get_user_data_from_jwt,
+    is_valid_jwt,
+)
+from auth.session_service import SessionService, get_sessionid_cookie_config
 from db.core import get_db
 from db.users import get_user_by_id
-from auth.jwt_service import generate_jwt, get_identity_jwt_cookie_config, get_user_data_from_jwt, is_valid_jwt
-from auth.session_service import SessionService, get_sessionid_cookie_config
 from models.users import User
 
 

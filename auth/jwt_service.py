@@ -1,13 +1,16 @@
-import jwt
-from models.users import User
-from settings.settings import API_SECRET_KEY
 from datetime import datetime, timedelta
+
+import jwt
+
+from models.users import User
 from services.user_service import UserService
+from settings.settings import API_SECRET_KEY
+
 
 def generate_jwt(user: User) -> str:
     jwt_data = {
         "user": UserService().user_dict_compact(user),
-        "exp": datetime.now() + timedelta(minutes=15)
+        "exp": datetime.now() + timedelta(minutes=15),
     }
     return jwt.encode(jwt_data, API_SECRET_KEY, algorithm="HS256")
 
@@ -27,11 +30,11 @@ def is_valid_jwt(identity_jwt: str) -> bool:
 
 def get_identity_jwt_cookie_config(jwt: str) -> dict:
     return {
-        'key': 'identity_jwt',
-        'value': jwt,
-        'httponly': True,
-        'secure': False,   # set to True in prod
-        'samesite': 'lax',
-        'domain': None,    # set to actual domain in prod
-        'max_age': 60 * 15  # 15 minutes in seconds
+        "key": "identity_jwt",
+        "value": jwt,
+        "httponly": True,
+        "secure": False,  # set to True in prod
+        "samesite": "lax",
+        "domain": None,  # set to actual domain in prod
+        "max_age": 60 * 15,  # 15 minutes in seconds
     }

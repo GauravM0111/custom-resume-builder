@@ -1,19 +1,24 @@
 from datetime import datetime
-from sqlalchemy.orm import Session, Mapped, mapped_column, joinedload, relationship
-from sqlalchemy import ForeignKey, select
-from .core import NotFoundError, Base
-from .profiles import get_profile
 from uuid import uuid4
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, Session, mapped_column
+
 from models.users import User, UserCreate, UserUpdate
-from models.profiles import Profile
+
+from .core import Base, NotFoundError
 
 
 class DBUser(Base):
     __tablename__ = "Users"
 
-    id: Mapped[str] = mapped_column(primary_key=True, index=True, default=lambda: str(uuid4()))
+    id: Mapped[str] = mapped_column(
+        primary_key=True, index=True, default=lambda: str(uuid4())
+    )
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=lambda: datetime.now())
+    created_at: Mapped[datetime] = mapped_column(
+        nullable=False, default=lambda: datetime.now()
+    )
     is_guest: Mapped[bool] = mapped_column(nullable=False, default=False)
     name: Mapped[str] = mapped_column(nullable=True)
     picture: Mapped[str] = mapped_column(nullable=True)

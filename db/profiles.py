@@ -1,8 +1,10 @@
-from uuid import uuid4
-from sqlalchemy.orm import Session, Mapped, mapped_column
-from sqlalchemy import JSON
 from datetime import datetime
-from models.profiles import Profile, UpdateProfile, CreateProfile
+from uuid import uuid4
+
+from sqlalchemy import JSON
+from sqlalchemy.orm import Mapped, Session, mapped_column
+
+from models.profiles import CreateProfile, Profile, UpdateProfile
 
 from .core import Base, NotFoundError
 
@@ -10,7 +12,9 @@ from .core import Base, NotFoundError
 class DBProfile(Base):
     __tablename__ = "Profiles"
 
-    id: Mapped[str] = mapped_column(primary_key=True, index=True, default=lambda: str(uuid4()))
+    id: Mapped[str] = mapped_column(
+        primary_key=True, index=True, default=lambda: str(uuid4())
+    )
     profile: Mapped[dict] = mapped_column(JSON, nullable=False)
     url: Mapped[str] = mapped_column(nullable=False, unique=True)
     updated_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now)

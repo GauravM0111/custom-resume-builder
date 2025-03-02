@@ -1,8 +1,10 @@
-from uuid import uuid4
-from sqlalchemy.orm import Session, Mapped, mapped_column
-from sqlalchemy import JSON, ForeignKey
 from datetime import datetime
-from models.resumes import Resume, CreateResume, UpdateResume, Theme
+from uuid import uuid4
+
+from sqlalchemy import JSON, ForeignKey
+from sqlalchemy.orm import Mapped, Session, mapped_column
+
+from models.resumes import CreateResume, Resume, Theme, UpdateResume
 
 from .core import Base, NotFoundError
 
@@ -10,7 +12,9 @@ from .core import Base, NotFoundError
 class DBResume(Base):
     __tablename__ = "Resumes"
 
-    id: Mapped[str] = mapped_column(primary_key=True, index=True, default=lambda: str(uuid4()))
+    id: Mapped[str] = mapped_column(
+        primary_key=True, index=True, default=lambda: str(uuid4())
+    )
     user_id: Mapped[str] = mapped_column(ForeignKey("Users.id"), index=True)
     job_title: Mapped[str] = mapped_column(nullable=False)
     job_description: Mapped[str] = mapped_column(nullable=False)

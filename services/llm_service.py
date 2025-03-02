@@ -1,14 +1,16 @@
-import jsonschema
-import jsonschema.exceptions
-import requests
-from models.users import User
-from settings.settings import TOGETHER_API_KEY, RESUME_SCHEMA_URL
-from together import Together
 import json
 import traceback
 from enum import Enum
-from db.profiles import get_profile
+
+import jsonschema
+import jsonschema.exceptions
+import requests
 from sqlalchemy.orm import Session
+from together import Together
+
+from db.profiles import get_profile
+from models.users import User
+from settings.settings import RESUME_SCHEMA_URL, TOGETHER_API_KEY
 
 
 class BaseMessage:
@@ -18,6 +20,7 @@ class BaseMessage:
     def serialize(self) -> dict:
         pass
 
+
 class SystemMessage(BaseMessage):
     def serialize(self) -> dict:
         return {
@@ -25,12 +28,14 @@ class SystemMessage(BaseMessage):
             "content": self.content,
         }
 
+
 class HumanMessage(BaseMessage):
     def serialize(self) -> dict:
         return {
             "role": "user",
             "content": self.content,
         }
+
 
 class AIMessage(BaseMessage):
     def serialize(self) -> dict:
@@ -52,18 +57,22 @@ class LLMService:
         self.messages: list[BaseMessage] = [SystemMessage(content=SYSTEM_PROMPT)]
         self.schema: dict = requests.get(RESUME_SCHEMA_URL).json()
 
-
-    async def generate_resume(self, user: User, job_description: str, db: Session) -> dict:
+    async def generate_resume(
+        self, user: User, job_description: str, db: Session
+    ) -> dict:
         if not user.profile_id:
             raise ValueError("User profile is required")
 
         user_profile = get_profile(user.profile_id, db)
-        self.messages.append(HumanMessage(content=f"User Profile: {user_profile}\n\nJob Description: {job_description}"))
+        self.messages.append(
+            HumanMessage(
+                content=f"User Profile: {user_profile}\n\nJob Description: {job_description}"
+            )
+        )
 
         response = await self.invoke_model()
 
         return await self.format_resume(response)
-
 
     async def format_resume(self, resume: dict) -> dict:
         try:
@@ -72,18 +81,21 @@ class LLMService:
             print(f"JSON Schema Validation Failed: {e}")
             print("Regenerating response from LLM...")
 
-            self.messages.append(HumanMessage(content=f"There was an error validating the resume. Please correct the errors and return the resume in valid JSON format.\n\nError: {e}"))
+            self.messages.append(
+                HumanMessage(
+                    content=f"There was an error validating the resume. Please correct the errors and return the resume in valid JSON format.\n\nError: {e}"
+                )
+            )
             response = await self.invoke_model()
             return await self.format_resume(resume=response)
 
         return resume
 
-
     async def invoke_model(self) -> dict:
         try:
             response = self.client.chat.completions.create(
                 model=self.model.value,
-                messages=[message.serialize() for message in self.messages]
+                messages=[message.serialize() for message in self.messages],
             )
         except Exception as e:
             traceback.print_exception(e)
@@ -93,10 +105,9 @@ class LLMService:
 
         if not response:
             raise Exception("LLM did not respond")
-        
+
         self.messages.append(AIMessage(content=response))
         return self.extract_json(response)
-
 
     def extract_json(self, llm_response: str) -> dict:
         start = llm_response.find("```json") + len("```json")

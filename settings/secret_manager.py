@@ -1,6 +1,8 @@
-from db.core import get_db
 from sqlalchemy import text
 from sqlalchemy.orm import Session
+
+from db.core import get_db
+
 
 def get_all_secrets():
     session: Session = next(get_db())
