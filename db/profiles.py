@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
 from sqlalchemy import JSON
@@ -17,7 +17,9 @@ class DBProfile(Base):
     )
     profile: Mapped[dict] = mapped_column(JSON, nullable=False)
     url: Mapped[str] = mapped_column(nullable=False, unique=True)
-    updated_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now)
+    updated_at: Mapped[datetime] = mapped_column(
+        nullable=False, default=lambda: datetime.now(timezone.utc)
+    )
 
 
 def create_profile(profile: CreateProfile, session: Session) -> Profile:
@@ -57,7 +59,7 @@ def update_profile(profile: UpdateProfile, session: Session) -> Profile:
         raise NotFoundError(f"Profile with id {profile.id} not found")
 
     db_profile.profile = profile.profile
-    db_profile.updated_at = datetime.now()
+    db_profile.updated_at = datetime.now(timezone.utc)
 
     try:
         session.commit()

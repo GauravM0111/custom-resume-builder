@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import jwt
 
@@ -10,7 +10,7 @@ from settings.settings import API_SECRET_KEY
 def generate_jwt(user: User) -> str:
     jwt_data = {
         "user": UserService().user_dict_compact(user),
-        "exp": datetime.now() + timedelta(minutes=15),
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=15),
     }
     return jwt.encode(jwt_data, API_SECRET_KEY, algorithm="HS256")
 

@@ -48,10 +48,3 @@ async def logout(refresh_token: Annotated[str | None, Cookie()]):
     response.delete_cookie("refresh_token")
     response.delete_cookie("identity_jwt")
     return response
-
-
-@router.get("/profile")
-async def profile(request: Request):
-    return TEMPLATES.TemplateResponse(
-        "profile.html", {"request": request, "user": request.state.user}
-    )

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
 from sqlalchemy import JSON, ForeignKey
@@ -20,7 +20,9 @@ class DBResume(Base):
     job_description: Mapped[str] = mapped_column(nullable=False)
     resume: Mapped[dict] = mapped_column(JSON, nullable=False)
     theme: Mapped[Theme] = mapped_column(nullable=False)
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now)
+    created_at: Mapped[datetime] = mapped_column(
+        nullable=False, default=lambda: datetime.now(timezone.utc)
+    )
 
 
 def create_resume(resume: CreateResume, session: Session) -> Resume:

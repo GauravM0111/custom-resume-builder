@@ -2,6 +2,7 @@ import requests
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
+from db.core import NotFoundError
 from db.profiles import create_profile, get_profile_by_url, update_profile
 from models.profiles import CreateProfile, Profile, UpdateProfile
 from settings.settings import PROXYCURL_API_KEY, PROXYCURL_BASE_URL
@@ -29,11 +30,15 @@ class ProfileService:
             profile: Profile = create_profile(profile, db)
         except Exception as e:
             try:
-                existin_profile: Profile = get_profile_by_url(profile.url)
+                existin_profile: Profile = get_profile_by_url(profile.url, db)
                 profile = update_profile(
-                    UpdateProfile(id=existin_profile.id, profile=profile.profile)
+                    UpdateProfile(id=existin_profile.id, profile=profile.profile), db
                 )
-            except Exception as _:
-                raise e
+            # except NotFoundError:
+            #     raise
+            # except Exception as _:
+            #     raise e
+            except Exception:
+                raise
 
         return profile

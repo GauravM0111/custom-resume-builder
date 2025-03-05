@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
 from sqlalchemy import ForeignKey
@@ -17,7 +17,7 @@ class DBUser(Base):
     )
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
     created_at: Mapped[datetime] = mapped_column(
-        nullable=False, default=lambda: datetime.now()
+        nullable=False, default=lambda: datetime.now(timezone.utc)
     )
     is_guest: Mapped[bool] = mapped_column(nullable=False, default=False)
     name: Mapped[str] = mapped_column(nullable=True)
