@@ -46,12 +46,12 @@ class AIMessage(BaseMessage):
 
 
 class LLMModel(Enum):
-    LLAMA_33_70B = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+    LLAMA_33_70B = "meta-llama/Llama-3.3-70B-Instruct-Turbo"
     DEEPSEEK_V3 = "deepseek-ai/DeepSeek-V3"
 
 
 class LLMService:
-    def __init__(self, model: LLMModel = LLMModel.DEEPSEEK_V3):
+    def __init__(self, model: LLMModel = LLMModel.LLAMA_33_70B):
         self.model = model
         self.client = Together(api_key=TOGETHER_API_KEY)
         self.messages: list[BaseMessage] = [SystemMessage(content=SYSTEM_PROMPT)]
