@@ -1,8 +1,8 @@
 import requests
 from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from db.core import NotFoundError
 from db.profiles import create_profile, get_profile_by_url, update_profile
 from models.profiles import CreateProfile, Profile, UpdateProfile
 from settings.settings import PROXYCURL_API_KEY, PROXYCURL_BASE_URL
@@ -28,17 +28,10 @@ class ProfileService:
     def _create_or_update_profile(self, profile: CreateProfile, db: Session) -> Profile:
         try:
             profile: Profile = create_profile(profile, db)
-        except Exception as e:
-            try:
-                existin_profile: Profile = get_profile_by_url(profile.url, db)
-                profile = update_profile(
-                    UpdateProfile(id=existin_profile.id, profile=profile.profile), db
-                )
-            # except NotFoundError:
-            #     raise
-            # except Exception as _:
-            #     raise e
-            except Exception:
-                raise
+        except IntegrityError as e:
+            existing_profile: Profile = get_profile_by_url(profile.url, db)
+            profile = update_profile(
+                UpdateProfile(id=existing_profile.id, profile=profile.profile), db
+            )
 
         return profile
