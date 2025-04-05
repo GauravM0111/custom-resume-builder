@@ -33,9 +33,9 @@ RESUME_SCHEMA_URL = (
 )
 EXAMPLE_RESUME_URL = "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json"
 
-STORAGE_PUBLIC_ACCESS_URL = "https://d1lyyg4t00nvl0.cloudfront.net"
+STORAGE_PUBLIC_ACCESS_URL = "https://d2ipu8eppx8x7.cloudfront.net"
 
-AWS_S3_THUMBNAILS_BUCKET = "thumbnails-resume-builder"
+AWS_S3_THUMBNAILS_BUCKET = "thumbnails-resume-builder20250405071907448400000001"
 
 UNAUTHENTICATED_ENDPOINTS = [
     "/signin",
